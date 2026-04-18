@@ -15,8 +15,17 @@ jobs:
         include:
           - os: ubuntu-latest
             build: npm run dist:linux
+            artifact: linux
+            patterns: |
+              dist/*.AppImage
+              dist/*.yml
           - os: windows-latest
             build: npm run dist:win
+            artifact: windows
+            patterns: |
+              dist/*.exe
+              dist/*.exe.blockmap
+              dist/*.yml
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -27,10 +36,35 @@ jobs:
           node-version: 22
 
       - run: npm ci
-
       - run: npm run build:css
+      - run: ${{ matrix.build }}
 
-      - name: Build and publish (${{ matrix.os }})
-        run: ${{ matrix.build }} -- --publish always
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.artifact }}
+          path: ${{ matrix.patterns }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            artifacts/*.AppImage
+            artifacts/*.exe
+            artifacts/*.exe.blockmap
+            artifacts/*.yml
