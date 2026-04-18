@@ -18,7 +18,8 @@
     "dist:mac": "npm run dist -- -m",
     "dist:linux": "npm run dist -- -l",
     "lint": "eslint .",
-    "build:css": "tailwindcss -i app/assets/css/tailwind.input.css -o app/assets/css/site.css --minify",
+    "build:fonts": "node -e \"const fs=require('fs'),p=require('path');const src=p.join('node_modules','@fontsource','inter','files'),dst=p.join('app','assets','css','files');fs.mkdirSync(dst,{recursive:true});for(const f of fs.readdirSync(src))if(/^inter-(latin|latin-ext|cyrillic|cyrillic-ext)-(400|500|600|700|800|900)-normal\\.woff2?$/.test(f))fs.copyFileSync(p.join(src,f),p.join(dst,f));\"",
+    "build:css": "npm run build:fonts && tailwindcss -i app/assets/css/tailwind.input.css -o app/assets/css/site.css --minify",
     "watch:css": "tailwindcss -i app/assets/css/tailwind.input.css -o app/assets/css/site.css --watch",
     "extract:i18n": "node scripts/extract-i18n.js"
   },

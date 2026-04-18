@@ -249,6 +249,13 @@ function createWindow() {
 
     win.loadURL(pathToFileURL(path.join(__dirname, 'app', 'app.ejs')).toString())
 
+    // DevTools opened automatically only when ANUBIS_DEVTOOLS=1. Prevents
+    // shipping with devtools visible but gives us a quick diagnostic hook
+    // during Phase 6 integration testing (Forge install, launch failures).
+    if(process.env.ANUBIS_DEVTOOLS === '1') {
+        win.webContents.openDevTools({ mode: 'detach' })
+    }
+
     /*win.once('ready-to-show', () => {
         win.show()
     })*/

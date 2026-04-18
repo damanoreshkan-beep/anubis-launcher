@@ -342,21 +342,18 @@ settingsNavDone.onclick = () => {
 const msftLoginLogger = LoggerUtil.getLogger('Microsoft Login')
 const msftLogoutLogger = LoggerUtil.getLogger('Microsoft Logout')
 
-// Bind the add mojang account button.
-document.getElementById('settingsAddMojangAccount').onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
-        loginViewOnCancel = VIEWS.settings
-        loginViewOnSuccess = VIEWS.settings
-        loginCancelEnabled(true)
-    })
+// Both "add account" buttons route to the guest-nickname screen now that
+// Mojang / Microsoft auth has been removed.
+const routeToGuestLogin = () => {
+    loginOptionsCancelEnabled(true)
+    loginOptionsViewOnCancel = VIEWS.settings
+    loginOptionsViewOnLoginSuccess = VIEWS.settings
+    switchView(getCurrentView(), VIEWS.loginOptions)
 }
-
-// Bind the add microsoft account button.
-document.getElementById('settingsAddMicrosoftAccount').onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.waiting, 500, 500, () => {
-        ipcRenderer.send(MSFT_OPCODE.OPEN_LOGIN, VIEWS.settings, VIEWS.settings)
-    })
-}
+const addMojangBtn = document.getElementById('settingsAddMojangAccount')
+if(addMojangBtn) addMojangBtn.onclick = routeToGuestLogin
+const addMsBtn = document.getElementById('settingsAddMicrosoftAccount')
+if(addMsBtn) addMsBtn.onclick = routeToGuestLogin
 
 // Bind reply for Microsoft Login.
 ipcRenderer.on(MSFT_OPCODE.REPLY_LOGIN, (_, ...arguments_) => {

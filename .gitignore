@@ -7,3 +7,5 @@
 
 # Tailwind compiled output — run `npm run build:css`
 /app/assets/css/site.css
+# Inter font files copied from node_modules by `npm run build:fonts`
+/app/assets/css/files/
