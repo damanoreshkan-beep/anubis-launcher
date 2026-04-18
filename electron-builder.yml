@@ -1,6 +1,6 @@
 appId: 'com.anubisworld.launcher'
 productName: 'Anubis World Launcher'
-artifactName: '${productName}-setup-${version}.${ext}'
+artifactName: 'AnubisWorldLauncher-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2026 Anubis World. Based on HeliosLauncher © 2018-2026 Daniel Scalzi (MIT).'
 
@@ -33,7 +33,7 @@ mac:
       arch:
         - 'x64'
         - 'arm64'
-  artifactName: '${productName}-setup-${version}-${arch}.${ext}'
+  artifactName: 'AnubisWorldLauncher-setup-${version}-${arch}.${ext}'
   category: 'public.app-category.games'
 
 # Linux Configuration
