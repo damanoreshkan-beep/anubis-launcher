@@ -354,6 +354,146 @@
     gap: 8px;
 }
 
+/* ── loginOptions screen ─────────────────────────────────────────────── */
+#loginOptionsContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(ellipse at top, rgba(59, 21, 116, 0.35) 0%, rgba(7, 6, 18, 1) 70%);
+    position: relative;
+    overflow: hidden;
+    transition: filter 0.25s ease;
+}
+#loginOptionsContainer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+#loginOptionsContent {
+    background: rgba(139, 92, 246, 0.06);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 92, 246, 0.18);
+    border-radius: 1.5rem;
+    padding: 32px 40px;
+    position: relative;
+    top: 0;
+    z-index: 2;
+    box-shadow: 0 30px 80px rgba(124, 58, 237, 0.25);
+    min-width: 380px;
+}
+
+.loginOptionsMainContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+}
+
+.loginOptionsMainContent .loginOptionsLogo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 2px rgba(168, 85, 247, 0.45),
+        0 0 30px rgba(139, 92, 246, 0.55),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    object-fit: cover;
+}
+
+.loginOptionsMainContent h2 {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: #fff;
+    margin: 0 0 4px 0;
+    text-align: center;
+}
+
+.loginOptionActions {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    width: 100%;
+}
+
+.loginOptionButtonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+#guestNicknameInput {
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 12px 14px;
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.4);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+}
+#guestNicknameInput::placeholder {
+    color: #6b7280;
+}
+#guestNicknameInput:focus {
+    border-color: #a855f7;
+    background: rgba(139, 92, 246, 0.18);
+}
+
+.loginOptionButton {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #7c3aed;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    text-align: center;
+    height: auto;
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.3);
+}
+.loginOptionButton:hover,
+.loginOptionButton:focus {
+    background: #6d28d9;
+    text-shadow: none;
+    box-shadow: 0 10px 28px rgba(124, 58, 237, 0.45);
+}
+.loginOptionButton:active {
+    background: #5b21b6;
+    transform: translateY(1px);
+}
+
+#guestNicknameError {
+    color: #fca5a5;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    min-height: 14px;
+    text-align: center;
+}
+
 /* prefers-reduced-motion — дбаймо про доступність */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
