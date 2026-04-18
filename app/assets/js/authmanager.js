@@ -292,9 +292,21 @@ exports.removeMojangAccount = async function(uuid){
 }
 
 /**
+ * Remove an offline (guest) account. No remote token to invalidate — just drop
+ * it from the local database.
+ *
+ * @param {string} uuid The UUID of the account to be removed.
+ * @returns {Promise.<void>} Promise which resolves when the account is gone.
+ */
+exports.removeOfflineAccount = async function(uuid){
+    ConfigManager.removeAuthAccount(uuid)
+    ConfigManager.save()
+}
+
+/**
  * Remove a Microsoft account. It is expected that the caller will invoke the OAuth logout
  * through the ipc renderer.
- * 
+ *
  * @param {string} uuid The UUID of the account to be removed.
  * @returns {Promise.<void>} Promise which resolves to void when the action is complete.
  */

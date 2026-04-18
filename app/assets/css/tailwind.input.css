@@ -179,6 +179,142 @@
     .lang-wrap:focus-within .lang-menu { display: block; }
 }
 
+/* ──────────────────────────────────────────────────────────────────────────
+ * Helios screen overrides.
+ * Helios ships #welcomeContainer / #loginOptionsContainer etc. with legacy
+ * styling in launcher.css. site.css is loaded AFTER launcher.css, so equal-
+ * specificity ID rules here win the cascade. This is the bridge from Helios
+ * defaults to the AnubisWorld site look.
+ * ──────────────────────────────────────────────────────────────────────── */
+
+#welcomeContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    background: radial-gradient(ellipse at top, rgba(59, 21, 116, 0.35) 0%, rgba(7, 6, 18, 1) 70%);
+    position: relative;
+    overflow: hidden;
+}
+#welcomeContainer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(139, 92, 246, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+}
+
+#welcomeContent {
+    background: rgba(139, 92, 246, 0.06);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(139, 92, 246, 0.18);
+    border-radius: 1.5rem;
+    padding: 36px 44px 32px;
+    max-width: 460px;
+    width: auto;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 30px 80px rgba(124, 58, 237, 0.25);
+}
+
+#welcomeImageSeal {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    box-shadow:
+        0 0 0 2px rgba(168, 85, 247, 0.45),
+        0 0 40px rgba(139, 92, 246, 0.55),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    object-fit: cover;
+    margin: 0;
+}
+
+#welcomeHeader {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+    color: #fff;
+    text-align: center;
+    margin: 4px 0 0 0;
+    text-shadow: none;
+}
+
+#welcomeDescription {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: #9ca3af;
+    text-align: center;
+    line-height: 1.65;
+    text-shadow: none;
+}
+
+#welcomeDescCTA {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #a78bfa;
+    text-align: center;
+    text-shadow: none;
+    letter-spacing: 0.3px;
+}
+
+#welcomeButton {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #7c3aed;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    border: none;
+    border-radius: 14px;
+    padding: 14px 36px;
+    cursor: pointer;
+    margin: 12px 0 0 0;
+    position: relative;
+    right: 0;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
+}
+#welcomeButton:hover,
+#welcomeButton:focus {
+    background: #6d28d9;
+    text-shadow: none;
+    outline: none;
+    box-shadow: 0 12px 32px rgba(124, 58, 237, 0.5);
+}
+#welcomeButton:active {
+    background: #5b21b6;
+    color: #fff;
+    text-shadow: none;
+    transform: translateY(1px);
+}
+#welcomeButton:disabled {
+    background: #1f1d2a;
+    color: #4b5563;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+#welcomeButtonContent {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
 /* prefers-reduced-motion — дбаймо про доступність */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {

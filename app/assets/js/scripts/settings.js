@@ -513,29 +513,32 @@ function processLogOut(val, isLastAccount){
     const uuid = parent.getAttribute('uuid')
     const prevSelAcc = ConfigManager.getSelectedAccount()
     const targetAcc = ConfigManager.getAuthAccount(uuid)
+    const postLogout = () => {
+        if(!isLastAccount && uuid === prevSelAcc.uuid){
+            const selAcc = ConfigManager.getSelectedAccount()
+            refreshAuthAccountSelected(selAcc.uuid)
+            updateSelectedAccount(selAcc)
+            validateSelectedAccount()
+        }
+        if(isLastAccount) {
+            loginOptionsCancelEnabled(false)
+            loginOptionsViewOnLoginSuccess = VIEWS.settings
+            loginOptionsViewOnLoginCancel = VIEWS.loginOptions
+            switchView(getCurrentView(), VIEWS.loginOptions)
+        }
+    }
+
     if(targetAcc.type === 'microsoft') {
         msAccDomElementCache = parent
         switchView(getCurrentView(), VIEWS.waiting, 500, 500, () => {
             ipcRenderer.send(MSFT_OPCODE.OPEN_LOGOUT, uuid, isLastAccount)
         })
+    } else if(targetAcc.type === 'offline') {
+        AuthManager.removeOfflineAccount(uuid).then(postLogout)
+        $(parent).fadeOut(250, () => parent.remove())
     } else {
-        AuthManager.removeMojangAccount(uuid).then(() => {
-            if(!isLastAccount && uuid === prevSelAcc.uuid){
-                const selAcc = ConfigManager.getSelectedAccount()
-                refreshAuthAccountSelected(selAcc.uuid)
-                updateSelectedAccount(selAcc)
-                validateSelectedAccount()
-            }
-            if(isLastAccount) {
-                loginOptionsCancelEnabled(false)
-                loginOptionsViewOnLoginSuccess = VIEWS.settings
-                loginOptionsViewOnLoginCancel = VIEWS.loginOptions
-                switchView(getCurrentView(), VIEWS.loginOptions)
-            }
-        })
-        $(parent).fadeOut(250, () => {
-            parent.remove()
-        })
+        AuthManager.removeMojangAccount(uuid).then(postLogout)
+        $(parent).fadeOut(250, () => parent.remove())
     }
 }
 
