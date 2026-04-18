@@ -494,6 +494,87 @@
     text-align: center;
 }
 
+/* ── Landing ─────────────────────────────────────────────────────────── */
+#landingContainer {
+    background:
+        radial-gradient(ellipse at top, rgba(59, 21, 116, 0.45) 0%, rgba(7, 6, 18, 1) 60%),
+        linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px) 0 0 / 60px 60px,
+        linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px) 0 0 / 60px 60px;
+}
+
+#landingContainer > #lower {
+    background: linear-gradient(to top, rgba(7, 6, 18, 0.85), rgba(7, 6, 18, 0));
+}
+
+/* Brand logo top-left (circular + purple glow) */
+#image_seal {
+    border: none;
+    box-shadow:
+        0 0 0 2px rgba(168, 85, 247, 0.45),
+        0 0 30px rgba(139, 92, 246, 0.55),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    object-fit: cover;
+}
+
+/* PLAY button — brand primary action */
+#launch_button {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 22px;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(168, 85, 247, 0.7);
+    transition: color 0.2s, text-shadow 0.2s, transform 0.1s;
+}
+#launch_button:hover,
+#launch_button:focus {
+    color: #c4b5fd;
+    text-shadow:
+        0 0 24px rgba(168, 85, 247, 0.9),
+        0 0 48px rgba(124, 58, 237, 0.6);
+}
+#launch_button:active {
+    color: #a78bfa;
+    transform: translateY(1px);
+}
+#launch_button:disabled {
+    color: #4b5563;
+    text-shadow: none;
+}
+
+/* Username text in top-right */
+#user_text {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 600;
+}
+
+/* Avatar container ring */
+#avatarContainer {
+    box-shadow:
+        0 0 0 2px rgba(168, 85, 247, 0.35),
+        0 0 20px rgba(139, 92, 246, 0.35);
+}
+
+/* Launch progress bar — brand purple fill */
+#launch_progress {
+    border: 1px solid rgba(139, 92, 246, 0.3);
+}
+#launch_progress_bar {
+    background: linear-gradient(90deg, #7c3aed, #a855f7);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+}
+
+/* Server status label */
+#server_status_wrapper,
+#mojangStatusContainer {
+    font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Media buttons (settings gear etc.) — subtle brand hover */
+.mediaButton:hover .mediaSVG {
+    fill: #a78bfa;
+}
+
 /* prefers-reduced-motion — дбаймо про доступність */
 @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
