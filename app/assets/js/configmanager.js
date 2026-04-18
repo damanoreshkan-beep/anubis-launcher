@@ -86,7 +86,8 @@ const DEFAULT_CONFIG = {
         },
         launcher: {
             allowPrerelease: false,
-            dataDirectory: dataPath
+            dataDirectory: dataPath,
+            locale: 'en_US' // one of LangLoader.SUPPORTED_LOCALES
         }
     },
     newsCache: {
@@ -272,6 +273,27 @@ exports.getClientToken = function(){
  */
 exports.setClientToken = function(clientToken){
     config.clientToken = clientToken
+}
+
+/**
+ * Get the currently selected UI locale (one of LangLoader.SUPPORTED_LOCALES).
+ * Defaults to 'en_US'.
+ *
+ * @param {boolean} def Optional. If true, the default value will be returned.
+ * @returns {string} The current locale id.
+ */
+exports.getCurrentLanguage = function(def = false){
+    return !def ? config.settings.launcher.locale : DEFAULT_CONFIG.settings.launcher.locale
+}
+
+/**
+ * Set the UI locale. Caller is responsible for reloading the Lang module
+ * after this (or restarting the launcher).
+ *
+ * @param {string} locale One of LangLoader.SUPPORTED_LOCALES.
+ */
+exports.setCurrentLanguage = function(locale){
+    config.settings.launcher.locale = locale
 }
 
 /**

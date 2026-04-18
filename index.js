@@ -12,9 +12,10 @@ const semver                            = require('semver')
 const { pathToFileURL }                 = require('url')
 const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
 const LangLoader                        = require('./app/assets/js/langloader')
+const ConfigManager                     = require('./app/assets/js/configmanager')
 
 // Setup Lang
-LangLoader.setupLanguage()
+LangLoader.setupLanguage(ConfigManager.getCurrentLanguage())
 
 // Setup auto updater.
 function initAutoUpdater(event, data) {

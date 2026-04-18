@@ -5,6 +5,7 @@ const guestNicknameError = document.getElementById('guestNicknameError')
 const loginOptionsCancelButton = document.getElementById('loginOptionCancelButton')
 
 const ConfigManager_loginOptions = require('./assets/js/configmanager')
+const Lang_loginOptions = require('./assets/js/langloader')
 const { validateUsername: validateGuestNickname } = require('./assets/js/offlineauth')
 
 let loginOptionsCancellable = false
@@ -25,7 +26,7 @@ function loginOptionsCancelEnabled(val){
 function submitGuestLogin(){
     const nick = (guestNicknameInput.value || '').trim()
     if(!validateGuestNickname(nick)){
-        guestNicknameError.textContent = 'Нік 3-16 символів, тільки [a-zA-Z0-9_]'
+        guestNicknameError.textContent = Lang_loginOptions.queryJS('loginOptions.guestValidationError')
         return
     }
     guestNicknameError.textContent = ''

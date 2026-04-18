@@ -1,0 +1,10 @@
+# Ukrainian translations. Keys missing here fall back to en_US.
+# Keep keys in sync with en_US.toml.
+
+[ejs.loginOptions]
+loginOptionsTitle = "Вхід в акаунт"
+guestNicknamePlaceholder = "Нікнейм (3-16 символів)"
+guestSubmitButton = "Увійти як гість"
+
+[js.loginOptions]
+guestValidationError = "Нік 3-16 символів: літери, цифри, підкреслення."

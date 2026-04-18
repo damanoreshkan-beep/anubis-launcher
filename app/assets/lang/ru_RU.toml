@@ -1,0 +1,10 @@
+# Russian translations. Keys missing here fall back to en_US.
+# Keep keys in sync with en_US.toml.
+
+[ejs.loginOptions]
+loginOptionsTitle = "Вход в аккаунт"
+guestNicknamePlaceholder = "Никнейм (3-16 символов)"
+guestSubmitButton = "Войти как гость"
+
+[js.loginOptions]
+guestValidationError = "Ник 3-16 символов: буквы, цифры, подчёркивание."

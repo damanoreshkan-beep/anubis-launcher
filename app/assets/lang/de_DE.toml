@@ -1,0 +1,10 @@
+# German translations. Keys missing here fall back to en_US.
+# Keep keys in sync with en_US.toml.
+
+[ejs.loginOptions]
+loginOptionsTitle = "Anmeldeoptionen"
+guestNicknamePlaceholder = "Nickname (3-16 Zeichen)"
+guestSubmitButton = "Als Gast fortfahren"
+
+[js.loginOptions]
+guestValidationError = "Nickname: 3-16 Zeichen, nur Buchstaben, Ziffern, Unterstrich."

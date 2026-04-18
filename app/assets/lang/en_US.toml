@@ -39,6 +39,11 @@ loginOptionsTitle = "Login Options"
 loginWithMicrosoft = "Login with Microsoft"
 loginWithMojang = "Login with Mojang"
 cancelButton = "Cancel"
+guestNicknamePlaceholder = "Nickname (3-16 characters)"
+guestSubmitButton = "Continue as Guest"
+
+[js.loginOptions]
+guestValidationError = "Nickname must be 3-16 chars: letters, digits, underscore."
 
 [ejs.overlay]
 serverSelectHeader = "Available Servers"

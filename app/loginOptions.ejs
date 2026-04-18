@@ -4,13 +4,13 @@
             <h2><%- lang('loginOptions.loginOptionsTitle') %></h2>
             <div class="loginOptionActions">
                 <div class="loginOptionButtonContainer" style="flex-direction: column; gap: 12px; width: 100%;">
-                    <input id="guestNicknameInput" type="text" maxlength="16" placeholder="Нікнейм (3-16 символів)" style="padding: 12px 14px; background: rgba(139,92,246,.1); border: 1px solid rgba(139,92,246,.4); border-radius: 10px; color: #fff; font-size: 14px; font-family: Inter, system-ui, sans-serif; width: 100%; box-sizing: border-box; outline: none;" autocomplete="off" />
+                    <input id="guestNicknameInput" type="text" maxlength="16" placeholder="<%- lang('loginOptions.guestNicknamePlaceholder') %>" style="padding: 12px 14px; background: rgba(139,92,246,.1); border: 1px solid rgba(139,92,246,.4); border-radius: 10px; color: #fff; font-size: 14px; font-family: Inter, system-ui, sans-serif; width: 100%; box-sizing: border-box; outline: none;" autocomplete="off" />
                     <button id="loginOptionGuest" class="loginOptionButton" style="width: 100%;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                             <circle cx="12" cy="7" r="4"></circle>
                         </svg>
-                        <span>Увійти як гість</span>
+                        <span><%- lang('loginOptions.guestSubmitButton') %></span>
                     </button>
                     <small id="guestNicknameError" style="color: #fca5a5; font-size: 11px; min-height: 14px;"></small>
                 </div>

@@ -1,0 +1,10 @@
+# Polish translations. Keys missing here fall back to en_US.
+# Keep keys in sync with en_US.toml.
+
+[ejs.loginOptions]
+loginOptionsTitle = "Opcje logowania"
+guestNicknamePlaceholder = "Nick (3-16 znaków)"
+guestSubmitButton = "Kontynuuj jako gość"
+
+[js.loginOptions]
+guestValidationError = "Nick: 3-16 znaków, tylko litery, cyfry, podkreślenie."
