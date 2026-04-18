@@ -179,6 +179,45 @@
     .lang-wrap:focus-within .lang-menu { display: block; }
 }
 
+/* Titlebar language dropdown. Lives inside #frameMain so it must sit above
+ * the drag region (-webkit-app-region: no-drag). */
+#frameLangDock {
+    display: flex;
+    align-items: center;
+    -webkit-app-region: no-drag;
+    padding: 0 10px;
+    margin-right: 4px;
+}
+#frameLangSelect {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.35);
+    border-radius: 8px;
+    color: #e5e7eb;
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 22px 4px 10px;
+    cursor: pointer;
+    outline: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23a78bfa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    transition: background 0.2s, border-color 0.2s;
+}
+#frameLangSelect:hover {
+    background-color: rgba(139, 92, 246, 0.22);
+    border-color: rgba(168, 85, 247, 0.6);
+}
+#frameLangSelect:focus {
+    border-color: #a855f7;
+}
+#frameLangSelect option {
+    background: #0c0a18;
+    color: #fff;
+}
+
 /* ──────────────────────────────────────────────────────────────────────────
  * Helios screen overrides.
  * Helios ships #welcomeContainer / #loginOptionsContainer etc. with legacy

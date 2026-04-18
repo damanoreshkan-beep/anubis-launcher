@@ -15,3 +15,12 @@ mediaDiscordURL = "#"
 [ejs.settings]
 sourceGithubLink = "https://github.com/damanoreshkan-beep/anubis-launcher"
 supportLink = "https://github.com/damanoreshkan-beep/anubis-launcher/issues"
+
+# Native names of supported UI locales. Same in every language file
+# (that's the point of native names) — so they live in the brand overlay.
+[js.frameLang]
+ru_RU = "Русский"
+uk_UA = "Українська"
+en_US = "English"
+de_DE = "Deutsch"
+pl_PL = "Polski"

@@ -87,7 +87,7 @@ const DEFAULT_CONFIG = {
         launcher: {
             allowPrerelease: false,
             dataDirectory: dataPath,
-            locale: 'en_US' // one of LangLoader.SUPPORTED_LOCALES
+            locale: 'ru_RU' // one of LangLoader.SUPPORTED_LOCALES
         }
     },
     newsCache: {

@@ -9,11 +9,17 @@
                     <button class="frameButtonDarwin fMb" id="frameButtonDarwin_minimize" tabIndex="-1"></button>
                     <button class="frameButtonDarwin fRb" id="frameButtonDarwin_restoredown" tabIndex="-1"></button>
                 </div>
+                <div id="frameLangDock">
+                    <select id="frameLangSelect" tabIndex="-1"></select>
+                </div>
             </div>
-        <% } else{ %>  
+        <% } else{ %>
             <div id="frameContentWin">
                 <div id="frameTitleDock">
                     <span id="frameTitleText"><%= lang('app.title') %></span>
+                </div>
+                <div id="frameLangDock">
+                    <select id="frameLangSelect" tabIndex="-1"></select>
                 </div>
                 <div id="frameButtonDockWin">
                     <button class="frameButton fMb" id="frameButton_minimize" tabIndex="-1">
@@ -30,4 +36,5 @@
         <% } %>
         <div class="frameResizableVert frameDragPadder"></div>
     </div>
+    <script src="./assets/js/scripts/framelang.js"></script>
 </div>
