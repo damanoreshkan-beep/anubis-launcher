@@ -4,3 +4,6 @@
 /target/
 /logs/
 /dist/
+
+# Tailwind compiled output — run `npm run build:css`
+/app/assets/css/site.css

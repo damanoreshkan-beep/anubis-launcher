@@ -1,0 +1,190 @@
+/* Input for Tailwind build. Output → app/assets/css/site.css
+ * Custom CSS ported from minecraft/docs/index.html (site stylesheet).
+ * Use alongside Helios launcher.css until Phase 4 UI rewrite, then launcher.css retired.
+ */
+
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/inter/900.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body { font-family: 'Inter', system-ui, sans-serif; }
+}
+
+@layer components {
+    /* Фіолетова сітка (hero background) */
+    .bg-grid {
+        background-image:
+            linear-gradient(rgba(139,92,246,.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(139,92,246,.05) 1px, transparent 1px);
+        background-size: 60px 60px;
+    }
+
+    /* Glass panel з фіолетовим відтінком (navbar, cards) */
+    .glass {
+        background: rgba(139,92,246,.05);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(139,92,246,.14);
+    }
+
+    /* Шіммер на кнопках при ховері */
+    .btn-glow { position: relative; overflow: hidden; }
+    .btn-glow::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+        transform: translateX(-100%);
+        transition: transform .5s;
+    }
+    .btn-glow:hover::after { transform: translateX(100%); }
+
+    /* Card hover effect (settings tiles, server selector) */
+    .card-hover { transition: transform .3s, box-shadow .3s; }
+    .card-hover:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(124,58,237,.25);
+    }
+
+    /* Градієнтний текст (для заголовків) */
+    .gold-text {
+        color: transparent;
+        background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #22d3ee 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+    .violet-gold-text {
+        color: transparent;
+        background: linear-gradient(135deg, #22d3ee 0%, #a855f7 50%, #fbbf24 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+    }
+
+    /* Круглий логотип з фіолетовим glow (header avatar) */
+    .brand-logo {
+        border-radius: 50%;
+        box-shadow:
+            0 0 0 2px rgba(168,85,247,0.45),
+            0 0 30px rgba(139,92,246,0.35),
+            inset 0 0 0 1px rgba(255,255,255,0.05);
+        object-fit: cover;
+    }
+
+    /* Border-pulse клас */
+    .border-pulse { animation: borderPulse 3s ease-in-out infinite; }
+
+    /* Частинки (decorative background layer) */
+    .particles { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .particle {
+        position: absolute;
+        width: 3px; height: 3px;
+        border-radius: 50%;
+        animation: particleFloat linear infinite;
+    }
+    .particle.violet { background: rgba(168,85,247,.55); box-shadow: 0 0 6px rgba(168,85,247,.6); }
+    .particle.cyan   { background: rgba(34,211,238,.5);  box-shadow: 0 0 6px rgba(34,211,238,.5); }
+    .particle.amber  { background: rgba(251,191,36,.4);  box-shadow: 0 0 6px rgba(251,191,36,.4); }
+
+    /* Зіркове небо (hero layer) */
+    .stars { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .star {
+        position: absolute;
+        width: 2px; height: 2px;
+        background: white;
+        border-radius: 50%;
+        opacity: .35;
+        animation: twinkle 4s ease-in-out infinite;
+    }
+    .star.lg     { width: 3px; height: 3px; opacity: .55; }
+    .star.gold   { background: #fbbf24; box-shadow: 0 0 6px #fbbf24; }
+    .star.violet { background: #a78bfa; box-shadow: 0 0 8px #a78bfa; }
+
+    /* Hero портрет з аурою */
+    .hero-portrait-wrap { position: relative; display: inline-block; }
+    .hero-portrait-wrap::before {
+        content: '';
+        position: absolute;
+        inset: -10%;
+        background:
+            radial-gradient(circle at 50% 50%, rgba(139,92,246,.35), transparent 55%),
+            radial-gradient(circle at 30% 70%, rgba(245,158,11,.25), transparent 50%);
+        filter: blur(40px);
+        z-index: -1;
+        animation: auraPulse 5s ease-in-out infinite;
+    }
+    .hero-portrait {
+        border-radius: 1.5rem;
+        box-shadow:
+            0 30px 80px rgba(139,92,246,.4),
+            0 0 0 1px rgba(168,85,247,.3),
+            0 0 60px rgba(34,211,238,.15);
+        max-height: 600px;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* Декоративні лінії hero */
+    .hero-line {
+        position: absolute;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(168,85,247,.35), transparent);
+    }
+
+    /* Fade-in при появі */
+    .fade-section { opacity: 0; transform: translateY(30px); transition: opacity .7s, transform .7s; }
+    .fade-section.visible { opacity: 1; transform: translateY(0); }
+
+    /* FAQ accordion (native details/summary) */
+    .faq-item {
+        background: rgba(139,92,246,.04);
+        border: 1px solid rgba(139,92,246,.14);
+        border-radius: 1rem;
+        transition: border-color .3s, background .3s;
+    }
+    .faq-item:hover { border-color: rgba(168,85,247,.32); }
+    .faq-item[open] {
+        background: rgba(139,92,246,.08);
+        border-color: rgba(168,85,247,.4);
+    }
+    .faq-item summary {
+        list-style: none;
+        cursor: pointer;
+        padding: 1.25rem 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        font-weight: 600;
+        color: #e5e7eb;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary .chevron { flex-shrink: 0; transition: transform .3s; color: #a78bfa; }
+    .faq-item[open] summary .chevron { transform: rotate(180deg); }
+    .faq-item .faq-body {
+        padding: 0 1.5rem 1.25rem;
+        color: #9ca3af;
+        line-height: 1.7;
+    }
+
+    /* Language dropdown menu */
+    .lang-menu { display: none; }
+    .lang-wrap:hover .lang-menu,
+    .lang-wrap:focus-within .lang-menu { display: block; }
+}
+
+/* prefers-reduced-motion — дбаймо про доступність */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .001ms !important;
+    }
+    .star, .mc-cube { transform: none !important; }
+}
