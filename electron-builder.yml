@@ -1,8 +1,8 @@
-appId: 'helioslauncher'
-productName: 'Helios Launcher'
+appId: 'com.anubisworld.launcher'
+productName: 'Anubis World Launcher'
 artifactName: '${productName}-setup-${version}.${ext}'
 
-copyright: 'Copyright © 2018-2026 Daniel Scalzi'
+copyright: 'Copyright © 2026 Anubis World. Based on HeliosLauncher © 2018-2026 Daniel Scalzi (MIT).'
 
 asar: true
 compression: 'maximum'
@@ -37,12 +37,12 @@ mac:
   category: 'public.app-category.games'
 
 # Linux Configuration
-linux: 
+linux:
   target: 'AppImage'
-  maintainer: 'Daniel Scalzi'
-  vendor: 'Daniel Scalzi'
-  synopsis: 'Modded Minecraft Launcher'
-  description: 'Custom launcher which allows users to join modded servers. All mods, configurations, and updates are handled automatically.'
+  maintainer: 'damanoreshkan-beep'
+  vendor: 'Anubis World'
+  synopsis: 'Anubis World — HiTech 1.12.2 launcher'
+  description: 'Launcher for the Anubis World private Minecraft server. All mods, configs, and updates are handled automatically.'
   category: 'Game'
 
 

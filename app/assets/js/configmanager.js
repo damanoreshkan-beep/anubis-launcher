@@ -402,12 +402,34 @@ exports.addMicrosoftAuthAccount = function(uuid, accessToken, name, mcExpires, m
 }
 
 /**
+ * Adds an offline (guest) account. UUID is deterministic from the nickname
+ * (Mojang offline scheme), so reconnecting with the same nick restores the
+ * player's server-side data. Server must be online-mode=false.
+ *
+ * @param {string} displayName The in-game nickname.
+ * @returns {Object} The authenticated account object created by this action.
+ */
+exports.addOfflineAuthAccount = function(displayName){
+    const { offlineUUID } = require('./offlineauth')
+    const uuid = offlineUUID(displayName.trim())
+    config.selectedAccount = uuid
+    config.authenticationDatabase[uuid] = {
+        type: 'offline',
+        accessToken: '',
+        username: displayName.trim(),
+        uuid,
+        displayName: displayName.trim()
+    }
+    return config.authenticationDatabase[uuid]
+}
+
+/**
  * Remove an authenticated account from the database. If the account
  * was also the selected account, a new one will be selected. If there
  * are no accounts, the selected account will be null.
- * 
+ *
  * @param {string} uuid The uuid of the authenticated account.
- * 
+ *
  * @returns {boolean} True if the account was removed, false if it never existed.
  */
 exports.removeAuthAccount = function(uuid){

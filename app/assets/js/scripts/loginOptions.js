@@ -1,7 +1,11 @@
 const loginOptionsCancelContainer = document.getElementById('loginOptionCancelContainer')
-const loginOptionMicrosoft = document.getElementById('loginOptionMicrosoft')
-const loginOptionMojang = document.getElementById('loginOptionMojang')
+const loginOptionGuest = document.getElementById('loginOptionGuest')
+const guestNicknameInput = document.getElementById('guestNicknameInput')
+const guestNicknameError = document.getElementById('guestNicknameError')
 const loginOptionsCancelButton = document.getElementById('loginOptionCancelButton')
+
+const ConfigManager_loginOptions = require('./assets/js/configmanager')
+const { validateUsername: validateGuestNickname } = require('./assets/js/offlineauth')
 
 let loginOptionsCancellable = false
 
@@ -18,23 +22,22 @@ function loginOptionsCancelEnabled(val){
     }
 }
 
-loginOptionMicrosoft.onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.waiting, 500, 500, () => {
-        ipcRenderer.send(
-            MSFT_OPCODE.OPEN_LOGIN,
-            loginOptionsViewOnLoginSuccess,
-            loginOptionsViewOnLoginCancel
-        )
-    })
+function submitGuestLogin(){
+    const nick = (guestNicknameInput.value || '').trim()
+    if(!validateGuestNickname(nick)){
+        guestNicknameError.textContent = 'Нік 3-16 символів, тільки [a-zA-Z0-9_]'
+        return
+    }
+    guestNicknameError.textContent = ''
+    ConfigManager_loginOptions.addOfflineAuthAccount(nick)
+    ConfigManager_loginOptions.save()
+    switchView(getCurrentView(), loginOptionsViewOnLoginSuccess)
 }
 
-loginOptionMojang.onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
-        loginViewOnSuccess = loginOptionsViewOnLoginSuccess
-        loginViewOnCancel = loginOptionsViewOnLoginCancel
-        loginCancelEnabled(true)
-    })
-}
+loginOptionGuest.onclick = submitGuestLogin
+guestNicknameInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter') submitGuestLogin()
+})
 
 loginOptionsCancelButton.onclick = (e) => {
     switchView(getCurrentView(), loginOptionsViewOnCancel, 500, 500, () => {
