@@ -133,6 +133,9 @@ waitingText = "Waiting for Microsoft.."
 
 [ejs.welcome]
 continueButton = "CONTINUE"
+welcomeHeader = "WELCOME TO ANUBIS WORLD"
+welcomeDescription = "High-quality modded Minecraft servers where technology and magic become one. Stable gameplay, curated modpacks, a friendly community."
+welcomeDescCTA = "You are just a few clicks away from HiTech."
 
 
 [js.discord]

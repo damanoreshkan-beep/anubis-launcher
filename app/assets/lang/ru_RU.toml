@@ -6,5 +6,11 @@ loginOptionsTitle = "Вход в аккаунт"
 guestNicknamePlaceholder = "Никнейм (3-16 символов)"
 guestSubmitButton = "Войти как гость"
 
+[ejs.welcome]
+continueButton = "ПРОДОЛЖИТЬ"
+welcomeHeader = "ДОБРО ПОЖАЛОВАТЬ В ANUBIS WORLD"
+welcomeDescription = "Качественные модовые серверы Minecraft, где технологии и магия становятся единым целым. Стабильный геймплей, продуманные сборки, отзывчивое сообщество."
+welcomeDescCTA = "Вы в нескольких кликах от HiTech."
+
 [js.loginOptions]
 guestValidationError = "Ник 3-16 символов: буквы, цифры, подчёркивание."

@@ -6,5 +6,11 @@ loginOptionsTitle = "Anmeldeoptionen"
 guestNicknamePlaceholder = "Nickname (3-16 Zeichen)"
 guestSubmitButton = "Als Gast fortfahren"
 
+[ejs.welcome]
+continueButton = "WEITER"
+welcomeHeader = "WILLKOMMEN BEI ANUBIS WORLD"
+welcomeDescription = "Hochwertige gemoddete Minecraft-Server, auf denen Technik und Magie zu einem werden. Stabiles Gameplay, kuratierte Modpacks, freundliche Community."
+welcomeDescCTA = "Nur noch ein paar Klicks bis zu HiTech."
+
 [js.loginOptions]
 guestValidationError = "Nickname: 3-16 Zeichen, nur Buchstaben, Ziffern, Unterstrich."
