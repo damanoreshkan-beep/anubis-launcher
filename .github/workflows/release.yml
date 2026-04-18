@@ -14,13 +14,13 @@ jobs:
       matrix:
         include:
           - os: ubuntu-latest
-            build: npm run dist:linux
+            build: npm run dist:linux -- --publish never
             artifact: linux
             patterns: |
               dist/*.AppImage
               dist/*.yml
           - os: windows-latest
-            build: npm run dist:win
+            build: npm run dist:win -- --publish never
             artifact: windows
             patterns: |
               dist/*.exe
