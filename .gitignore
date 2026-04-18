@@ -9,3 +9,6 @@
 /app/assets/css/site.css
 # Inter font files copied from node_modules by `npm run build:fonts`
 /app/assets/css/files/
+
+# Scratch work — never commit installers or generated manifests
+/work/
