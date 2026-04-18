@@ -39,6 +39,7 @@ mac:
 # Linux Configuration
 linux:
   target: 'AppImage'
+  icon: 'build/icon.png'
   maintainer: 'damanoreshkan-beep'
   vendor: 'Anubis World'
   synopsis: 'Anubis World — HiTech 1.12.2 launcher'
@@ -49,3 +50,8 @@ linux:
 directories:
   buildResources: 'build'
   output: 'dist'
+
+publish:
+  provider: 'github'
+  owner: 'damanoreshkan-beep'
+  repo: 'anubis-launcher'
