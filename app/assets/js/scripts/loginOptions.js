@@ -30,8 +30,14 @@ function submitGuestLogin(){
         return
     }
     guestNicknameError.textContent = ''
-    ConfigManager_loginOptions.addOfflineAuthAccount(nick)
+    const authAcc = ConfigManager_loginOptions.addOfflineAuthAccount(nick)
     ConfigManager_loginOptions.save()
+    // Same post-login contract as Mojang/Microsoft handlers: push the new account
+    // into landing/settings UI state before the view switch fires.
+    if(typeof updateSelectedAccount === 'function'){
+        updateSelectedAccount(authAcc)
+    }
+    guestNicknameInput.value = ''
     switchView(getCurrentView(), loginOptionsViewOnLoginSuccess)
 }
 
