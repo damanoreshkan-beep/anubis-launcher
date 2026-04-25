@@ -105,7 +105,22 @@ function changeAllowPrerelease(val){
 }
 
 function showUpdateUI(info){
-    //TODO Make this message a bit more informative `${info.version}`
+    const banner = document.getElementById('updateBanner')
+    if(banner){
+        const versionEl = document.getElementById('updateBannerVersion')
+        if(versionEl) versionEl.textContent = 'v' + info.version
+        banner.style.display = 'block'
+
+        const installBtn = document.getElementById('updateBannerInstall')
+        if(installBtn) installBtn.onclick = () => {
+            if(!isDev) ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
+        }
+        const dismissBtn = document.getElementById('updateBannerDismiss')
+        if(dismissBtn) dismissBtn.onclick = () => {
+            banner.style.display = 'none'
+        }
+    }
+
     document.getElementById('image_seal_container').setAttribute('update', true)
     document.getElementById('image_seal_container').onclick = () => {
         /*setOverlayContent('Update Available', 'A new update for the launcher is available. Would you like to install now?', 'Install', 'Later')
@@ -132,9 +147,42 @@ $(function(){
     loggerUICore.info('UICore Initialized');
 })*/
 
+function fillStars(container, count){
+    if(!container) return
+    const colors = ['', 'lg', 'gold', 'violet', 'lg violet']
+    for(let i = 0; i < count; i++){
+        const s = document.createElement('div')
+        s.className = 'star ' + colors[Math.floor(Math.random() * colors.length)]
+        s.style.left = Math.random() * 100 + '%'
+        s.style.top = Math.random() * 100 + '%'
+        s.style.animationDelay = (Math.random() * 4) + 's'
+        container.appendChild(s)
+    }
+}
+function fillParticles(container, count){
+    if(!container) return
+    const colors = ['violet', 'cyan', 'amber']
+    for(let i = 0; i < count; i++){
+        const p = document.createElement('div')
+        p.className = 'particle ' + colors[Math.floor(Math.random() * colors.length)]
+        p.style.left = Math.random() * 100 + '%'
+        p.style.animationDuration = (10 + Math.random() * 12) + 's'
+        p.style.animationDelay = (Math.random() * 8) + 's'
+        container.appendChild(p)
+    }
+}
+function spawnSplashScenery(){
+    fillStars(document.getElementById('splashStars'), 40)
+    fillParticles(document.getElementById('splashParticles'), 35)
+    fillStars(document.getElementById('landingStars'), 30)
+    fillParticles(document.getElementById('landingParticles'), 25)
+}
+
 document.addEventListener('readystatechange', function () {
     if (document.readyState === 'interactive'){
         loggerUICore.info('UICore Initializing..')
+
+        spawnSplashScenery()
 
         // Bind close button.
         Array.from(document.getElementsByClassName('fCb')).map((val) => {

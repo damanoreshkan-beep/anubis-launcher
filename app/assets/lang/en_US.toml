@@ -1,5 +1,10 @@
 [ejs.landing]
 updateAvailableTooltip = "Update Available"
+updateBannerTitle = "Update available"
+updateBannerInstall = "Install now"
+heroServerLabel = "HiTech · Minecraft 1.12.2"
+heroOpenBeta = "Open Beta"
+heroDesc = "High-quality modded Minecraft where technology and magic become one. Stable gameplay, curated modpacks, friendly community."
 usernamePlaceholder = "Username"
 usernameEditButton = "Edit"
 settingsTooltip = "Settings"
@@ -130,6 +135,9 @@ updateReleaseNotes = "Update Release Notes"
 
 [ejs.waiting]
 waitingText = "Waiting for Microsoft.."
+
+[ejs.splash]
+loading = "Loading distribution…"
 
 [ejs.welcome]
 continueButton = "CONTINUE"

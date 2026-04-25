@@ -13,11 +13,21 @@ const { pathToFileURL }                 = require('url')
 const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
 const LangLoader                        = require('./app/assets/js/langloader')
 
-// Setup Lang in the main process — English base only.
-// configmanager pulls in @electron/remote which is renderer-only, so we can't
-// read the user's locale here. The renderer (preloader.js) reloads the user
-// locale over this base once the config is available.
-LangLoader.setupLanguage()
+// Read the user's selected locale directly from config.json BEFORE rendering
+// any EJS — main process owns ejs-electron, so all <%- lang(...) %> calls run
+// here, not in the renderer. configmanager itself pulls @electron/remote, so
+// we read the JSON file directly via app.getPath('userData').
+function readUserLocale(){
+    try {
+        const cfgPath = path.join(app.getPath('userData'), 'config.json')
+        if(!fs.existsSync(cfgPath)) return 'ru_RU'
+        const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf-8'))
+        return cfg?.settings?.launcher?.locale || 'ru_RU'
+    } catch (e) {
+        return 'ru_RU'
+    }
+}
+LangLoader.setupLanguage(readUserLocale())
 
 // Setup auto updater.
 function initAutoUpdater(event, data) {
@@ -133,7 +143,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
         width: 520,
         height: 600,
         frame: true,
-        icon: getPlatformIcon('SealCircle')
+        icon: getPlatformIcon()
     })
 
     msftAuthWindow.on('closed', () => {
@@ -184,7 +194,7 @@ ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
         width: 520,
         height: 600,
         frame: true,
-        icon: getPlatformIcon('SealCircle')
+        icon: getPlatformIcon()
     })
 
     msftLogoutWindow.on('closed', () => {
@@ -230,7 +240,7 @@ function createWindow() {
     win = new BrowserWindow({
         width: 980,
         height: 552,
-        icon: getPlatformIcon('SealCircle'),
+        icon: getPlatformIcon(),
         frame: false,
         webPreferences: {
             preload: path.join(__dirname, 'app', 'assets', 'js', 'preloader.js'),
@@ -242,7 +252,7 @@ function createWindow() {
     remoteMain.enable(win.webContents)
 
     const data = {
-        bkid: Math.floor((Math.random() * fs.readdirSync(path.join(__dirname, 'app', 'assets', 'images', 'backgrounds')).length)),
+        appVersion: app.getVersion(),
         lang: (str, placeHolders) => LangLoader.queryEJS(str, placeHolders)
     }
     Object.entries(data).forEach(([key, val]) => ejse.data(key, val))
@@ -333,20 +343,22 @@ function createMenu() {
 
 }
 
-function getPlatformIcon(filename){
+function getPlatformIcon(){
     let ext
     switch(process.platform) {
         case 'win32':
             ext = 'ico'
             break
         case 'darwin':
+            ext = 'icns'
+            break
         case 'linux':
         default:
             ext = 'png'
             break
     }
 
-    return path.join(__dirname, 'app', 'assets', 'images', `${filename}.${ext}`)
+    return path.join(__dirname, 'build', `icon.${ext}`)
 }
 
 app.on('ready', createWindow)

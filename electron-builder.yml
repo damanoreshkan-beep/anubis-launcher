@@ -14,8 +14,9 @@ extraResources:
   - 'libraries'
 
 # Windows Configuration
-win: 
-  target: 
+win:
+  icon: 'build/icon.ico'
+  target:
     - target: 'nsis'
       arch: 'x64'
 
@@ -28,6 +29,7 @@ nsis:
 
 # macOS Configuration
 mac:
+  icon: 'build/icon.icns'
   target:
     - target: 'dmg'
       arch:
