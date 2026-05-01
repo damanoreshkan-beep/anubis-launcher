@@ -186,7 +186,8 @@ paneSignIn.addEventListener('submit', async (e) => {
 
 // ── Forgot password — OTP-based passwordless sign-in ───────────────────────
 // Desktop launcher → email magic-link doesn't work cleanly. Instead we:
-//   1. Send a one-time email containing a 6-digit code (Supabase OTP).
+//   1. Send a one-time email containing a numeric code (Supabase OTP —
+//      length is configured in the project, currently 8 digits).
 //   2. User types the code; we verifyOtp({type:'email'}) → session restored.
 //   3. From there, finishAuth runs exactly like a normal sign-in.
 // User can change their password later via Settings → Profile.
@@ -255,7 +256,7 @@ if(forgotVerify){
         forgotError.textContent = ''
         const email = forgotEmail.value.trim()
         const token = forgotOtp.value.trim()
-        if(!/^\d{6}$/.test(token)){
+        if(!/^\d{6,8}$/.test(token)){
             forgotError.textContent = Lang_loginOptions.queryJS('loginOptions.forgotInvalidCode')
             return
         }
