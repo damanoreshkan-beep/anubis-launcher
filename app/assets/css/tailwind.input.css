@@ -543,32 +543,101 @@ body {
     margin: 0 0 4px 0;
     text-align: center;
 }
-.loginOptionActions { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-.loginOptionButtonContainer { display: flex; flex-direction: column; gap: 10px; width: 100%; }
-#guestNicknameInput {
-    padding: 12px 14px;
+/* Migration banner — shown when an old guest session is detected */
+#migrationBanner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.32);
+    color: #fcd34d;
+}
+#migrationBanner.hidden { display: none; }
+#migrationBanner svg { color: #fcd34d; flex-shrink: 0; margin-top: 2px; }
+#migrationBanner .migrationBannerText { display: flex; flex-direction: column; gap: 2px; font-size: 11.5px; line-height: 1.5; }
+#migrationBanner .migrationBannerText strong { font-weight: 700; color: #fde68a; }
+#migrationBanner em {
+    font-style: normal;
+    font-weight: 700;
+    color: #fff;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Tab strip */
+#loginOptionsTabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+    width: 100%;
+}
+.loginOptionsTab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #9ca3af;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+.loginOptionsTab:hover { color: #fff; }
+.loginOptionsTab.active {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3);
+}
+
+/* Form panes */
+.loginPane { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.loginField { display: flex; flex-direction: column; gap: 6px; }
+.loginField span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #9ca3af;
+    letter-spacing: 0.4px;
+}
+.loginField input {
+    padding: 11px 14px;
     background: rgba(139, 92, 246, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    border: 1px solid rgba(168, 85, 247, 0.35);
     border-radius: 10px;
     color: #fff;
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
     outline: none;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
-#guestNicknameInput::placeholder { color: #6b7280; }
-#guestNicknameInput:focus {
+.loginField input::placeholder { color: #6b7280; }
+.loginField input:focus {
     border-color: #a855f7;
     background: rgba(139, 92, 246, 0.18);
     box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
 }
-.loginOptionButton {
+
+.loginFieldError {
+    color: #fca5a5;
+    font-size: 11px;
+    min-height: 14px;
+    margin: 2px 0 0;
+    text-align: center;
+}
+
+.loginPrimaryButton {
     background: linear-gradient(135deg, #7c3aed, #a855f7);
     color: #fff;
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: 1.5px;
+    letter-spacing: 1.4px;
     border: none;
     border-radius: 12px;
     padding: 12px 18px;
@@ -578,16 +647,70 @@ body {
     justify-content: center;
     gap: 8px;
     box-shadow: 0 8px 22px rgba(124, 58, 237, 0.35);
-    transition: transform 0.1s, box-shadow 0.2s;
+    transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
+    cursor: pointer;
 }
-.loginOptionButton:hover { box-shadow: 0 12px 30px rgba(124, 58, 237, 0.55); }
-.loginOptionButton:active { transform: translateY(1px); }
-#guestNicknameError {
-    color: #fca5a5;
-    font-size: 11px;
-    min-height: 14px;
-    text-align: center;
+.loginPrimaryButton:hover { box-shadow: 0 12px 30px rgba(124, 58, 237, 0.55); }
+.loginPrimaryButton:active { transform: translateY(1px); }
+.loginPrimaryButton:disabled,
+.loginPrimaryButton.busy { opacity: 0.55; pointer-events: none; }
+
+.loginLinkButton {
+    background: transparent;
+    border: none;
+    color: #a78bfa;
+    font-size: 11.5px;
+    text-decoration: none;
+    align-self: center;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.15s;
 }
+.loginLinkButton:hover { color: #c4b5fd; text-decoration: underline; }
+
+/* "or" divider between email form and OAuth providers */
+.loginDivider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 6px 0;
+    color: #6b7280;
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+}
+.loginDivider::before,
+.loginDivider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(168, 85, 247, 0.2);
+}
+
+/* Discord OAuth button — Discord brand color w/ subtle glow */
+.loginDiscordButton {
+    width: 100%;
+    background: #5865F2;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.6px;
+    border: none;
+    border-radius: 12px;
+    padding: 11px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 8px 22px rgba(88, 101, 242, 0.3);
+    transition: background 0.15s, box-shadow 0.2s, transform 0.1s, opacity 0.2s;
+    cursor: pointer;
+}
+.loginDiscordButton:hover { background: #4752C4; box-shadow: 0 12px 30px rgba(88, 101, 242, 0.5); }
+.loginDiscordButton:active { transform: translateY(1px); }
+.loginDiscordButton:disabled { opacity: 0.55; pointer-events: none; }
+.loginDiscordButton svg { flex-shrink: 0; }
+
 #loginOptionCancelContainer { margin-top: 14px; text-align: center; }
 #loginOptionCancelButton {
     background: transparent;
@@ -599,6 +722,7 @@ body {
     font-weight: 500;
     letter-spacing: 1px;
     transition: background 0.2s, color 0.2s;
+    cursor: pointer;
 }
 #loginOptionCancelButton:hover { background: rgba(168, 85, 247, 0.12); color: #fff; }
 

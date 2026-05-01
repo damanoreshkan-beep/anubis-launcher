@@ -320,86 +320,12 @@ function mergeModConfiguration(o, n, nReq = false){
     return n
 }
 
+// Token-refresh validation existed for Mojang/Microsoft accounts. Anubis
+// accounts are local nicks backed by a Supabase session — there's no
+// per-account token to expire, so this is a no-op kept only as a hook for
+// callers that expect it (overlay.js, settings.js).
 async function validateSelectedAccount(){
-    const selectedAcc = ConfigManager.getSelectedAccount()
-    if(selectedAcc != null){
-        const val = await AuthManager.validateSelected()
-        if(!val){
-            ConfigManager.removeAuthAccount(selectedAcc.uuid)
-            ConfigManager.save()
-            const accLen = Object.keys(ConfigManager.getAuthAccounts()).length
-            setOverlayContent(
-                Lang.queryJS('uibinder.validateAccount.failedMessageTitle'),
-                accLen > 0
-                    ? Lang.queryJS('uibinder.validateAccount.failedMessage', { 'account': selectedAcc.displayName })
-                    : Lang.queryJS('uibinder.validateAccount.failedMessageSelectAnotherAccount', { 'account': selectedAcc.displayName }),
-                Lang.queryJS('uibinder.validateAccount.loginButton'),
-                Lang.queryJS('uibinder.validateAccount.selectAnotherAccountButton')
-            )
-            setOverlayHandler(() => {
-
-                const isMicrosoft = selectedAcc.type === 'microsoft'
-
-                if(isMicrosoft) {
-                    // Empty for now
-                } else {
-                    // Mojang
-                    // For convenience, pre-populate the username of the account.
-                    document.getElementById('loginUsername').value = selectedAcc.username
-                    validateEmail(selectedAcc.username)
-                }
-                
-                loginOptionsViewOnLoginSuccess = getCurrentView()
-                loginOptionsViewOnLoginCancel = VIEWS.loginOptions
-
-                if(accLen > 0) {
-                    loginOptionsViewOnCancel = getCurrentView()
-                    loginOptionsViewCancelHandler = () => {
-                        if(isMicrosoft) {
-                            ConfigManager.addMicrosoftAuthAccount(
-                                selectedAcc.uuid,
-                                selectedAcc.accessToken,
-                                selectedAcc.username,
-                                selectedAcc.expiresAt,
-                                selectedAcc.microsoft.access_token,
-                                selectedAcc.microsoft.refresh_token,
-                                selectedAcc.microsoft.expires_at
-                            )
-                        } else {
-                            ConfigManager.addMojangAuthAccount(selectedAcc.uuid, selectedAcc.accessToken, selectedAcc.username, selectedAcc.displayName)
-                        }
-                        ConfigManager.save()
-                        validateSelectedAccount()
-                    }
-                    loginOptionsCancelEnabled(true)
-                } else {
-                    loginOptionsCancelEnabled(false)
-                }
-                toggleOverlay(false)
-                switchView(getCurrentView(), VIEWS.loginOptions)
-            })
-            setDismissHandler(() => {
-                if(accLen > 1){
-                    prepareAccountSelectionList()
-                    $('#overlayContent').fadeOut(250, () => {
-                        bindOverlayKeys(true, 'accountSelectContent', true)
-                        $('#accountSelectContent').fadeIn(250)
-                    })
-                } else {
-                    const accountsObj = ConfigManager.getAuthAccounts()
-                    const accounts = Array.from(Object.keys(accountsObj), v => accountsObj[v])
-                    // This function validates the account switch.
-                    setSelectedAccount(accounts[0].uuid)
-                    toggleOverlay(false)
-                }
-            })
-            toggleOverlay(true, accLen > 0)
-        } else {
-            return true
-        }
-    } else {
-        return true
-    }
+    return true
 }
 
 /**

@@ -23,22 +23,6 @@ newsErrorFailedSpan = "Failed to Load News"
 newsErrorRetryButton = "Try Again"
 newsErrorNoneSpan = "No News"
 
-[ejs.login]
-loginCancelText = "Cancel"
-loginSubheader = "MINECRAFT LOGIN"
-loginEmailError = "* Invalid Value"
-loginEmailPlaceholder = "EMAIL OR USERNAME"
-loginPasswordError = "* Required"
-loginPasswordPlaceholder = "PASSWORD"
-loginForgotPasswordLink = "https://minecraft.net/password/forgot/"
-loginForgotPasswordText = "forgot password?"
-loginRememberMeText = "remember me?"
-loginButtonText = "LOGIN"
-loginNeedAccountLink = "https://minecraft.net/store/minecraft-java-edition/"
-loginNeedAccountText = "Need an Account?"
-loginPasswordDisclaimer1 = "Your password is sent directly to mojang and never stored."
-loginPasswordDisclaimer2 = "{appName} is not affiliated with Mojang AB."
-
 [ejs.loginOptions]
 loginOptionsTitle = "Login Options"
 loginWithMicrosoft = "Login with Microsoft"
@@ -46,6 +30,24 @@ loginWithMojang = "Login with Mojang"
 cancelButton = "Cancel"
 guestNicknamePlaceholder = "Nickname (3-16 characters)"
 guestSubmitButton = "Continue as Guest"
+tabSignIn = "Sign In"
+tabSignUp = "Sign Up"
+emailLabel = "Email"
+passwordLabel = "Password"
+nicknameLabel = "Minecraft nickname"
+signInSubmit = "Sign in"
+signUpSubmit = "Create account"
+forgotPassword = "Forgot password?"
+forgotEmailFirst = "Enter your email first"
+forgotSent = "Reset link sent — check your email"
+nickFormatError = "Nick 3-16 chars: letters, digits, _"
+nickTakenError = "This nickname is already taken"
+needNickname = "No nickname on this account yet — set one below"
+checkEmail = "Check your email to confirm the account"
+migrationTitle = "Account upgrade required"
+migrationBody = "Your guest nickname is saved — register with the same nick to keep your in-game progress:"
+signInDiscord = "Sign in with Discord"
+orDivider = "or"
 
 [js.loginOptions]
 guestValidationError = "Nickname must be 3-16 chars: letters, digits, underscore."
@@ -61,6 +63,8 @@ accountSelectCancel = "Cancel"
 [ejs.settings]
 navHeaderText = "Settings"
 navAccount = "Account"
+anubisAccount = "AnubisWorld Account"
+addAccount = "+ Add Account"
 navMinecraft = "Minecraft"
 navMods = "Mods"
 navJava = "Java"
@@ -70,10 +74,6 @@ navUpdates = "Updates"
 navDone = "Done"
 tabAccountHeaderText = "Account Settings"
 tabAccountHeaderDesc = "Add new accounts or manage existing ones."
-microsoftAccount = "Microsoft"
-addMicrosoftAccount = "+ Add Microsoft Account"
-mojangAccount = "Mojang"
-addMojangAccount = "+ Add Mojang Account"
 minecraftTabHeaderText = "Minecraft Settings"
 minecraftTabHeaderDesc = "Options related to game launch."
 gameResolutionTitle = "Game Resolution"
@@ -145,29 +145,6 @@ welcomeHeader = "WELCOME TO ANUBIS WORLD"
 welcomeDescription = "High-quality modded Minecraft servers where technology and magic become one. Stable gameplay, curated modpacks, a friendly community."
 welcomeDescCTA = "You are just a few clicks away from HiTech."
 
-
-[js.discord]
-waiting = "Waiting for Client.."
-state = "Server: {shortId}"
-
-[js.index]
-microsoftLoginTitle = "Microsoft Login"
-microsoftLogoutTitle = "Microsoft Logout"
-
-[js.login]
-login = "LOGIN"
-loggingIn = "LOGGING IN"
-success = "SUCCESS"
-tryAgain = "Try Again"
-
-[js.login.error]
-invalidValue = "* Invalid Value"
-requiredValue = "* Required"
-
-[js.login.error.unknown]
-title = "Unknown Error During Login"
-desc = "An unknown error has occurred. Please see the console for details."
-
 [js.landing.launch]
 pleaseWait = "Please wait.."
 failureTitle = "Error During Launch"
@@ -212,6 +189,7 @@ fatalError = "Fatal Error"
 unableToLoadDistributionIndex = "Could not load a copy of the distribution index. See the console (CTRL + Shift + i) for more details."
 pleaseWait = "Please wait.."
 errorDuringLaunchTitle = "Error During Launch"
+errorDuringLaunchText = "See console (CTRL + Shift + I) for more details."
 seeConsoleForDetails = "See console (CTRL + Shift + i) for more details."
 validatingFileIntegrity = "Validating file integrity.."
 errorDuringFileVerificationTitle = "Error During File Verification"
@@ -238,24 +216,16 @@ dismiss = "Dismiss"
 executables = "Executables"
 allFiles = "All Files"
 
-[js.settings.mstfLogin]
-errorTitle = "Something Went Wrong"
-errorMessage = "Microsoft authentication failed. Please try again."
-okButton = "OK"
 
-[js.settings.mstfLogout]
-errorTitle = "Something Went Wrong"
-errorMessage = "Microsoft logout failed. Please try again."
-okButton = "OK"
 
 [js.settings.authAccountSelect]
 selectButton = "Select Account"
 selectedButton = "Selected Account &#10004;"
 
 [js.settings.authAccountLogout]
-lastAccountWarningTitle = "Warning<br>This is Your Last Account"
-lastAccountWarningMessage = "In order to use the launcher you must be logged into at least one account. You will need to login again after.<br><br>Are you sure you want to log out?"
-confirmButton = "I'm Sure"
+lastAccountWarningTitle = "Warning<br>This is your last account"
+lastAccountWarningMessage = "You need at least one account to use the launcher. You will be sent to the login screen and will have to sign in again.<br><br>Are you sure you want to log out?"
+confirmButton = "Yes, log out"
 cancelButton = "Cancel"
 
 [js.settings.authAccountPopulate]
@@ -295,66 +265,15 @@ latestVersionTitle = "You Are Running the Latest Version"
 checkForUpdatesButton = "Check for Updates"
 checkingForUpdatesButton = "Checking for Updates.."
 
-[js.settings.msftLogin]
-errorTitle = "Microsoft Login Failed"
-errorMessage = "We were unable to authenticate your Microsoft account. Please try again."
-okButton = "OK"
-
 [js.uibinder.startup]
 fatalErrorTitle = "Fatal Error: Unable to Load Distribution Index"
 fatalErrorMessage = "A connection could not be established to our servers to download the distribution index. No local copies were available to load. <br><br>The distribution index is an essential file which provides the latest server information. The launcher is unable to start without it. Ensure you are connected to the internet and relaunch the application."
 closeButton = "Close"
-
-[js.uibinder.validateAccount]
-failedMessageTitle = "Failed to Refresh Login"
-failedMessage = "We were unable to refresh the login for <strong>{account}</strong>. Please select another account or login again."
-failedMessageSelectAnotherAccount = "We were unable to refresh the login for <strong>{account}</strong>. Please login again."
-loginButton = "Login"
-selectAnotherAccountButton = "Select Another Account"
 
 [js.uicore.autoUpdate]
 checkingForUpdateButton = "Checking for Updates..."
 installNowButton = "Install Now"
 checkForUpdatesButton = "Check for Updates"
 
-[js.auth.microsoft.error]
-noProfileTitle = "Error During Login:<br>Profile Not Set Up"
-noProfileDesc = "Your Microsoft account does not yet have a Minecraft profile set up. If you have recently purchased the game or redeemed it through Xbox Game Pass, you have to set up your profile on <a href=\"https://minecraft.net/\">Minecraft.net</a>.<br><br>If you have not yet purchased the game, you can also do that on <a href=\"https://minecraft.net/\">Minecraft.net</a>."
-noXboxAccountTitle = "Error During Login:<br>No Xbox Account"
-noXboxAccountDesc = "Your Microsoft account has no Xbox account associated with it."
-xblBannedTitle = "Error During Login:<br>Xbox Live Unavailable"
-xblBannedDesc = "Your Microsoft account is from a country where Xbox Live is not available or banned."
-under18Title = "Error During Login:<br>Parental Approval Required"
-under18Desc = "Accounts for users under the age of 18 must be added to a Family by an adult."
-unknownTitle = "Unknown Error During Login"
-unknownDesc = "An unknown error has occurred. Please see the console for details."
-
-[js.auth.mojang.error]
-methodNotAllowedTitle = "Internal Error:<br>Method Not Allowed"
-methodNotAllowedDesc = "Method not allowed. Please report this error."
-notFoundTitle = "Internal Error:<br>Not Found"
-notFoundDesc = "The authentication endpoint was not found. Please report this issue."
-accountMigratedTitle = "Error During Login:<br>Account Migrated"
-accountMigratedDesc = "You've attempted to login with a migrated account. Try again using the account email as the username."
-invalidCredentialsTitle = "Error During Login:<br>Invalid Credentials"
-invalidCredentialsDesc = "The email or password you've entered is incorrect. Please try again."
-tooManyAttemptsTitle = "Error During Login:<br>Too Many Attempts"
-tooManyAttemptsDesc = "There have been too many login attempts with this account recently. Please try again later."
-invalidTokenTitle = "Error During Login:<br>Invalid Token"
-invalidTokenDesc = "The provided access token is invalid."
-tokenHasProfileTitle = "Error During Login:<br>Token Has Profile"
-tokenHasProfileDesc = "Access token already has a profile assigned. Selecting profiles is not implemented yet."
-credentialsMissingTitle = "Error During Login:<br>Credentials Missing"
-credentialsMissingDesc = "Username/password was not submitted or password is less than 3 characters."
-invalidSaltVersionTitle = "Error During Login:<br>Invalid Salt Version"
-invalidSaltVersionDesc = "Invalid salt version."
-unsupportedMediaTypeTitle = "Internal Error:<br>Unsupported Media Type"
-unsupportedMediaTypeDesc = "Unsupported media type. Please report this error."
-accountGoneTitle = "Error During Login:<br>Account Migrated"
-accountGoneDesc = "Account has been migrated to a Microsoft account. Please log in with Microsoft."
-unreachableTitle = "Error During Login:<br>Unreachable"
-unreachableDesc = "Unable to reach the authentication servers. Ensure that they are online and you are connected to the internet."
-gameNotPurchasedTitle = "Error During Login:<br>Game Not Purchased"
-gameNotPurchasedDesc = "The account you are trying to login with has not purchased a copy of Minecraft. You may purchase a copy on <a href=\"https://minecraft.net/\">Minecraft.net</a>"
-unknownErrorTitle = "Unknown Error During Login"
-unknownErrorDesc = "An unknown error has occurred. Please see the console for details."
+[js.discord]
+waiting = "Waiting for Client.."

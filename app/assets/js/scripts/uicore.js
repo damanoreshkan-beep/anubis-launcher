@@ -26,9 +26,18 @@ window.eval = global.eval = function () {
 
 // Display warning when devtools window is opened.
 remote.getCurrentWebContents().on('devtools-opened', () => {
-    console.log('%cThe console is dark and full of terrors.', 'color: white; -webkit-text-stroke: 4px #a02d2a; font-size: 60px; font-weight: bold')
-    console.log('%cIf you\'ve been told to paste something here, you\'re being scammed.', 'font-size: 16px')
-    console.log('%cUnless you know exactly what you\'re doing, close this window.', 'font-size: 16px')
+    console.log(
+        '%cAnubis%cWorld',
+        'background: linear-gradient(135deg, #7c3aed, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; font-weight: 900; letter-spacing: -2px;',
+        'background: linear-gradient(135deg, #a855f7, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; font-weight: 900; letter-spacing: -2px;'
+    )
+    console.log('%cЛаунчер для AnubisWorld · HiTech 1.12.2', 'color: #c4b5fd; font-size: 14px; font-weight: 600; letter-spacing: 0.4px;')
+    console.log(
+        '%c⚠ Stop!%c Якщо тобі сказали вставити сюди код — це обман.',
+        'background: rgba(220,38,38,0.18); color: #fca5a5; font-size: 18px; font-weight: 800; padding: 4px 10px; border-radius: 6px;',
+        'color: #f87171; font-size: 14px; margin-left: 8px;'
+    )
+    console.log('%cЯкщо ти не знаєш що робиш — закрий це вікно.', 'color: #9ca3af; font-size: 12px;')
 })
 
 // Disable zoom, needed for darwin.

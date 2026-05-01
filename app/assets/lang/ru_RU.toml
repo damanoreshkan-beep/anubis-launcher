@@ -25,22 +25,6 @@ newsErrorFailedSpan = "Не удалось загрузить новости"
 newsErrorRetryButton = "Повторить"
 newsErrorNoneSpan = "Новостей нет"
 
-[ejs.login]
-loginCancelText = "Отмена"
-loginSubheader = "ВХОД В MINECRAFT"
-loginEmailError = "* Неверное значение"
-loginEmailPlaceholder = "EMAIL ИЛИ НИКНЕЙМ"
-loginPasswordError = "* Обязательное поле"
-loginPasswordPlaceholder = "ПАРОЛЬ"
-loginForgotPasswordLink = "https://minecraft.net/password/forgot/"
-loginForgotPasswordText = "забыли пароль?"
-loginRememberMeText = "запомнить меня?"
-loginButtonText = "ВОЙТИ"
-loginNeedAccountLink = "https://minecraft.net/store/minecraft-java-edition/"
-loginNeedAccountText = "Нужен аккаунт?"
-loginPasswordDisclaimer1 = "Ваш пароль отправляется напрямую в Mojang и не сохраняется."
-loginPasswordDisclaimer2 = "{appName} не связан с Mojang AB."
-
 [ejs.loginOptions]
 loginOptionsTitle = "Вход в аккаунт"
 loginWithMicrosoft = "Войти через Microsoft"
@@ -48,6 +32,24 @@ loginWithMojang = "Войти через Mojang"
 cancelButton = "Отмена"
 guestNicknamePlaceholder = "Никнейм (3-16 символов)"
 guestSubmitButton = "Войти как гость"
+tabSignIn = "Вход"
+tabSignUp = "Регистрация"
+emailLabel = "Email"
+passwordLabel = "Пароль"
+nicknameLabel = "Никнейм в Minecraft"
+signInSubmit = "Войти"
+signUpSubmit = "Создать аккаунт"
+forgotPassword = "Забыли пароль?"
+forgotEmailFirst = "Сначала введите email"
+forgotSent = "Письмо для сброса отправлено — проверь почту"
+nickFormatError = "Ник 3-16 символов: латиница, цифры, _"
+nickTakenError = "Этот ник уже занят"
+needNickname = "У аккаунта ещё нет ника — выбери ниже"
+checkEmail = "Проверь почту для подтверждения аккаунта"
+migrationTitle = "Нужен аккаунт"
+migrationBody = "Твой гостевой ник сохранён — зарегистрируйся с тем же ником, чтобы сохранить прогресс:"
+signInDiscord = "Войти через Discord"
+orDivider = "или"
 
 [js.loginOptions]
 guestValidationError = "Ник 3-16 символов: буквы, цифры, подчёркивание."
@@ -63,6 +65,8 @@ accountSelectCancel = "Отмена"
 [ejs.settings]
 navHeaderText = "Настройки"
 navAccount = "Аккаунт"
+anubisAccount = "Аккаунт AnubisWorld"
+addAccount = "+ Добавить аккаунт"
 navMinecraft = "Minecraft"
 navMods = "Моды"
 navJava = "Java"
@@ -72,10 +76,6 @@ navUpdates = "Обновления"
 navDone = "Готово"
 tabAccountHeaderText = "Настройки аккаунта"
 tabAccountHeaderDesc = "Добавьте новые аккаунты или управляйте существующими."
-microsoftAccount = "Microsoft"
-addMicrosoftAccount = "+ Добавить аккаунт Microsoft"
-mojangAccount = "Mojang"
-addMojangAccount = "+ Добавить аккаунт Mojang"
 minecraftTabHeaderText = "Настройки Minecraft"
 minecraftTabHeaderDesc = "Параметры запуска игры."
 gameResolutionTitle = "Разрешение игры"
@@ -147,28 +147,6 @@ welcomeHeader = "ДОБРО ПОЖАЛОВАТЬ В ANUBIS WORLD"
 welcomeDescription = "Качественные модовые серверы Minecraft, где технологии и магия становятся единым целым. Стабильный геймплей, продуманные сборки, отзывчивое сообщество."
 welcomeDescCTA = "Вы в нескольких кликах от HiTech."
 
-[js.discord]
-waiting = "Ожидание клиента.."
-state = "Сервер: {shortId}"
-
-[js.index]
-microsoftLoginTitle = "Вход через Microsoft"
-microsoftLogoutTitle = "Выход из Microsoft"
-
-[js.login]
-login = "ВОЙТИ"
-loggingIn = "ВХОД"
-success = "УСПЕХ"
-tryAgain = "Повторить"
-
-[js.login.error]
-invalidValue = "* Неверное значение"
-requiredValue = "* Обязательно"
-
-[js.login.error.unknown]
-title = "Неизвестная ошибка при входе"
-desc = "Произошла неизвестная ошибка. Подробности в консоли."
-
 [js.landing.launch]
 pleaseWait = "Подождите.."
 failureTitle = "Ошибка при запуске"
@@ -213,6 +191,7 @@ fatalError = "Критическая ошибка"
 unableToLoadDistributionIndex = "Не удалось загрузить индекс дистрибуции. Подробности в консоли (CTRL + Shift + I)."
 pleaseWait = "Подождите.."
 errorDuringLaunchTitle = "Ошибка при запуске"
+errorDuringLaunchText = "Подробности в консоли (CTRL + Shift + I)."
 seeConsoleForDetails = "Подробности в консоли (CTRL + Shift + I)."
 validatingFileIntegrity = "Проверка целостности файлов.."
 errorDuringFileVerificationTitle = "Ошибка проверки файлов"
@@ -239,24 +218,16 @@ dismiss = "Закрыть"
 executables = "Исполняемые файлы"
 allFiles = "Все файлы"
 
-[js.settings.mstfLogin]
-errorTitle = "Что-то пошло не так"
-errorMessage = "Не удалось пройти аутентификацию Microsoft. Попробуйте ещё раз."
-okButton = "OK"
 
-[js.settings.mstfLogout]
-errorTitle = "Что-то пошло не так"
-errorMessage = "Не удалось выйти из Microsoft. Попробуйте ещё раз."
-okButton = "OK"
 
 [js.settings.authAccountSelect]
 selectButton = "Выбрать аккаунт"
 selectedButton = "Активный аккаунт &#10004;"
 
 [js.settings.authAccountLogout]
-lastAccountWarningTitle = "Внимание<br>Это ваш последний аккаунт"
-lastAccountWarningMessage = "Для использования лаунчера нужен хотя бы один аккаунт. После выхода нужно будет войти заново.<br><br>Точно выйти?"
-confirmButton = "Уверен"
+lastAccountWarningTitle = "Внимание<br>Это твой последний аккаунт"
+lastAccountWarningMessage = "Для работы лаунчера нужен хотя бы один аккаунт. Тебя перекинет на экран логина и придётся войти заново.<br><br>Точно выйти?"
+confirmButton = "Да, выйти"
 cancelButton = "Отмена"
 
 [js.settings.authAccountPopulate]
@@ -296,66 +267,15 @@ latestVersionTitle = "У вас последняя версия"
 checkForUpdatesButton = "Проверить обновления"
 checkingForUpdatesButton = "Проверка обновлений.."
 
-[js.settings.msftLogin]
-errorTitle = "Ошибка входа Microsoft"
-errorMessage = "Не удалось аутентифицировать ваш аккаунт Microsoft. Попробуйте снова."
-okButton = "OK"
-
 [js.uibinder.startup]
 fatalErrorTitle = "Критическая ошибка: не удалось загрузить индекс дистрибуции"
 fatalErrorMessage = "Не удалось подключиться к нашим серверам для загрузки индекса дистрибуции. Локальных копий нет.<br><br>Индекс дистрибуции — критичный файл с актуальной информацией о серверах. Без него лаунчер не может запуститься. Проверьте интернет и перезапустите приложение."
 closeButton = "Закрыть"
-
-[js.uibinder.validateAccount]
-failedMessageTitle = "Не удалось обновить вход"
-failedMessage = "Не удалось обновить вход для <strong>{account}</strong>. Выберите другой аккаунт или войдите снова."
-failedMessageSelectAnotherAccount = "Не удалось обновить вход для <strong>{account}</strong>. Войдите снова."
-loginButton = "Войти"
-selectAnotherAccountButton = "Выбрать другой аккаунт"
 
 [js.uicore.autoUpdate]
 checkingForUpdateButton = "Проверка обновлений..."
 installNowButton = "Установить сейчас"
 checkForUpdatesButton = "Проверить обновления"
 
-[js.auth.microsoft.error]
-noProfileTitle = "Ошибка входа:<br>Профиль не настроен"
-noProfileDesc = "Ваш аккаунт Microsoft пока не имеет профиля Minecraft. Если вы недавно купили игру или получили её через Xbox Game Pass, настройте профиль на <a href=\"https://minecraft.net/\">Minecraft.net</a>.<br><br>Если ещё не купили игру — её также можно купить на <a href=\"https://minecraft.net/\">Minecraft.net</a>."
-noXboxAccountTitle = "Ошибка входа:<br>Нет аккаунта Xbox"
-noXboxAccountDesc = "К вашему аккаунту Microsoft не привязан аккаунт Xbox."
-xblBannedTitle = "Ошибка входа:<br>Xbox Live недоступен"
-xblBannedDesc = "Ваш аккаунт Microsoft из страны, где Xbox Live недоступен или запрещён."
-under18Title = "Ошибка входа:<br>Требуется родительское согласие"
-under18Desc = "Аккаунты пользователей младше 18 лет должны быть добавлены в семью взрослым."
-unknownTitle = "Неизвестная ошибка при входе"
-unknownDesc = "Произошла неизвестная ошибка. Подробности в консоли."
-
-[js.auth.mojang.error]
-methodNotAllowedTitle = "Внутренняя ошибка:<br>Метод не разрешён"
-methodNotAllowedDesc = "Метод не разрешён. Сообщите об этой ошибке."
-notFoundTitle = "Внутренняя ошибка:<br>Не найдено"
-notFoundDesc = "Эндпоинт аутентификации не найден. Сообщите об этой ошибке."
-accountMigratedTitle = "Ошибка входа:<br>Аккаунт перенесён"
-accountMigratedDesc = "Вы пытаетесь войти под перенесённым аккаунтом. Используйте email аккаунта вместо ника."
-invalidCredentialsTitle = "Ошибка входа:<br>Неверные данные"
-invalidCredentialsDesc = "Указан неверный email или пароль. Попробуйте снова."
-tooManyAttemptsTitle = "Ошибка входа:<br>Слишком много попыток"
-tooManyAttemptsDesc = "Слишком много попыток входа недавно. Попробуйте позже."
-invalidTokenTitle = "Ошибка входа:<br>Недействительный токен"
-invalidTokenDesc = "Указан недействительный токен доступа."
-tokenHasProfileTitle = "Ошибка входа:<br>Токен уже с профилем"
-tokenHasProfileDesc = "Токену доступа уже назначен профиль. Выбор профилей пока не поддерживается."
-credentialsMissingTitle = "Ошибка входа:<br>Не указаны данные"
-credentialsMissingDesc = "Не указан логин/пароль или пароль короче 3 символов."
-invalidSaltVersionTitle = "Ошибка входа:<br>Неверная версия соли"
-invalidSaltVersionDesc = "Неверная версия соли."
-unsupportedMediaTypeTitle = "Внутренняя ошибка:<br>Неподдерживаемый тип данных"
-unsupportedMediaTypeDesc = "Неподдерживаемый тип данных. Сообщите об этой ошибке."
-accountGoneTitle = "Ошибка входа:<br>Аккаунт перенесён"
-accountGoneDesc = "Аккаунт перенесён в Microsoft. Войдите через Microsoft."
-unreachableTitle = "Ошибка входа:<br>Сервер недоступен"
-unreachableDesc = "Не удалось подключиться к серверам аутентификации. Убедитесь что они онлайн и у вас есть интернет."
-gameNotPurchasedTitle = "Ошибка входа:<br>Игра не куплена"
-gameNotPurchasedDesc = "Аккаунт, под которым вы пытаетесь войти, не имеет купленной копии Minecraft. Купить можно на <a href=\"https://minecraft.net/\">Minecraft.net</a>"
-unknownErrorTitle = "Неизвестная ошибка при входе"
-unknownErrorDesc = "Произошла неизвестная ошибка. Подробности в консоли."
+[js.discord]
+waiting = "Ожидание клиента.."

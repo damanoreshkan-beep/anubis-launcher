@@ -25,22 +25,6 @@ newsErrorFailedSpan = "Nie udało się załadować aktualności"
 newsErrorRetryButton = "Spróbuj ponownie"
 newsErrorNoneSpan = "Brak aktualności"
 
-[ejs.login]
-loginCancelText = "Anuluj"
-loginSubheader = "LOGOWANIE MINECRAFT"
-loginEmailError = "* Nieprawidłowa wartość"
-loginEmailPlaceholder = "EMAIL LUB NICK"
-loginPasswordError = "* Wymagane"
-loginPasswordPlaceholder = "HASŁO"
-loginForgotPasswordLink = "https://minecraft.net/password/forgot/"
-loginForgotPasswordText = "zapomniałeś hasła?"
-loginRememberMeText = "zapamiętać mnie?"
-loginButtonText = "ZALOGUJ"
-loginNeedAccountLink = "https://minecraft.net/store/minecraft-java-edition/"
-loginNeedAccountText = "Potrzebujesz konta?"
-loginPasswordDisclaimer1 = "Hasło jest wysyłane bezpośrednio do Mojang i nie jest zapisywane."
-loginPasswordDisclaimer2 = "{appName} nie jest powiązany z Mojang AB."
-
 [ejs.loginOptions]
 loginOptionsTitle = "Opcje logowania"
 loginWithMicrosoft = "Zaloguj przez Microsoft"
@@ -48,6 +32,24 @@ loginWithMojang = "Zaloguj przez Mojang"
 cancelButton = "Anuluj"
 guestNicknamePlaceholder = "Nick (3-16 znaków)"
 guestSubmitButton = "Kontynuuj jako gość"
+tabSignIn = "Logowanie"
+tabSignUp = "Rejestracja"
+emailLabel = "Email"
+passwordLabel = "Hasło"
+nicknameLabel = "Nick w Minecraft"
+signInSubmit = "Zaloguj"
+signUpSubmit = "Utwórz konto"
+forgotPassword = "Zapomniałeś hasła?"
+forgotEmailFirst = "Najpierw wpisz email"
+forgotSent = "Link do resetu wysłany — sprawdź pocztę"
+nickFormatError = "Nick 3-16 znaków: litery, cyfry, _"
+nickTakenError = "Ten nick jest już zajęty"
+needNickname = "To konto nie ma jeszcze nicka — wybierz poniżej"
+checkEmail = "Sprawdź pocztę, aby potwierdzić konto"
+migrationTitle = "Wymagana aktualizacja konta"
+migrationBody = "Twój gościnny nick jest zapisany — zarejestruj się z tym samym nickiem, aby zachować postęp:"
+signInDiscord = "Zaloguj przez Discord"
+orDivider = "lub"
 
 [js.loginOptions]
 guestValidationError = "Nick 3-16 znaków: litery, cyfry, podkreślenie."
@@ -63,6 +65,8 @@ accountSelectCancel = "Anuluj"
 [ejs.settings]
 navHeaderText = "Ustawienia"
 navAccount = "Konto"
+anubisAccount = "Konto AnubisWorld"
+addAccount = "+ Dodaj konto"
 navMinecraft = "Minecraft"
 navMods = "Mody"
 navJava = "Java"
@@ -72,10 +76,6 @@ navUpdates = "Aktualizacje"
 navDone = "Gotowe"
 tabAccountHeaderText = "Ustawienia konta"
 tabAccountHeaderDesc = "Dodaj nowe konta lub zarządzaj istniejącymi."
-microsoftAccount = "Microsoft"
-addMicrosoftAccount = "+ Dodaj konto Microsoft"
-mojangAccount = "Mojang"
-addMojangAccount = "+ Dodaj konto Mojang"
 minecraftTabHeaderText = "Ustawienia Minecraft"
 minecraftTabHeaderDesc = "Opcje uruchamiania gry."
 gameResolutionTitle = "Rozdzielczość gry"
@@ -147,28 +147,6 @@ welcomeHeader = "WITAJ W ANUBIS WORLD"
 welcomeDescription = "Wysokiej jakości modowane serwery Minecraft, gdzie technologia i magia stają się jednością. Stabilna rozgrywka, starannie dobrane modpacki, przyjazna społeczność."
 welcomeDescCTA = "Jesteś o kilka kliknięć od HiTech."
 
-[js.discord]
-waiting = "Oczekiwanie na klienta.."
-state = "Serwer: {shortId}"
-
-[js.index]
-microsoftLoginTitle = "Logowanie Microsoft"
-microsoftLogoutTitle = "Wylogowanie Microsoft"
-
-[js.login]
-login = "ZALOGUJ"
-loggingIn = "LOGOWANIE"
-success = "SUKCES"
-tryAgain = "Spróbuj ponownie"
-
-[js.login.error]
-invalidValue = "* Nieprawidłowa wartość"
-requiredValue = "* Wymagane"
-
-[js.login.error.unknown]
-title = "Nieznany błąd podczas logowania"
-desc = "Wystąpił nieznany błąd. Szczegóły w konsoli."
-
 [js.landing.launch]
 pleaseWait = "Proszę czekać.."
 failureTitle = "Błąd podczas uruchamiania"
@@ -213,6 +191,7 @@ fatalError = "Błąd krytyczny"
 unableToLoadDistributionIndex = "Nie udało się załadować indeksu dystrybucji. Szczegóły w konsoli (CTRL + Shift + I)."
 pleaseWait = "Proszę czekać.."
 errorDuringLaunchTitle = "Błąd podczas uruchamiania"
+errorDuringLaunchText = "Szczegóły w konsoli (CTRL + Shift + I)."
 seeConsoleForDetails = "Szczegóły w konsoli (CTRL + Shift + I)."
 validatingFileIntegrity = "Weryfikacja integralności plików.."
 errorDuringFileVerificationTitle = "Błąd weryfikacji plików"
@@ -239,24 +218,16 @@ dismiss = "Zamknij"
 executables = "Pliki wykonywalne"
 allFiles = "Wszystkie pliki"
 
-[js.settings.mstfLogin]
-errorTitle = "Coś poszło nie tak"
-errorMessage = "Uwierzytelnianie Microsoft nie powiodło się. Spróbuj ponownie."
-okButton = "OK"
 
-[js.settings.mstfLogout]
-errorTitle = "Coś poszło nie tak"
-errorMessage = "Wylogowanie z Microsoft nie powiodło się. Spróbuj ponownie."
-okButton = "OK"
 
 [js.settings.authAccountSelect]
 selectButton = "Wybierz konto"
 selectedButton = "Aktywne konto &#10004;"
 
 [js.settings.authAccountLogout]
-lastAccountWarningTitle = "Ostrzeżenie<br>To twoje ostatnie konto"
-lastAccountWarningMessage = "Aby korzystać z launchera musisz być zalogowany na co najmniej jedno konto. Po wylogowaniu będziesz musiał zalogować się ponownie.<br><br>Czy na pewno chcesz się wylogować?"
-confirmButton = "Jestem pewny"
+lastAccountWarningTitle = "Uwaga<br>To twoje ostatnie konto"
+lastAccountWarningMessage = "Launcher wymaga co najmniej jednego konta. Zostaniesz przekierowany do ekranu logowania i będziesz musiał zalogować się ponownie.<br><br>Na pewno wylogować?"
+confirmButton = "Tak, wyloguj"
 cancelButton = "Anuluj"
 
 [js.settings.authAccountPopulate]
@@ -296,66 +267,15 @@ latestVersionTitle = "Masz najnowszą wersję"
 checkForUpdatesButton = "Sprawdź aktualizacje"
 checkingForUpdatesButton = "Sprawdzanie aktualizacji.."
 
-[js.settings.msftLogin]
-errorTitle = "Logowanie Microsoft nie powiodło się"
-errorMessage = "Nie udało się uwierzytelnić twojego konta Microsoft. Spróbuj ponownie."
-okButton = "OK"
-
 [js.uibinder.startup]
 fatalErrorTitle = "Błąd krytyczny: nie udało się załadować indeksu dystrybucji"
 fatalErrorMessage = "Nie udało się nawiązać połączenia z naszymi serwerami w celu pobrania indeksu dystrybucji. Brak lokalnych kopii.<br><br>Indeks dystrybucji to kluczowy plik z aktualnymi informacjami o serwerach. Bez niego launcher nie może się uruchomić. Upewnij się, że masz połączenie z internetem i uruchom aplikację ponownie."
 closeButton = "Zamknij"
-
-[js.uibinder.validateAccount]
-failedMessageTitle = "Nie udało się odświeżyć logowania"
-failedMessage = "Nie udało się odświeżyć logowania dla <strong>{account}</strong>. Wybierz inne konto lub zaloguj się ponownie."
-failedMessageSelectAnotherAccount = "Nie udało się odświeżyć logowania dla <strong>{account}</strong>. Zaloguj się ponownie."
-loginButton = "Zaloguj"
-selectAnotherAccountButton = "Wybierz inne konto"
 
 [js.uicore.autoUpdate]
 checkingForUpdateButton = "Sprawdzanie aktualizacji..."
 installNowButton = "Zainstaluj teraz"
 checkForUpdatesButton = "Sprawdź aktualizacje"
 
-[js.auth.microsoft.error]
-noProfileTitle = "Błąd logowania:<br>Profil nie skonfigurowany"
-noProfileDesc = "Twoje konto Microsoft nie ma jeszcze skonfigurowanego profilu Minecraft. Jeśli niedawno kupiłeś grę lub odebrałeś ją przez Xbox Game Pass, skonfiguruj profil na <a href=\"https://minecraft.net/\">Minecraft.net</a>.<br><br>Jeśli jeszcze nie kupiłeś gry, możesz to zrobić na <a href=\"https://minecraft.net/\">Minecraft.net</a>."
-noXboxAccountTitle = "Błąd logowania:<br>Brak konta Xbox"
-noXboxAccountDesc = "Z twoim kontem Microsoft nie jest powiązane żadne konto Xbox."
-xblBannedTitle = "Błąd logowania:<br>Xbox Live niedostępny"
-xblBannedDesc = "Twoje konto Microsoft pochodzi z kraju, w którym Xbox Live nie jest dostępny lub jest zabroniony."
-under18Title = "Błąd logowania:<br>Wymagana zgoda rodziców"
-under18Desc = "Konta użytkowników poniżej 18 roku życia muszą być dodane do Rodziny przez osobę dorosłą."
-unknownTitle = "Nieznany błąd podczas logowania"
-unknownDesc = "Wystąpił nieznany błąd. Szczegóły w konsoli."
-
-[js.auth.mojang.error]
-methodNotAllowedTitle = "Błąd wewnętrzny:<br>Metoda niedozwolona"
-methodNotAllowedDesc = "Metoda niedozwolona. Zgłoś ten błąd."
-notFoundTitle = "Błąd wewnętrzny:<br>Nie znaleziono"
-notFoundDesc = "Nie znaleziono punktu uwierzytelniania. Zgłoś ten problem."
-accountMigratedTitle = "Błąd logowania:<br>Konto zmigrowane"
-accountMigratedDesc = "Próbujesz zalogować się na zmigrowane konto. Spróbuj ponownie używając emaila konta jako nazwy użytkownika."
-invalidCredentialsTitle = "Błąd logowania:<br>Nieprawidłowe dane"
-invalidCredentialsDesc = "Wprowadzony email lub hasło są nieprawidłowe. Spróbuj ponownie."
-tooManyAttemptsTitle = "Błąd logowania:<br>Zbyt wiele prób"
-tooManyAttemptsDesc = "Niedawno wykonano zbyt wiele prób logowania na to konto. Spróbuj później."
-invalidTokenTitle = "Błąd logowania:<br>Nieprawidłowy token"
-invalidTokenDesc = "Podany token dostępu jest nieprawidłowy."
-tokenHasProfileTitle = "Błąd logowania:<br>Token ma już profil"
-tokenHasProfileDesc = "Tokenowi dostępu jest już przypisany profil. Wybór profili nie jest jeszcze zaimplementowany."
-credentialsMissingTitle = "Błąd logowania:<br>Brak danych logowania"
-credentialsMissingDesc = "Nick/hasło nie zostały przesłane lub hasło jest krótsze niż 3 znaki."
-invalidSaltVersionTitle = "Błąd logowania:<br>Nieprawidłowa wersja salt"
-invalidSaltVersionDesc = "Nieprawidłowa wersja salt."
-unsupportedMediaTypeTitle = "Błąd wewnętrzny:<br>Nieobsługiwany typ"
-unsupportedMediaTypeDesc = "Nieobsługiwany typ mediów. Zgłoś ten błąd."
-accountGoneTitle = "Błąd logowania:<br>Konto zmigrowane"
-accountGoneDesc = "Konto zostało zmigrowane do Microsoft. Zaloguj się przez Microsoft."
-unreachableTitle = "Błąd logowania:<br>Nieosiągalne"
-unreachableDesc = "Nie udało się połączyć z serwerami uwierzytelniania. Upewnij się, że są online i masz połączenie z internetem."
-gameNotPurchasedTitle = "Błąd logowania:<br>Gra nie kupiona"
-gameNotPurchasedDesc = "Konto, na które próbujesz się zalogować, nie ma zakupionej kopii Minecraft. Możesz kupić kopię na <a href=\"https://minecraft.net/\">Minecraft.net</a>"
-unknownErrorTitle = "Nieznany błąd podczas logowania"
-unknownErrorDesc = "Wystąpił nieznany błąd. Szczegóły w konsoli."
+[js.discord]
+waiting = "Oczekiwanie na klienta.."

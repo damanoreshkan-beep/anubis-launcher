@@ -10,7 +10,7 @@ const isDev                             = require('./app/assets/js/isdev')
 const path                              = require('path')
 const semver                            = require('semver')
 const { pathToFileURL }                 = require('url')
-const { AZURE_CLIENT_ID, MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR, SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
+const { SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
 const LangLoader                        = require('./app/assets/js/langloader')
 
 // Read the user's selected locale directly from config.json BEFORE rendering
@@ -117,119 +117,67 @@ ipcMain.handle(SHELL_OPCODE.TRASH_ITEM, async (event, ...args) => {
     }
 })
 
+// Discord (and any future Supabase OAuth provider) sign-in flow:
+// renderer hands us an OAuth URL, we open it in a child BrowserWindow,
+// watch for the redirect carrying access_token + refresh_token in the
+// URL hash, then return the tokens so the renderer can call setSession.
+//
+// Pure web-flow OAuth (no custom protocol registration needed) — works on
+// Windows and Linux without any installer plumbing.
+let oauthWin
+ipcMain.handle('discord-auth-open', async (event, url) => {
+    if(oauthWin && !oauthWin.isDestroyed()){
+        oauthWin.focus()
+        return null
+    }
+    oauthWin = new BrowserWindow({
+        width: 480,
+        height: 720,
+        title: 'Discord — Sign In',
+        backgroundColor: '#0c0a18',
+        autoHideMenuBar: true,
+        frame: true,
+        icon: getPlatformIcon(),
+        webPreferences: {
+            nodeIntegration: false,
+            contextIsolation: true,
+            partition: 'persist:oauth',
+        },
+    })
+    oauthWin.removeMenu()
+
+    return await new Promise((resolve) => {
+        const handle = (newUrl) => {
+            // Supabase redirects to ?access_token=... OR #access_token=... depending
+            // on flow. Both end up here once the OAuth round-trip completes.
+            try {
+                const u = new URL(newUrl)
+                const hash = u.hash.startsWith('#') ? u.hash.slice(1) : u.hash
+                const search = u.searchParams
+                const hashParams = new URLSearchParams(hash)
+                const access = hashParams.get('access_token') || search.get('access_token')
+                const refresh = hashParams.get('refresh_token') || search.get('refresh_token')
+                if(access && refresh){
+                    if(!oauthWin.isDestroyed()) oauthWin.close()
+                    resolve({ access_token: access, refresh_token: refresh })
+                }
+            } catch (e) { /* not a URL we care about */ }
+        }
+        oauthWin.webContents.on('will-redirect', (_e, navUrl) => handle(navUrl))
+        oauthWin.webContents.on('did-navigate', (_e, navUrl) => handle(navUrl))
+        oauthWin.webContents.on('did-navigate-in-page', (_e, navUrl) => handle(navUrl))
+        oauthWin.on('closed', () => {
+            oauthWin = null
+            resolve(null)  // user closed the window without finishing
+        })
+        oauthWin.loadURL(url)
+    })
+})
+
 // Disable hardware acceleration.
 // https://electronjs.org/docs/tutorial/offscreen-rendering
 app.disableHardwareAcceleration()
 
-
-const REDIRECT_URI_PREFIX = 'https://login.microsoftonline.com/common/oauth2/nativeclient?'
-
-// Microsoft Auth Login
-let msftAuthWindow
-let msftAuthSuccess
-let msftAuthViewSuccess
-let msftAuthViewOnClose
-ipcMain.on(MSFT_OPCODE.OPEN_LOGIN, (ipcEvent, ...arguments_) => {
-    if (msftAuthWindow) {
-        ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.ERROR, MSFT_ERROR.ALREADY_OPEN, msftAuthViewOnClose)
-        return
-    }
-    msftAuthSuccess = false
-    msftAuthViewSuccess = arguments_[0]
-    msftAuthViewOnClose = arguments_[1]
-    msftAuthWindow = new BrowserWindow({
-        title: LangLoader.queryJS('index.microsoftLoginTitle'),
-        backgroundColor: '#222222',
-        width: 520,
-        height: 600,
-        frame: true,
-        icon: getPlatformIcon()
-    })
-
-    msftAuthWindow.on('closed', () => {
-        msftAuthWindow = undefined
-    })
-
-    msftAuthWindow.on('close', () => {
-        if(!msftAuthSuccess) {
-            ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.ERROR, MSFT_ERROR.NOT_FINISHED, msftAuthViewOnClose)
-        }
-    })
-
-    msftAuthWindow.webContents.on('did-navigate', (_, uri) => {
-        if (uri.startsWith(REDIRECT_URI_PREFIX)) {
-            let queryMap = {}
-            
-            new URL(uri).searchParams.forEach((v, k) => {
-                queryMap[k] = v;
-            });
-
-            ipcEvent.reply(MSFT_OPCODE.REPLY_LOGIN, MSFT_REPLY_TYPE.SUCCESS, queryMap, msftAuthViewSuccess)
-
-            msftAuthSuccess = true
-            msftAuthWindow.close()
-            msftAuthWindow = null
-        }
-    })
-
-    msftAuthWindow.removeMenu()
-    msftAuthWindow.loadURL(`https://login.microsoftonline.com/consumers/oauth2/v2.0/authorize?prompt=select_account&client_id=${AZURE_CLIENT_ID}&response_type=code&scope=XboxLive.signin%20offline_access&redirect_uri=https://login.microsoftonline.com/common/oauth2/nativeclient`)
-})
-
-// Microsoft Auth Logout
-let msftLogoutWindow
-let msftLogoutSuccess
-let msftLogoutSuccessSent
-ipcMain.on(MSFT_OPCODE.OPEN_LOGOUT, (ipcEvent, uuid, isLastAccount) => {
-    if (msftLogoutWindow) {
-        ipcEvent.reply(MSFT_OPCODE.REPLY_LOGOUT, MSFT_REPLY_TYPE.ERROR, MSFT_ERROR.ALREADY_OPEN)
-        return
-    }
-
-    msftLogoutSuccess = false
-    msftLogoutSuccessSent = false
-    msftLogoutWindow = new BrowserWindow({
-        title: LangLoader.queryJS('index.microsoftLogoutTitle'),
-        backgroundColor: '#222222',
-        width: 520,
-        height: 600,
-        frame: true,
-        icon: getPlatformIcon()
-    })
-
-    msftLogoutWindow.on('closed', () => {
-        msftLogoutWindow = undefined
-    })
-
-    msftLogoutWindow.on('close', () => {
-        if(!msftLogoutSuccess) {
-            ipcEvent.reply(MSFT_OPCODE.REPLY_LOGOUT, MSFT_REPLY_TYPE.ERROR, MSFT_ERROR.NOT_FINISHED)
-        } else if(!msftLogoutSuccessSent) {
-            msftLogoutSuccessSent = true
-            ipcEvent.reply(MSFT_OPCODE.REPLY_LOGOUT, MSFT_REPLY_TYPE.SUCCESS, uuid, isLastAccount)
-        }
-    })
-    
-    msftLogoutWindow.webContents.on('did-navigate', (_, uri) => {
-        if(uri.startsWith('https://login.microsoftonline.com/common/oauth2/v2.0/logoutsession')) {
-            msftLogoutSuccess = true
-            setTimeout(() => {
-                if(!msftLogoutSuccessSent) {
-                    msftLogoutSuccessSent = true
-                    ipcEvent.reply(MSFT_OPCODE.REPLY_LOGOUT, MSFT_REPLY_TYPE.SUCCESS, uuid, isLastAccount)
-                }
-
-                if(msftLogoutWindow) {
-                    msftLogoutWindow.close()
-                    msftLogoutWindow = null
-                }
-            }, 5000)
-        }
-    })
-    
-    msftLogoutWindow.removeMenu()
-    msftLogoutWindow.loadURL('https://login.microsoftonline.com/common/oauth2/v2.0/logout')
-})
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -253,6 +201,11 @@ function createWindow() {
 
     const data = {
         appVersion: app.getVersion(),
+        // Public Supabase project that backs the shared anubis-auth widget.
+        // The anon (publishable) key is safe in client code; row-level
+        // security on the profiles table enforces real access control.
+        supabaseUrl: 'https://ckfinpywlpllvhvzagnw.supabase.co',
+        supabaseKey: 'sb_publishable_Bl6csDnCJ5LIJsIsCafMYQ_5zwLTgvR',
         lang: (str, placeHolders) => LangLoader.queryEJS(str, placeHolders)
     }
     Object.entries(data).forEach(([key, val]) => ejse.data(key, val))
@@ -264,6 +217,12 @@ function createWindow() {
     // during Phase 6 integration testing (Forge install, launch failures).
     if(process.env.ANUBIS_DEVTOOLS === '1') {
         win.webContents.openDevTools({ mode: 'detach' })
+        // Mirror renderer console to main stdout so we can see errors in the
+        // terminal without flipping focus back to DevTools.
+        win.webContents.on('console-message', (e, level, message, line, source) => {
+            const lvl = ['log','warn','error','info'][level] || 'log'
+            console.log(`[renderer ${lvl}] ${source}:${line} ${message}`)
+        })
     }
 
     /*win.once('ready-to-show', () => {
