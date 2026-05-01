@@ -48,6 +48,47 @@ if(process.defaultApp){
     app.setAsDefaultProtocolClient(PROTOCOL_SCHEME)
 }
 
+// Linux AppImage gotcha: setAsDefaultProtocolClient delegates to xdg-mime,
+// which only works if a .desktop file already references the application.
+// AppImages don't create one, so we drop one ourselves on first launch and
+// register the handler against it. Idempotent — safe to re-run on every boot.
+function registerLinuxProtocolHandler(){
+    if(process.platform !== 'linux' || isDev) return
+    try {
+        const os = require('os')
+        const { execFileSync } = require('child_process')
+        const exec = process.env.APPIMAGE || process.execPath
+        const appsDir = path.join(os.homedir(), '.local', 'share', 'applications')
+        const desktopPath = path.join(appsDir, 'anubis-world-launcher.desktop')
+        const iconPath = process.env.APPIMAGE
+            ? '' // AppImage embeds its own icon; no separate path
+            : path.join(__dirname, 'build', 'icon.png')
+        const contents = [
+            '[Desktop Entry]',
+            'Name=Anubis World Launcher',
+            'Comment=Modded Minecraft launcher for Anubis World',
+            `Exec=${exec} %u`,
+            iconPath ? `Icon=${iconPath}` : '',
+            'Type=Application',
+            'Terminal=false',
+            'Categories=Game;',
+            'MimeType=x-scheme-handler/anubisworld;',
+        ].filter(Boolean).join('\n') + '\n'
+        fs.mkdirSync(appsDir, { recursive: true })
+        fs.writeFileSync(desktopPath, contents)
+        try { fs.chmodSync(desktopPath, 0o755) } catch (_) {}
+        try {
+            execFileSync('xdg-mime', ['default', 'anubis-world-launcher.desktop', 'x-scheme-handler/anubisworld'], { stdio: 'ignore' })
+        } catch (_) { /* xdg-mime may be missing; the .desktop file alone often suffices */ }
+        try {
+            execFileSync('update-desktop-database', [appsDir], { stdio: 'ignore' })
+        } catch (_) { /* optional */ }
+    } catch (e) {
+        console.warn('Linux protocol registration skipped:', e?.message)
+    }
+}
+registerLinuxProtocolHandler()
+
 // Single-instance lock: if another instance of the launcher is started
 // (e.g. via the deep link), forward its argv to us and quit it.
 const gotLock = app.requestSingleInstanceLock()
@@ -79,6 +120,7 @@ if(initialDeepLink) pendingDeepLink = initialDeepLink
 
 // Subsequent launches (Windows / Linux) — second-instance forwards argv.
 app.on('second-instance', (_e, argv) => {
+    console.log('[deep-link] second-instance argv:', JSON.stringify(argv))
     handleDeepLink(deepLinkFromArgs(argv))
 })
 
