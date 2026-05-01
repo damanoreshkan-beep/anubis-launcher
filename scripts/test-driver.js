@@ -109,6 +109,48 @@ async function dumpDom(window, sel){
         return window.evaluate(() => Array.from(document.querySelectorAll('anubis-auth button')).map(b => b.textContent.trim()).filter(Boolean))
     }
 
+    if(scenario === 'styles'){
+        // Verify the launcher's own .glass/.btn-glow/.gold-text classes are
+        // still wired to its site.css and weren't overridden by the widget's
+        // injected styles. We pick three elements known to use them and dump
+        // computed values + which stylesheet's rule they came from.
+        const styleReport = await window.evaluate(() => {
+            const targets = [
+                { sel: '.lp-brand.glass', name: 'landing brand' },
+                { sel: '.lp-cta-primary.btn-glow', name: 'launch button' },
+                { sel: '.gold-text', name: 'gold-text span' },
+            ]
+            const out = []
+            for(const { sel, name } of targets){
+                const el = document.querySelector(sel)
+                if(!el){ out.push({ name, sel, found: false }); continue }
+                const cs = getComputedStyle(el)
+                out.push({ name, sel, found: true,
+                    background: cs.backgroundImage || cs.background || cs.backgroundColor,
+                    border: cs.borderTopColor + ' ' + cs.borderTopWidth,
+                    backdropFilter: cs.backdropFilter,
+                    color: cs.color,
+                    position: cs.position,
+                })
+            }
+            // Also check whether any widget rule (.aw-scope .glass) is present,
+            // and confirm there's no UNSCOPED .glass coming from the widget bundle.
+            let widgetUnscopedGlass = false
+            for(const sheet of document.styleSheets){
+                try {
+                    for(const rule of sheet.cssRules){
+                        if(rule.selectorText === '.glass' && rule.cssText.includes('rgba(139, 92, 246, 0.06)')){
+                            widgetUnscopedGlass = true; break
+                        }
+                    }
+                } catch(e){}
+            }
+            return { targets: out, widgetUnscopedGlass }
+        })
+        log('[STYLES]', JSON.stringify(styleReport, null, 2))
+        await shot(window, 'styles-loginOptions')
+    }
+
     if(scenario === 'inspect' || scenario === 'login' || scenario === 'flow'){
         if(visibleView === 'loginOptionsContainer'){
             await dumpDom(window, '#authWidgetMount')
