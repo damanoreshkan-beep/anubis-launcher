@@ -339,10 +339,15 @@ settingsNavDone.onclick = () => {
  */
 
 // Account tab "add account" button (singular, Supabase-backed) routes to the
-// new login/register screen.
+// new login/register screen. Reset the shared auth widget first so the user
+// sees the fresh "start" screen, not their previous post-auth state — they
+// just authed as account A and now want to add a different account B.
 const addAccountBtn = document.getElementById('settingsAddAccount')
 if(addAccountBtn) {
-    addAccountBtn.onclick = () => {
+    addAccountBtn.onclick = async () => {
+        if(typeof window.resetAuthWidget === 'function'){
+            await window.resetAuthWidget()
+        }
         loginOptionsCancelEnabled(true)
         loginOptionsViewOnCancel = VIEWS.settings
         loginOptionsViewOnLoginSuccess = VIEWS.settings

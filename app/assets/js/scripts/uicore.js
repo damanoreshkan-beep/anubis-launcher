@@ -19,9 +19,13 @@ const loggerAutoUpdater        = LoggerUtil.getLogger('AutoUpdater')
 process.traceProcessWarnings = true
 process.traceDeprecation = true
 
-// Disable eval function.
-window.eval = global.eval = function () {
-    throw new Error('Sorry, this app does not support window.eval().')
+// Disable eval function. Skipped when the Playwright test driver flips the
+// `__PW_TEST__` marker via addInitScript — Playwright's serialization layer
+// uses eval and would otherwise crash on the first page.evaluate() call.
+if (!window.__PW_TEST__) {
+    window.eval = global.eval = function () {
+        throw new Error('Sorry, this app does not support window.eval().')
+    }
 }
 
 // Display warning when devtools window is opened.
@@ -45,22 +49,41 @@ webFrame.setZoomLevel(0)
 webFrame.setVisualZoomLevelLimits(1, 1)
 
 // Deep-link receiver — main process forwards `anubisworld://...` URLs
-// after the OS triggers our protocol handler (e.g. user clicked
-// "Open launcher" on the website after a sign-in / password reset).
+// after the OS triggers our protocol handler (e.g. user clicked "Open
+// launcher" on the website after a sign-in / password reset).
 //
-// Today the URL is informational: just refresh the Supabase session in case
-// it was updated on the website (password change), and refresh the auth
-// account UI so the freshly-installed nick shows up. When we add per-route
-// handling (e.g. "go straight to landing"), parse the URL path here.
+// `anubisworld://signed-in?nick=<nick>` → trust the website's pick and drop
+// the user straight onto the landing screen with that nick selected, no
+// extra login modal. The Anubis server runs in offline mode, so the nick
+// alone is enough for the JVM launch flow; we don't need a Supabase
+// session in the launcher to play.
 ipcRenderer.on('deep-link', async (_e, url) => {
     loggerUICore.info('Received deep link:', url)
     try {
+        const u = new URL(url)
+        const nick = (u.searchParams.get('nick') || '').trim()
+
+        if(/^[a-zA-Z0-9_]{3,16}$/.test(nick)){
+            const ConfigManager = require('./assets/js/configmanager')
+            const acc = ConfigManager.addOfflineAuthAccount(nick)
+            ConfigManager.save()
+            if(typeof updateSelectedAccount === 'function'){
+                updateSelectedAccount(acc)
+            }
+            if(typeof switchView === 'function' && typeof getCurrentView === 'function' && typeof VIEWS !== 'undefined'){
+                if(getCurrentView() !== VIEWS.landing){
+                    switchView(getCurrentView(), VIEWS.landing)
+                }
+            }
+            loggerUICore.info('Deep-link applied, nick:', nick)
+        }
+
+        // Refresh the Supabase session in case the website updated something
+        // (e.g. password reset). No-op if there's no active session locally.
         const sb = require('./assets/js/supabaseclient')
-        // refreshSession force-fetches the latest user record from Supabase.
-        // No-op if there's no active session.
         await sb.auth.refreshSession().catch(() => {})
     } catch (e) {
-        loggerUICore.warn('Deep-link refresh failed (non-fatal):', e?.message)
+        loggerUICore.warn('Deep-link processing failed (non-fatal):', e?.message)
     }
 })
 
