@@ -4,6 +4,13 @@ artifactName: 'AnubisWorldLauncher-setup-${version}.${ext}'
 
 copyright: 'Copyright © 2026 Anubis World. Based on HeliosLauncher © 2018-2026 Daniel Scalzi (MIT).'
 
+# Custom URL scheme — the website widget links to anubisworld://signed-in
+# after a successful sign-in / password reset to bring the user back here.
+protocols:
+  - name: 'Anubis World'
+    schemes:
+      - 'anubisworld'
+
 asar: true
 compression: 'maximum'
 

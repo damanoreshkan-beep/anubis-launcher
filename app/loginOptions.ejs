@@ -35,6 +35,32 @@
                 <button type="button" id="signInForgot" class="loginLinkButton"><%- lang('loginOptions.forgotPassword') %></button>
             </form>
 
+            <form id="forgotPane" class="loginPane" style="display: none;">
+                <p class="forgotIntro"><%- lang('loginOptions.forgotIntro') %></p>
+                <label class="loginField">
+                    <span><%- lang('loginOptions.emailLabel') %></span>
+                    <input id="forgotEmail" type="email" required autocomplete="email" placeholder="you@example.com">
+                </label>
+                <button type="button" id="forgotSendCode" class="loginPrimaryButton">
+                    <span><%- lang('loginOptions.forgotSendCode') %></span>
+                </button>
+
+                <div id="forgotCodeStep" style="display: none;">
+                    <p class="forgotIntro"><%- lang('loginOptions.forgotCodeSent') %> <strong id="forgotEmailDisplay"></strong></p>
+                    <label class="loginField">
+                        <span><%- lang('loginOptions.forgotCodeLabel') %></span>
+                        <input id="forgotOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="123456">
+                    </label>
+                    <button type="button" id="forgotVerify" class="loginPrimaryButton">
+                        <span><%- lang('loginOptions.forgotVerify') %></span>
+                    </button>
+                    <button type="button" id="forgotResend" class="loginLinkButton"><%- lang('loginOptions.forgotResend') %></button>
+                </div>
+
+                <p id="forgotError" class="loginFieldError"></p>
+                <button type="button" id="forgotBack" class="loginLinkButton"><%- lang('loginOptions.forgotBack') %></button>
+            </form>
+
             <form id="signUpPane" class="loginPane" style="display: none;">
                 <label class="loginField">
                     <span><%- lang('loginOptions.emailLabel') %></span>

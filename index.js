@@ -29,6 +29,65 @@ function readUserLocale(){
 }
 LangLoader.setupLanguage(readUserLocale())
 
+// ─── Custom URL scheme: anubisworld:// ──────────────────────────────────────
+// Lets the website widget hand control back to this app after a sign-in or
+// password reset (window.location.href = 'anubisworld://signed-in?nick=...').
+// On all platforms we register as the default handler for the scheme; on
+// Windows / Linux we additionally enforce single-instance so the URL gets
+// delivered to the already-running window via the `second-instance` event
+// rather than spawning a duplicate launcher.
+const PROTOCOL_SCHEME = 'anubisworld'
+
+if(process.defaultApp){
+    // Dev mode (`electron .`) needs the absolute path so the OS can build the
+    // command line. In a packaged app the executable is invoked directly.
+    if(process.argv.length >= 2){
+        app.setAsDefaultProtocolClient(PROTOCOL_SCHEME, process.execPath, [path.resolve(process.argv[1])])
+    }
+} else {
+    app.setAsDefaultProtocolClient(PROTOCOL_SCHEME)
+}
+
+// Single-instance lock: if another instance of the launcher is started
+// (e.g. via the deep link), forward its argv to us and quit it.
+const gotLock = app.requestSingleInstanceLock()
+if(!gotLock){
+    app.quit()
+    process.exit(0)
+}
+
+let pendingDeepLink = null
+function deepLinkFromArgs(argv){
+    if(!Array.isArray(argv)) return null
+    return argv.find(a => typeof a === 'string' && a.startsWith(`${PROTOCOL_SCHEME}://`)) || null
+}
+function handleDeepLink(url){
+    if(!url) return
+    pendingDeepLink = url
+    // If the renderer is already loaded, push the URL straight in.
+    if(win && !win.isDestroyed()){
+        if(win.isMinimized()) win.restore()
+        win.focus()
+        win.webContents.send('deep-link', url)
+        pendingDeepLink = null
+    }
+}
+
+// Initial launch may carry the URL in argv (Windows / Linux first-time call).
+const initialDeepLink = deepLinkFromArgs(process.argv)
+if(initialDeepLink) pendingDeepLink = initialDeepLink
+
+// Subsequent launches (Windows / Linux) — second-instance forwards argv.
+app.on('second-instance', (_e, argv) => {
+    handleDeepLink(deepLinkFromArgs(argv))
+})
+
+// macOS delivers the URL via the open-url event instead of argv.
+app.on('open-url', (e, url) => {
+    e.preventDefault()
+    handleDeepLink(url)
+})
+
 // Setup auto updater.
 function initAutoUpdater(event, data) {
 
@@ -211,6 +270,16 @@ function createWindow() {
     Object.entries(data).forEach(([key, val]) => ejse.data(key, val))
 
     win.loadURL(pathToFileURL(path.join(__dirname, 'app', 'app.ejs')).toString())
+
+    // Once the renderer is ready, push any deep link that arrived before the
+    // window existed (cold-start case where the app was launched by the OS
+    // protocol handler with the URL in argv).
+    win.webContents.once('did-finish-load', () => {
+        if(pendingDeepLink){
+            win.webContents.send('deep-link', pendingDeepLink)
+            pendingDeepLink = null
+        }
+    })
 
     // DevTools opened automatically only when ANUBIS_DEVTOOLS=1. Prevents
     // shipping with devtools visible but gives us a quick diagnostic hook

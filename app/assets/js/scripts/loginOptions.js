@@ -83,12 +83,24 @@ if(pendingMigrationNick){
 }
 
 // ── Tabs ────────────────────────────────────────────────────────────────────
+const paneForgot = document.getElementById('forgotPane')
+const tabsContainer = document.getElementById('loginOptionsTabs')
+const loginDivider = document.querySelector('.loginDivider')
+const loginDiscordButton = document.querySelector('.loginDiscordButton')
+
 function setActiveTab(name){
-    [[tabSignIn, 'signin', paneSignIn], [tabSignUp, 'signup', paneSignUp]].forEach(([btn, id, pane]) => {
-        const active = id === name
-        btn.classList.toggle('active', active)
-        pane.style.display = active ? '' : 'none'
-    })
+    paneSignIn.style.display = name === 'signin' ? '' : 'none'
+    paneSignUp.style.display = name === 'signup' ? '' : 'none'
+    if(paneForgot) paneForgot.style.display = name === 'forgot' ? '' : 'none'
+    tabSignIn.classList.toggle('active', name === 'signin')
+    tabSignUp.classList.toggle('active', name === 'signup')
+    // Tabs / Discord OAuth / divider only make sense on the canonical
+    // sign-in & sign-up flows. Hide them while we're in the forgot-password
+    // OTP exchange to keep the screen focused.
+    const canonical = name === 'signin' || name === 'signup'
+    if(tabsContainer)        tabsContainer.style.display       = canonical ? '' : 'none'
+    if(loginDivider)         loginDivider.style.display        = canonical ? '' : 'none'
+    if(loginDiscordButton)   loginDiscordButton.style.display  = canonical ? '' : 'none'
 }
 tabSignIn.onclick = () => setActiveTab('signin')
 tabSignUp.onclick = () => setActiveTab('signup')
@@ -172,20 +184,117 @@ paneSignIn.addEventListener('submit', async (e) => {
     }
 })
 
+// ── Forgot password — OTP-based passwordless sign-in ───────────────────────
+// Desktop launcher → email magic-link doesn't work cleanly. Instead we:
+//   1. Send a one-time email containing a 6-digit code (Supabase OTP).
+//   2. User types the code; we verifyOtp({type:'email'}) → session restored.
+//   3. From there, finishAuth runs exactly like a normal sign-in.
+// User can change their password later via Settings → Profile.
+const forgotEmail        = document.getElementById('forgotEmail')
+const forgotSendCode     = document.getElementById('forgotSendCode')
+const forgotCodeStep     = document.getElementById('forgotCodeStep')
+const forgotEmailDisplay = document.getElementById('forgotEmailDisplay')
+const forgotOtp          = document.getElementById('forgotOtp')
+const forgotVerify       = document.getElementById('forgotVerify')
+const forgotResend       = document.getElementById('forgotResend')
+const forgotBack         = document.getElementById('forgotBack')
+const forgotError        = document.getElementById('forgotError')
+
+function forgotResetView(){
+    forgotCodeStep.style.display = 'none'
+    forgotSendCode.style.display = ''
+    forgotEmail.disabled = false
+    forgotOtp.value = ''
+    forgotError.textContent = ''
+}
+
 if(signInForgot){
-    signInForgot.onclick = async () => {
-        const email = signInEmail.value.trim()
-        if(!email){
-            signInError.textContent = Lang_loginOptions.queryJS('loginOptions.forgotEmailFirst')
+    signInForgot.onclick = () => {
+        forgotResetView()
+        forgotEmail.value = signInEmail.value.trim()
+        setActiveTab('forgot')
+    }
+}
+
+async function sendOtp(){
+    const email = forgotEmail.value.trim()
+    if(!email){
+        forgotError.textContent = Lang_loginOptions.queryJS('loginOptions.forgotEmailFirst')
+        return
+    }
+    forgotError.textContent = ''
+    setBusy(forgotSendCode, true)
+    try {
+        const { error } = await sb_loginOptions.auth.signInWithOtp({
+            email,
+            options: { shouldCreateUser: false },
+        })
+        if(error){
+            forgotError.textContent = error.message
             return
         }
-        signInError.textContent = ''
-        const { error } = await sb_loginOptions.auth.resetPasswordForEmail(email)
-        if(error){
-            signInError.textContent = error.message
-        } else {
-            signInError.textContent = Lang_loginOptions.queryJS('loginOptions.forgotSent')
+        forgotEmailDisplay.textContent = email
+        forgotEmail.disabled = true
+        forgotCodeStep.style.display = ''
+        forgotSendCode.style.display = 'none'
+        forgotOtp.focus()
+    } finally {
+        setBusy(forgotSendCode, false)
+    }
+}
+if(forgotSendCode) forgotSendCode.onclick = sendOtp
+if(forgotResend) forgotResend.onclick = async () => {
+    forgotEmail.disabled = false
+    forgotCodeStep.style.display = 'none'
+    forgotSendCode.style.display = ''
+    await sendOtp()
+}
+
+if(forgotVerify){
+    forgotVerify.onclick = async () => {
+        forgotError.textContent = ''
+        const email = forgotEmail.value.trim()
+        const token = forgotOtp.value.trim()
+        if(!/^\d{6}$/.test(token)){
+            forgotError.textContent = Lang_loginOptions.queryJS('loginOptions.forgotInvalidCode')
+            return
         }
+        setBusy(forgotVerify, true)
+        try {
+            const { data, error } = await sb_loginOptions.auth.verifyOtp({ email, token, type: 'email' })
+            if(error){
+                forgotError.textContent = error.message
+                return
+            }
+            const userId = data?.user?.id
+            if(!userId){
+                forgotError.textContent = 'No user'
+                return
+            }
+            const { data: profile } = await sb_loginOptions.from('profiles').select('minecraft_nick').eq('id', userId).maybeSingle()
+            if(!profile?.minecraft_nick){
+                // Recovered into an account that has no nick yet — push to
+                // sign-up pane to set one. Email is locked.
+                setActiveTab('signup')
+                signUpEmail.value = email
+                signUpEmail.disabled = true
+                signUpError.textContent = Lang_loginOptions.queryJS('loginOptions.needNickname')
+                return
+            }
+            logger_loginOptions.info('OTP sign-in successful, nick:', profile.minecraft_nick)
+            await finishAuth(profile.minecraft_nick)
+        } catch (err){
+            forgotError.textContent = String(err?.message || err)
+        } finally {
+            setBusy(forgotVerify, false)
+        }
+    }
+}
+
+if(forgotBack){
+    forgotBack.onclick = () => {
+        forgotResetView()
+        setActiveTab('signin')
     }
 }
 

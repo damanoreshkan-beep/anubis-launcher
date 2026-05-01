@@ -44,6 +44,26 @@ remote.getCurrentWebContents().on('devtools-opened', () => {
 webFrame.setZoomLevel(0)
 webFrame.setVisualZoomLevelLimits(1, 1)
 
+// Deep-link receiver — main process forwards `anubisworld://...` URLs
+// after the OS triggers our protocol handler (e.g. user clicked
+// "Open launcher" on the website after a sign-in / password reset).
+//
+// Today the URL is informational: just refresh the Supabase session in case
+// it was updated on the website (password change), and refresh the auth
+// account UI so the freshly-installed nick shows up. When we add per-route
+// handling (e.g. "go straight to landing"), parse the URL path here.
+ipcRenderer.on('deep-link', async (_e, url) => {
+    loggerUICore.info('Received deep link:', url)
+    try {
+        const sb = require('./assets/js/supabaseclient')
+        // refreshSession force-fetches the latest user record from Supabase.
+        // No-op if there's no active session.
+        await sb.auth.refreshSession().catch(() => {})
+    } catch (e) {
+        loggerUICore.warn('Deep-link refresh failed (non-fatal):', e?.message)
+    }
+})
+
 // Initialize auto updates in production environments.
 let updateCheckListener
 if(!isDev){
