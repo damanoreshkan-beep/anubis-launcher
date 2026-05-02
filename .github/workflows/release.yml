@@ -18,6 +18,8 @@ jobs:
             artifact: linux
             patterns: |
               dist/*.AppImage
+              dist/*.pacman
+              dist/*.tar.gz
               dist/*.yml
           - os: windows-latest
             build: npm run dist:win -- --publish never
@@ -65,6 +67,8 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             artifacts/*.AppImage
+            artifacts/*.pacman
+            artifacts/*.tar.gz
             artifacts/*.exe
             artifacts/*.exe.blockmap
             artifacts/*.yml

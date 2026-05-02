@@ -46,8 +46,18 @@ mac:
   category: 'public.app-category.games'
 
 # Linux Configuration
+# Multiple targets — AppImage works on most distros but hangs on
+# Arch + kernel 6.19 + FUSE_IO_URING; we ship a native pacman package as
+# the recommended path for Arch users, plus a universal tar.gz that any
+# user can extract and run without FUSE involvement.
 linux:
-  target: 'AppImage'
+  target:
+    - target: 'AppImage'
+      arch: x64
+    - target: 'pacman'
+      arch: x64
+    - target: 'tar.gz'
+      arch: x64
   icon: 'build/icon.png'
   maintainer: 'damanoreshkan-beep'
   vendor: 'Anubis World'
