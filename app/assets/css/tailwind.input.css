@@ -878,7 +878,8 @@ body {
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 16px;
+    flex-wrap: wrap;        /* status pills drop below CTA on cramped widths */
+    gap: 12px 16px;
     padding: 0 20px 18px;
     transition: top 2s ease;
     top: 0;
@@ -1083,12 +1084,12 @@ body {
     50%      { opacity: 1;   transform: scale(1.15); }
 }
 
-/* Hero media slot — wraps the welcome.mp4 cinematic. The wrapper has NO
-   forced aspect-ratio: it sizes itself to the video's natural ratio and
-   the video keeps its real proportions (object-fit:contain). max-width /
-   max-height cap the box to whatever space the grid cell allows so the
-   media can never overflow the hero, but Anubis is never stretched or
-   cropped. */
+/* Hero media slot — wraps the welcome.mp4 cinematic.
+   Approach mirrors the website: wrapper is plain inline-block with no
+   aspect-ratio (so it hugs the video pixels exactly — no mismatch
+   between card border and image). The video drives size via
+   width:100% + max-height:100% + object-fit:cover; box-shadow goes on
+   the video itself so the glow follows the actual frame. */
 .lp-hero-art {
     grid-area: media;
     display: flex;
@@ -1102,26 +1103,25 @@ body {
     padding: 0;
 }
 .lp-hero-art .hero-portrait-wrap {
-    display: inline-flex;
+    display: inline-block;
     position: relative;
     max-width: 100%;
     max-height: 100%;
+    line-height: 0;
+}
+.lp-hero-art .hero-portrait {
+    display: block;
+    width: 100%;
+    /* Cap by both viewport ratio and an absolute pixel ceiling so the
+       portrait never pushes the hero past the available height (the
+       launcher window content area is only ~506px tall by default). */
+    max-height: min(56vh, 460px);
+    object-fit: cover;
     border-radius: 1.25rem;
-    overflow: hidden;
-    background: transparent;
     box-shadow:
         0 30px 80px rgba(124, 58, 237, 0.32),
         0 0 0 1px rgba(168, 85, 247, 0.28),
         0 0 60px rgba(34, 211, 238, 0.14);
-}
-.lp-hero-art .hero-portrait {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
-    object-fit: contain;
-    background: transparent;
 }
 
 /* Top-right: user + icons */
@@ -1193,6 +1193,13 @@ body {
     border-radius: 999px;
     padding: 4px;
     backdrop-filter: blur(14px);
+}
+/* On narrow windows the social-icon strip eats horizontal space the user
+   pill needs to keep its avatar + nick visible. Hide everything except
+   the in-app Settings button below 720px width. */
+@media (max-width: 720px) {
+    .lp-icons #externalMedia,
+    .lp-icons .lp-icons-sep { display: none !important; }
 }
 #mediaContent { display: contents; }
 #internalMedia,

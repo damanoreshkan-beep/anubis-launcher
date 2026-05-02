@@ -2,7 +2,29 @@ const remoteMain = require('@electron/remote/main')
 remoteMain.initialize()
 
 // Requirements
-const { app, BrowserWindow, ipcMain, Menu, shell } = require('electron')
+const { app, BrowserWindow, ipcMain, Menu, shell, protocol, net } = require('electron')
+
+// Allow the muted hero video to autoplay without a user gesture. Has to be
+// set via Chromium command-line switch BEFORE app is ready — webPreferences
+// don't expose this; only the global command line does.
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
+
+// Custom `anubis://` scheme that serves files from the renderer's app/
+// folder. MUST be declared before app.ready. The `stream: true` privilege
+// is the reason this exists — Chromium's <video>/<audio> pipeline needs
+// streamable (range-request capable) sources, and the default file://
+// scheme doesn't advertise that capability, so media elements end up in
+// NETWORK_NO_SOURCE even though canPlayType reports the codec is
+// supported. Custom scheme with stream privilege is Electron's documented
+// fix. Note: this is a renderer-only internal scheme, distinct from the
+// OS-level `anubisworld://` protocol handler used for browser → launcher
+// deep-links.
+protocol.registerSchemesAsPrivileged([
+    {
+        scheme: 'anubis',
+        privileges: { standard: true, secure: true, supportFetchAPI: true, stream: true },
+    },
+])
 const autoUpdater                       = require('electron-updater').autoUpdater
 const ejse                              = require('ejs-electron')
 const fs                                = require('fs')
@@ -431,6 +453,20 @@ function getPlatformIcon(){
     return path.join(__dirname, 'build', `icon.${ext}`)
 }
 
+// Attach the `anubis://` handler (paired with the privileged-scheme
+// registration above): URLs like `anubis:///assets/images/site/welcome.webm`
+// resolve to `<__dirname>/app/assets/images/site/welcome.webm` and are
+// streamed to the renderer with proper range-request support.
+app.on('ready', () => {
+    protocol.handle('anubis', (request) => {
+        // `anubis://assets/foo` → URL parser treats `assets` as the host
+        // because the scheme is registered as `standard`. Strip the
+        // `anubis://` prefix manually so the entire remainder is the path.
+        const rel = decodeURIComponent(request.url.replace(/^anubis:\/\//, ''))
+        const filePath = path.join(__dirname, 'app', rel)
+        return net.fetch(pathToFileURL(filePath).toString())
+    })
+})
 app.on('ready', createWindow)
 app.on('ready', createMenu)
 
