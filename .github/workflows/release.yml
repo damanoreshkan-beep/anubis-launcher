@@ -39,6 +39,14 @@ jobs:
 
       - run: npm ci
       - run: npm run build:css
+
+      # fpm (used by electron-builder for pacman target) shells out to
+      # `bsdtar` to generate the Arch .MTREE file. Ubuntu runners don't
+      # ship bsdtar by default — without it the pacman build fails with
+      # "exit code 127". libarchive-tools provides it.
+      - if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y libarchive-tools
+
       - run: ${{ matrix.build }}
 
       - uses: actions/upload-artifact@v4
