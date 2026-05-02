@@ -195,6 +195,48 @@ async function dumpDom(window, sel){
         }
     }
 
+    if(scenario === 'forgot'){
+        if(visibleView !== 'landingContainer'){ log('[FAIL] need landingContainer (sign in once first)'); }
+        else {
+            log('[STEP] settings → account → add account')
+            await window.evaluate(() => document.getElementById('settingsMediaButton').click())
+            await waitForViewVisible(window, '#settingsContainer')
+            await window.evaluate(() => document.querySelector('[rSc="account"]')?.click())
+            await new Promise(r => setTimeout(r, 400))
+            await window.evaluate(() => document.getElementById('settingsAddAccount')?.click())
+            await waitForViewVisible(window, '#loginOptionsContainer')
+            await new Promise(r => setTimeout(r, 700))
+            await shot(window, 'add-account-start')
+
+            log('[STEP] click "Continue with email"')
+            await clickButtonByText('email')
+            await new Promise(r => setTimeout(r, 300))
+            await shot(window, 'email-stage')
+
+            log('[STEP] click "Forgot password?"')
+            await clickButtonByText('забыл')
+            await new Promise(r => setTimeout(r, 400))
+            log('[STATE] forgot-choice buttons:', await widgetButtons())
+            await shot(window, 'forgot-choice')
+
+            log('[STEP] pick OTP card')
+            await clickButtonByText('без пароля')
+            await new Promise(r => setTimeout(r, 400))
+            log('[STATE] forgot-otp buttons:', await widgetButtons())
+            await shot(window, 'forgot-otp')
+
+            log('[STEP] back to choice')
+            await clickButtonByText('назад')
+            await new Promise(r => setTimeout(r, 300))
+
+            log('[STEP] pick reset card')
+            await clickButtonByText('новый пароль')
+            await new Promise(r => setTimeout(r, 400))
+            log('[STATE] forgot-reset buttons:', await widgetButtons())
+            await shot(window, 'forgot-reset')
+        }
+    }
+
     if(scenario === 'add-account'){
         // Pre-condition: we're already past loginOptions on landing screen.
         if(visibleView !== 'landingContainer'){
