@@ -68,6 +68,11 @@ async function dumpDom(window, sel){
     // applies on the *next* navigation, so we reload the window once after
     // setting it to flip uicore's eval block off for this test session.
     await window.addInitScript(() => { window.__PW_TEST__ = true })
+    // Optional resize for screenshot scenarios — `RESIZE=W,H` env var.
+    if (process.env.RESIZE) {
+        const [w, h] = process.env.RESIZE.split(',').map(Number)
+        await window.setViewportSize({ width: w, height: h })
+    }
     await window.reload({ waitUntil: 'domcontentloaded' })
     log('[BOOT] window ready, url=', window.url())
 

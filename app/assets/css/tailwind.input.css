@@ -963,39 +963,68 @@ body {
 }
 .lp-brand-accent { color: #a78bfa; }
 
-/* Center hero — full width, под топбаром */
+/* Center hero — fully fluid, three breakpoints (compact / medium / large).
+   Layout flips between text-on-top of video and side-by-side based on
+   available width; video always fills its slot via object-fit:cover so
+   the original portrait scales/crops gracefully instead of clipping with
+   fixed pixels like the previous version did. */
 .lp-hero {
     display: grid;
-    grid-template-columns: 1.1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "media"
+        "content";
     align-items: center;
-    gap: 40px;
-    padding: 72px 24px 24px;
+    gap: 18px;
+    padding: 72px 18px 18px;
     height: 100%;
     box-sizing: border-box;
     min-width: 0;
+    min-height: 0;                   /* let grid items shrink in cramped windows */
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;                /* keep media inside the hero box */
 }
 .lp-hero-text {
+    grid-area: content;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     min-width: 0;
-    justify-self: end;
-    max-width: 480px;
+    align-items: center;
+    text-align: center;
     width: 100%;
+    max-width: 560px;
+    justify-self: center;
 }
-@media (max-width: 880px) {
+.lp-hero-text .lp-hero-desc { margin-left: auto; margin-right: auto; }
+.lp-hero-pills { justify-content: center; }
+
+@media (min-width: 760px) {
+    /* Two-column once we have room — video on the right, text on the left */
     .lp-hero {
-        grid-template-columns: 1fr;
-        gap: 16px;
-        padding: 96px 20px 20px;
-        align-items: start;
-        justify-items: center;
-        text-align: center;
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+        grid-template-areas: "content media";
+        gap: 36px;
+        padding: 76px 28px 28px;
     }
-    .lp-hero-text { justify-self: center; align-items: center; text-align: center; }
-    .lp-hero-text .lp-hero-desc { margin-left: auto; margin-right: auto; }
-    .lp-hero-pills { justify-content: center; }
-    .lp-hero-art { max-height: 40vh; }
+    .lp-hero-text {
+        align-items: flex-start;
+        text-align: left;
+        justify-self: end;
+        max-width: 480px;
+    }
+    .lp-hero-text .lp-hero-desc { margin: 0; }
+    .lp-hero-pills { justify-content: flex-start; }
+}
+@media (min-width: 1100px) {
+    /* On wider screens give the text a little more room — looks balanced
+       against the video's intrinsic 4:5-ish portrait aspect ratio */
+    .lp-hero {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+        gap: 56px;
+        padding: 80px 40px 40px;
+    }
 }
 .lp-hero-eyebrow {
     font-size: 11px;
@@ -1005,7 +1034,7 @@ body {
     color: #a78bfa;
 }
 .lp-hero-title {
-    font-size: clamp(34px, 4.6vw, 56px);
+    font-size: clamp(28px, 5.4vw, 56px);
     font-weight: 900;
     line-height: 1;
     letter-spacing: -1px;
@@ -1014,11 +1043,11 @@ body {
     text-shadow: 0 8px 30px rgba(124, 58, 237, 0.3);
 }
 .lp-hero-desc {
-    font-size: 13px;
+    font-size: clamp(12px, 1.4vw, 14px);
     line-height: 1.6;
     color: #9ca3af;
     margin: 0;
-    max-width: 380px;
+    max-width: 420px;
 }
 .lp-hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .lp-pill {
@@ -1054,23 +1083,36 @@ body {
     50%      { opacity: 1;   transform: scale(1.15); }
 }
 
+/* Hero media slot — wraps the welcome.mp4 cinematic. The wrapper has NO
+   forced aspect-ratio: it sizes itself to the video's natural ratio and
+   the video keeps its real proportions (object-fit:contain). max-width /
+   max-height cap the box to whatever space the grid cell allows so the
+   media can never overflow the hero, but Anubis is never stretched or
+   cropped. */
 .lp-hero-art {
+    grid-area: media;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 0;
+    width: 100%;
     height: 100%;
-    padding: 40px 60px;
-    overflow: visible;
+    min-width: 0;
+    min-height: 0;
     box-sizing: border-box;
+    padding: 0;
 }
 .lp-hero-art .hero-portrait-wrap {
     display: inline-flex;
+    position: relative;
     max-width: 100%;
     max-height: 100%;
-    align-items: center;
-    justify-content: center;
-    overflow: visible;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: transparent;
+    box-shadow:
+        0 30px 80px rgba(124, 58, 237, 0.32),
+        0 0 0 1px rgba(168, 85, 247, 0.28),
+        0 0 60px rgba(34, 211, 238, 0.14);
 }
 .lp-hero-art .hero-portrait {
     display: block;
@@ -1294,46 +1336,6 @@ body {
 .lp-bottom-center {
     display: none;
 }
-#landingContainer > #lower > #center { display: none !important; }
-.lp-news-wrap { transition: top 2s ease; position: relative; }
-.lp-news-btn {
-    background: rgba(139, 92, 246, 0.06);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    color: #c4b5fd;
-    border-radius: 14px 14px 0 0;
-    padding: 8px 24px 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    backdrop-filter: blur(14px);
-    transition: background 0.2s, color 0.2s, border-color 0.2s;
-    position: relative;
-}
-.lp-news-btn:hover {
-    background: rgba(168, 85, 247, 0.16);
-    color: #fff;
-    border-color: rgba(168, 85, 247, 0.45);
-}
-#newsButtonSVG { width: 20px; height: 20px; }
-#newsButtonText {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-}
-#newsButtonAlert {
-    position: absolute;
-    top: 6px;
-    right: 18px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #fbbf24;
-    box-shadow: 0 0 8px #fbbf24;
-    animation: heroPulse 1.5s ease-in-out infinite;
-}
-
 .lp-bottom-right {
     display: flex;
     flex-direction: column;
@@ -1436,114 +1438,6 @@ body {
     color: #9ca3af;
     letter-spacing: 0.3px;
 }
-
-/* News article overlay (slide-up panel) */
-#newsContainer {
-    position: absolute;
-    inset: 0;
-    z-index: 10;
-    background: rgba(7, 6, 18, 0.92);
-    backdrop-filter: blur(14px);
-    transition: top 2s ease;
-    top: 100%;
-    overflow: hidden;
-    padding: 24px 24px 80px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-}
-#newsContent {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    height: 100%;
-}
-#newsStatusContainer {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-    border-bottom: 1px solid rgba(168, 85, 247, 0.18);
-    padding-bottom: 14px;
-}
-#newsTitleContainer { flex: 1; }
-#newsArticleTitle {
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    color: #fff;
-}
-#newsMetaContainer {
-    display: flex;
-    gap: 14px;
-    margin-top: 4px;
-    font-size: 11px;
-    color: #9ca3af;
-}
-#newsArticleComments { color: #a78bfa; }
-#newsNavigationContainer {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-top: 4px;
-}
-#newsNavigateLeft, #newsNavigateRight {
-    width: 30px; height: 30px;
-    border-radius: 50%;
-    background: rgba(168, 85, 247, 0.12);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    color: #c4b5fd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, color 0.2s;
-}
-#newsNavigateLeft:hover, #newsNavigateRight:hover {
-    background: rgba(168, 85, 247, 0.28);
-    color: #fff;
-}
-#newsNavigationStatus {
-    font-size: 11px;
-    font-weight: 600;
-    color: #9ca3af;
-    min-width: 60px;
-    text-align: center;
-}
-#newsArticleContainer { flex: 1; min-height: 0; }
-#newsArticleContent { height: 100%; }
-#newsArticleContentScrollable {
-    height: 100%;
-    overflow-y: auto;
-    padding-right: 8px;
-    color: #d1d5db;
-    line-height: 1.7;
-    font-size: 13px;
-}
-#newsArticleContentScrollable img { max-width: 100%; border-radius: 8px; }
-#newsArticleContentScrollable a { color: #a78bfa; }
-#newsErrorContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    gap: 12px;
-}
-.newsErrorContent {
-    color: #9ca3af;
-    font-size: 13px;
-    letter-spacing: 0.3px;
-}
-#newsErrorRetry {
-    background: rgba(168, 85, 247, 0.18);
-    border: 1px solid rgba(168, 85, 247, 0.38);
-    color: #fff;
-    border-radius: 10px;
-    padding: 8px 18px;
-    font-size: 12px;
-    font-weight: 600;
-}
-#newsErrorRetry:hover { background: rgba(168, 85, 247, 0.32); }
 
 /* ───────────────────────────── Settings ──────────────────────────── */
 #settingsContainer {
