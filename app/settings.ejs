@@ -7,6 +7,7 @@
             <div id="settingsNavItemsContainer">
                 <div id="settingsNavItemsContent">
                     <button class="settingsNavItem" rSc="settingsTabAccount" id="settingsNavAccount" selected><%- lang('settings.navAccount') %></button>
+                    <button class="settingsNavItem" rSc="settingsTabCabinet"><%- lang('settings.navCabinet') %></button>
                     <button class="settingsNavItem" rSc="settingsTabMinecraft"><%- lang('settings.navMinecraft') %></button>
                     <button class="settingsNavItem" rSc="settingsTabMods"><%- lang('settings.navMods') %></button>
                     <button class="settingsNavItem" rSc="settingsTabJava"><%- lang('settings.navJava') %></button>
@@ -45,6 +46,15 @@
                     <!-- Auth accounts populated here. -->
                 </div>
             </div>
+        </div>
+        <!-- Cabinet tab — embeds the <anubis-cabinet> Web Component for
+             skin / cape / password management. The component handles its
+             own routing internally; we just hand it Supabase creds and
+             current locale, and pass `mode="launcher"` so it skips the
+             sign-out button (the launcher's own account tab handles
+             that). -->
+        <div id="settingsTabCabinet" class="settingsTab" style="display: none;">
+            <div id="cabinetMount"></div>
         </div>
         <div id="settingsTabMinecraft" class="settingsTab" style="display: none;">
             <div class="settingsTabHeader">

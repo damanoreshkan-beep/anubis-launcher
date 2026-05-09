@@ -67,6 +67,7 @@ accountSelectCancel = "Скасувати"
 [ejs.settings]
 navHeaderText = "Налаштування"
 navAccount = "Акаунт"
+navCabinet = "Скін"
 anubisAccount = "Акаунт AnubisWorld"
 addAccount = "+ Додати акаунт"
 navMinecraft = "Minecraft"

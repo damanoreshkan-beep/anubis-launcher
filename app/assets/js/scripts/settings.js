@@ -284,6 +284,14 @@ function settingsNavItemListener(ele, fade = true){
     document.getElementById(prevTab).onscroll = null
     document.getElementById(selectedSettingsTab).onscroll = settingsTabScrollListener
 
+    // Lazy-mount the <anubis-cabinet> Web Component the first time the
+    // user opens its tab. Cabinet's bundle is large (~900 KB / Three.js)
+    // so we don't want to load it during settings open if the user
+    // never visits the tab.
+    if(selectedSettingsTab === 'settingsTabCabinet'){
+        ensureCabinetMounted()
+    }
+
     if(fade){
         $(`#${prevTab}`).fadeOut(250, () => {
             $(`#${selectedSettingsTab}`).fadeIn({
@@ -1413,3 +1421,33 @@ async function prepareSettings(first = false) {
 
 // Prepare the settings UI on startup.
 //prepareSettings(true)
+
+// ─── Cabinet tab — embedded <anubis-cabinet> Web Component ─────────────────
+//
+// Mounts on first open (lazy — bundle is ~900 KB because of Three.js for
+// the 3D skin preview). Idempotent: subsequent opens are no-ops.
+//
+// The cabinet shares the same Supabase project as the auth widget, so
+// the user is already signed in by the time they reach this tab; the
+// component reads the session from localStorage on init.
+const sb_settingsCabinet = require('./assets/js/supabaseclient')
+const ConfigManager_settingsCabinet = require('./assets/js/configmanager')
+
+function ensureCabinetMounted(){
+    const mount = document.getElementById('cabinetMount')
+    if(!mount || mount.querySelector('anubis-cabinet')) return
+    const locale = ConfigManager_settingsCabinet.getCurrentLanguage() || 'en_US'
+    const widget = document.createElement('anubis-cabinet')
+    widget.setAttribute('supabase-url', sb_settingsCabinet.SUPABASE_URL)
+    widget.setAttribute('supabase-key', sb_settingsCabinet.SUPABASE_KEY)
+    widget.setAttribute('lang', locale.slice(0, 2).toLowerCase())
+    widget.setAttribute('mode', 'launcher')
+    mount.appendChild(widget)
+    if(!window.__anubisCabinetBundleLoaded){
+        window.__anubisCabinetBundleLoaded = true
+        const s = document.createElement('script')
+        s.type = 'module'
+        s.src = './assets/js/vendor/anubis-cabinet.js'
+        document.head.appendChild(s)
+    }
+}

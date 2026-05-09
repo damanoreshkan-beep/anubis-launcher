@@ -67,6 +67,7 @@ accountSelectCancel = "Abbrechen"
 [ejs.settings]
 navHeaderText = "Einstellungen"
 navAccount = "Konto"
+navCabinet = "Skin"
 anubisAccount = "AnubisWorld-Konto"
 addAccount = "+ Konto hinzufügen"
 navMinecraft = "Minecraft"
