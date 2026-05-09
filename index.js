@@ -297,10 +297,11 @@ ipcMain.handle('discord-auth-open', async (event, url) => {
     })
 })
 
-// Disable hardware acceleration.
-// https://electronjs.org/docs/tutorial/offscreen-rendering
-app.disableHardwareAcceleration()
-
+// Hardware acceleration stays on. Upstream Helios disabled it because
+// the launcher does its own offscreen rendering for Minecraft sprite
+// work, but we don't — and the cabinet's 3D skin preview is heavy
+// enough on CPU when it falls through to SwiftShader that we'd rather
+// let Chromium use the GPU.
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
