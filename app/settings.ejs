@@ -8,6 +8,7 @@
                 <div id="settingsNavItemsContent">
                     <button class="settingsNavItem" rSc="settingsTabAccount" id="settingsNavAccount" selected><%- lang('settings.navAccount') %></button>
                     <button class="settingsNavItem" rSc="settingsTabCabinet"><%- lang('settings.navCabinet') %></button>
+                    <button class="settingsNavItem" rSc="settingsTabPayments"><%- lang('settings.navPayments') %></button>
                     <button class="settingsNavItem" rSc="settingsTabMinecraft"><%- lang('settings.navMinecraft') %></button>
                     <button class="settingsNavItem" rSc="settingsTabMods"><%- lang('settings.navMods') %></button>
                     <button class="settingsNavItem" rSc="settingsTabJava"><%- lang('settings.navJava') %></button>
@@ -55,6 +56,15 @@
              that). -->
         <div id="settingsTabCabinet" class="settingsTab" style="display: none;">
             <div id="cabinetMount"></div>
+        </div>
+        <!-- Payments tab — embeds the <anubis-payments> Web Component
+             with the donation tiers and Mono / Donatello / DonatePay
+             links. Lazy-mounted on first visit (bundle ~395 KB) and
+             reuses the launcher's Supabase client via the shared event,
+             so it knows the user is signed in and renders the tiers
+             instead of the gate copy. -->
+        <div id="settingsTabPayments" class="settingsTab" style="display: none;">
+            <div id="paymentsMount"></div>
         </div>
         <div id="settingsTabMinecraft" class="settingsTab" style="display: none;">
             <div class="settingsTabHeader">

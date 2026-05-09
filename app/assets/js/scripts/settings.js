@@ -291,6 +291,12 @@ function settingsNavItemListener(ele, fade = true){
     if(selectedSettingsTab === 'settingsTabCabinet'){
         ensureCabinetMounted()
     }
+    // Same lazy pattern for the donations tab — the bundle is smaller
+    // (~395 KB, no Three.js) but the principle stands: don't pay for
+    // it until the user actually visits.
+    if(selectedSettingsTab === 'settingsTabPayments'){
+        ensurePaymentsMounted()
+    }
 
     if(fade){
         $(`#${prevTab}`).fadeOut(250, () => {
@@ -1448,6 +1454,30 @@ function ensureCabinetMounted(){
         const s = document.createElement('script')
         s.type = 'module'
         s.src = './assets/js/vendor/anubis-cabinet.js'
+        document.head.appendChild(s)
+    }
+}
+
+// ─── Payments tab — embedded <anubis-payments> Web Component ───────────────
+//
+// Same lazy-mount pattern as the cabinet. Reuses the launcher's Supabase
+// client through the `anubis-need-supabase` event so it sees the active
+// session and renders the tier cards instead of the sign-in gate.
+function ensurePaymentsMounted(){
+    const mount = document.getElementById('paymentsMount')
+    if(!mount || mount.querySelector('anubis-payments')) return
+    const locale = ConfigManager_settingsCabinet.getCurrentLanguage() || 'en_US'
+    const widget = document.createElement('anubis-payments')
+    widget.setAttribute('supabase-url', sb_settingsCabinet.SUPABASE_URL)
+    widget.setAttribute('supabase-key', sb_settingsCabinet.SUPABASE_KEY)
+    widget.setAttribute('lang', locale.slice(0, 2).toLowerCase())
+    widget.setAttribute('mode', 'launcher')
+    mount.appendChild(widget)
+    if(!window.__anubisPaymentsBundleLoaded){
+        window.__anubisPaymentsBundleLoaded = true
+        const s = document.createElement('script')
+        s.type = 'module'
+        s.src = './assets/js/vendor/anubis-payments.js'
         document.head.appendChild(s)
     }
 }
