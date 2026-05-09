@@ -45,7 +45,7 @@ function w(e, t) {
 function T(e) {
 	if (e.__P && e.__d) {
 		var n = e.__v, r = n.__e, i = [], a = [], o = v({}, n);
-		o.__v = n.__v + 1, t.vnode && t.vnode(o), te(e.__P, o, n, e.__n, e.__P.namespaceURI, 32 & n.__u ? [r] : null, i, r ?? w(n), !!(32 & n.__u), a), o.__v = n.__v, o.__.__k[o.__i] = o, re(i, o, a), n.__e = n.__ = null, o.__e != r && E(o);
+		o.__v = n.__v + 1, t.vnode && t.vnode(o), ne(e.__P, o, n, e.__n, e.__P.namespaceURI, 32 & n.__u ? [r] : null, i, r ?? w(n), !!(32 & n.__u), a), o.__v = n.__v, o.__.__k[o.__i] = o, ie(i, o, a), n.__e = n.__ = null, o.__e != r && E(o);
 	}
 }
 function E(e) {
@@ -65,13 +65,13 @@ function O() {
 }
 function k(e, t, n, r, i, a, o, s, c, l, u) {
 	var d, f, p, g, _, v, y, b = r && r.__k || h, x = t.length;
-	for (c = A(n, t, b, c, x), d = 0; d < x; d++) (p = n.__k[d]) != null && (f = p.__i != -1 && b[p.__i] || m, p.__i = d, v = te(e, p, f, i, a, o, s, c, l, u), g = p.__e, p.ref && f.ref != p.ref && (f.ref && oe(f.ref, null, p), u.push(p.ref, p.__c || g, p)), _ == null && g != null && (_ = g), (y = !!(4 & p.__u)) || f.__k === p.__k ? (c = j(p, c, e, y), y && f.__e && (f.__e = null)) : typeof p.type == "function" && v !== void 0 ? c = v : g && (c = g.nextSibling), p.__u &= -7);
+	for (c = A(n, t, b, c, x), d = 0; d < x; d++) (p = n.__k[d]) != null && (f = p.__i != -1 && b[p.__i] || m, p.__i = d, v = ne(e, p, f, i, a, o, s, c, l, u), g = p.__e, p.ref && f.ref != p.ref && (f.ref && se(f.ref, null, p), u.push(p.ref, p.__c || g, p)), _ == null && g != null && (_ = g), (y = !!(4 & p.__u)) || f.__k === p.__k ? (c = j(p, c, e, y), y && f.__e && (f.__e = null)) : typeof p.type == "function" && v !== void 0 ? c = v : g && (c = g.nextSibling), p.__u &= -7);
 	return n.__e = _, c;
 }
 function A(e, t, n, r, i) {
 	var a, o, s, c, l, u = n.length, d = u, f = 0;
 	for (e.__k = Array(i), a = 0; a < i; a++) (o = t[a]) != null && typeof o != "boolean" && typeof o != "function" ? (typeof o == "string" || typeof o == "number" || typeof o == "bigint" || o.constructor == String ? o = e.__k[a] = x(null, o, null, null, null) : _(o) ? o = e.__k[a] = x(S, { children: o }, null, null, null) : o.constructor === void 0 && o.__b > 0 ? o = e.__k[a] = x(o.type, o.props, o.key, o.ref ? o.ref : null, o.__v) : e.__k[a] = o, c = a + f, o.__ = e, o.__b = e.__b + 1, s = null, (l = o.__i = M(o, n, c, d)) != -1 && (d--, (s = n[l]) && (s.__u |= 2)), s == null || s.__v == null ? (l == -1 && (i > u ? f-- : i < u && f++), typeof o.type != "function" && (o.__u |= 4)) : l != c && (l == c - 1 ? f-- : l == c + 1 ? f++ : (l > c ? f-- : f++, o.__u |= 4))) : e.__k[a] = null;
-	if (d) for (a = 0; a < u; a++) (s = n[a]) != null && !(2 & s.__u) && (s.__e == r && (r = w(s)), se(s, s));
+	if (d) for (a = 0; a < u; a++) (s = n[a]) != null && !(2 & s.__u) && (s.__e == r && (r = w(s)), ce(s, s));
 	return r;
 }
 function j(e, t, n, r) {
@@ -114,7 +114,7 @@ function ee(e, t, n, r, i) {
 		typeof n == "function" || (n == null || !1 === n && t[4] != "-" ? e.removeAttribute(t) : e.setAttribute(t, t == "popover" && n == 1 ? "" : n));
 	}
 }
-function P(e) {
+function te(e) {
 	return function(n) {
 		if (this.l) {
 			var r = this.l[n.type + e];
@@ -124,12 +124,12 @@ function P(e) {
 		}
 	};
 }
-function te(e, n, r, i, a, o, s, c, l, u) {
+function ne(e, n, r, i, a, o, s, c, l, u) {
 	var d, f, p, m, g, b, x, w, T, E, D, O, A, j, M, N = n.type;
 	if (n.constructor !== void 0) return null;
 	128 & r.__u && (l = !!(32 & r.__u), o = [c = n.__e = r.__e]), (d = t.__b) && d(n);
 	n: if (typeof N == "function") try {
-		if (w = n.props, T = N.prototype && N.prototype.render, E = (d = N.contextType) && i[d.__c], D = d ? E ? E.props.value : d.__ : i, r.__c ? x = (f = n.__c = r.__c).__ = f.__E : (T ? n.__c = f = new N(w, D) : (n.__c = f = new C(w, D), f.constructor = N, f.render = ce), E && E.sub(f), f.state ||= {}, f.__n = i, p = f.__d = !0, f.__h = [], f._sb = []), T && f.__s == null && (f.__s = f.state), T && N.getDerivedStateFromProps != null && (f.__s == f.state && (f.__s = v({}, f.__s)), v(f.__s, N.getDerivedStateFromProps(w, f.__s))), m = f.props, g = f.state, f.__v = n, p) T && N.getDerivedStateFromProps == null && f.componentWillMount != null && f.componentWillMount(), T && f.componentDidMount != null && f.__h.push(f.componentDidMount);
+		if (w = n.props, T = N.prototype && N.prototype.render, E = (d = N.contextType) && i[d.__c], D = d ? E ? E.props.value : d.__ : i, r.__c ? x = (f = n.__c = r.__c).__ = f.__E : (T ? n.__c = f = new N(w, D) : (n.__c = f = new C(w, D), f.constructor = N, f.render = le), E && E.sub(f), f.state ||= {}, f.__n = i, p = f.__d = !0, f.__h = [], f._sb = []), T && f.__s == null && (f.__s = f.state), T && N.getDerivedStateFromProps != null && (f.__s == f.state && (f.__s = v({}, f.__s)), v(f.__s, N.getDerivedStateFromProps(w, f.__s))), m = f.props, g = f.state, f.__v = n, p) T && N.getDerivedStateFromProps == null && f.componentWillMount != null && f.componentWillMount(), T && f.componentDidMount != null && f.__h.push(f.componentDidMount);
 		else {
 			if (T && N.getDerivedStateFromProps == null && w !== m && f.componentWillReceiveProps != null && f.componentWillReceiveProps(w, D), n.__v == r.__v || !f.__e && f.shouldComponentUpdate != null && !1 === f.shouldComponentUpdate(w, f.__s, D)) {
 				n.__v != r.__v && (f.props = w, f.state = f.__s, f.__d = !1), n.__e = r.__e, n.__k = r.__k, n.__k.some(function(e) {
@@ -145,26 +145,26 @@ function te(e, n, r, i, a, o, s, c, l, u) {
 		else do
 			f.__d = !1, O && O(n), d = f.render(f.props, f.state, f.context), f.state = f.__s;
 		while (f.__d && ++A < 25);
-		f.state = f.__s, f.getChildContext != null && (i = v(v({}, i), f.getChildContext())), T && !p && f.getSnapshotBeforeUpdate != null && (b = f.getSnapshotBeforeUpdate(m, g)), j = d != null && d.type === S && d.key == null ? ie(d.props.children) : d, c = k(e, _(j) ? j : [j], n, r, i, a, o, s, c, l, u), f.base = n.__e, n.__u &= -161, f.__h.length && s.push(f), x && (f.__E = f.__ = null);
+		f.state = f.__s, f.getChildContext != null && (i = v(v({}, i), f.getChildContext())), T && !p && f.getSnapshotBeforeUpdate != null && (b = f.getSnapshotBeforeUpdate(m, g)), j = d != null && d.type === S && d.key == null ? ae(d.props.children) : d, c = k(e, _(j) ? j : [j], n, r, i, a, o, s, c, l, u), f.base = n.__e, n.__u &= -161, f.__h.length && s.push(f), x && (f.__E = f.__ = null);
 	} catch (e) {
 		if (n.__v = null, l || o != null) if (e.then) {
 			for (n.__u |= l ? 160 : 128; c && c.nodeType == 8 && c.nextSibling;) c = c.nextSibling;
 			o[o.indexOf(c)] = null, n.__e = c;
 		} else {
 			for (M = o.length; M--;) y(o[M]);
-			ne(n);
+			re(n);
 		}
-		else n.__e = r.__e, n.__k = r.__k, e.then || ne(n);
+		else n.__e = r.__e, n.__k = r.__k, e.then || re(n);
 		t.__e(e, n, r);
 	}
-	else o == null && n.__v == r.__v ? (n.__k = r.__k, n.__e = r.__e) : c = n.__e = ae(r.__e, n, r, i, a, o, s, l, u);
+	else o == null && n.__v == r.__v ? (n.__k = r.__k, n.__e = r.__e) : c = n.__e = oe(r.__e, n, r, i, a, o, s, l, u);
 	return (d = t.diffed) && d(n), 128 & n.__u ? void 0 : c;
 }
-function ne(e) {
-	e && (e.__c && (e.__c.__e = !0), e.__k && e.__k.some(ne));
+function re(e) {
+	e && (e.__c && (e.__c.__e = !0), e.__k && e.__k.some(re));
 }
-function re(e, n, r) {
-	for (var i = 0; i < r.length; i++) oe(r[i], r[++i], r[++i]);
+function ie(e, n, r) {
+	for (var i = 0; i < r.length; i++) se(r[i], r[++i], r[++i]);
 	t.__c && t.__c(n, e), e.some(function(n) {
 		try {
 			e = n.__h, n.__h = [], e.some(function(e) {
@@ -175,10 +175,10 @@ function re(e, n, r) {
 		}
 	});
 }
-function ie(e) {
-	return typeof e != "object" || !e || e.__b > 0 ? e : _(e) ? e.map(ie) : v({}, e);
+function ae(e) {
+	return typeof e != "object" || !e || e.__b > 0 ? e : _(e) ? e.map(ae) : v({}, e);
 }
-function ae(n, r, i, a, o, s, c, l, u) {
+function oe(n, r, i, a, o, s, c, l, u) {
 	var d, f, p, h, g, v, b, x = i.props || m, S = r.props, C = r.type;
 	if (C == "svg" ? o = "http://www.w3.org/2000/svg" : C == "math" ? o = "http://www.w3.org/1998/Math/MathML" : o ||= "http://www.w3.org/1999/xhtml", s != null) {
 		for (d = 0; d < s.length; d++) if ((g = s[d]) && "setAttribute" in g == !!C && (C ? g.localName == C : g.nodeType == 3)) {
@@ -201,7 +201,7 @@ function ae(n, r, i, a, o, s, c, l, u) {
 	}
 	return n;
 }
-function oe(e, n, r) {
+function se(e, n, r) {
 	try {
 		if (typeof e == "function") {
 			var i = typeof e.__u == "function";
@@ -211,9 +211,9 @@ function oe(e, n, r) {
 		t.__e(e, r);
 	}
 }
-function se(e, n, r) {
+function ce(e, n, r) {
 	var i, a;
-	if (t.unmount && t.unmount(e), (i = e.ref) && (i.current && i.current != e.__e || oe(i, null, n)), (i = e.__c) != null) {
+	if (t.unmount && t.unmount(e), (i = e.ref) && (i.current && i.current != e.__e || se(i, null, n)), (i = e.__c) != null) {
 		if (i.componentWillUnmount) try {
 			i.componentWillUnmount();
 		} catch (e) {
@@ -221,18 +221,18 @@ function se(e, n, r) {
 		}
 		i.base = i.__P = null;
 	}
-	if (i = e.__k) for (a = 0; a < i.length; a++) i[a] && se(i[a], n, r || typeof e.type != "function");
+	if (i = e.__k) for (a = 0; a < i.length; a++) i[a] && ce(i[a], n, r || typeof e.type != "function");
 	r || y(e.__e), e.__c = e.__ = e.__e = void 0;
 }
-function ce(e, t, n) {
+function le(e, t, n) {
 	return this.constructor(e, n);
 }
-function le(n, r, i) {
+function P(n, r, i) {
 	var a, o, s, c;
-	r == document && (r = document.documentElement), t.__ && t.__(n, r), o = (a = typeof i == "function") ? null : i && i.__k || r.__k, s = [], c = [], te(r, n = (!a && i || r).__k = b(S, null, [n]), o || m, m, r.namespaceURI, !a && i ? [i] : o ? null : r.firstChild ? e.call(r.childNodes) : null, s, !a && i ? i : o ? o.__e : r.firstChild, a, c), re(s, n, c);
+	r == document && (r = document.documentElement), t.__ && t.__(n, r), o = (a = typeof i == "function") ? null : i && i.__k || r.__k, s = [], c = [], ne(r, n = (!a && i || r).__k = b(S, null, [n]), o || m, m, r.namespaceURI, !a && i ? [i] : o ? null : r.firstChild ? e.call(r.childNodes) : null, s, !a && i ? i : o ? o.__e : r.firstChild, a, c), ie(s, n, c);
 }
 function ue(e, t) {
-	le(e, t, ue);
+	P(e, t, ue);
 }
 function de(t, n, r) {
 	var i, a, o, s, c = v({}, t.props);
@@ -253,7 +253,7 @@ e = h.slice, t = { __e: function(e, t, n, r) {
 	this.__v && (this.__e = !0, e && this.__h.push(e), D(this));
 }, C.prototype.render = S, r = [], a = typeof Promise == "function" ? Promise.prototype.then.bind(Promise.resolve()) : setTimeout, o = function(e, t) {
 	return e.__v.__b - t.__v.__b;
-}, O.__r = 0, s = Math.random().toString(8), c = "__d" + s, l = "__a" + s, u = /(PointerCapture)$|Capture$/i, d = 0, f = P(!1), p = P(!0);
+}, O.__r = 0, s = Math.random().toString(8), c = "__d" + s, l = "__a" + s, u = /(PointerCapture)$|Capture$/i, d = 0, f = te(!1), p = te(!0);
 //#endregion
 //#region node_modules/preact-custom-element/dist/preact-custom-element.esm.js
 function F() {
@@ -308,7 +308,7 @@ function z(e) {
 		bubbles: !0,
 		cancelable: !0
 	});
-	this.dispatchEvent(t), this._vdom = b(pe, F({}, this._props, { context: t.detail.context }), _e(this, this._vdomComponent, e)), (this.hasAttribute("hydrate") ? ue : le)(this._vdom, this._root);
+	this.dispatchEvent(t), this._vdom = b(pe, F({}, this._props, { context: t.detail.context }), _e(this, this._vdomComponent, e)), (this.hasAttribute("hydrate") ? ue : P)(this._vdom, this._root);
 }
 function B(e) {
 	return e.replace(/-(\w)/g, function(e, t) {
@@ -318,11 +318,11 @@ function B(e) {
 function me(e, t, n) {
 	if (this._vdom) {
 		var r = {};
-		r[e] = n ??= void 0, r[B(e)] = n, this._vdom = de(this._vdom, r), le(this._vdom, this._root);
+		r[e] = n ??= void 0, r[B(e)] = n, this._vdom = de(this._vdom, r), P(this._vdom, this._root);
 	}
 }
 function he() {
-	le(this._vdom = null, this._root);
+	P(this._vdom = null, this._root);
 }
 function ge(e, t) {
 	var n = this, r = e.useFragment, i = fe(e, L);
@@ -7899,6 +7899,8 @@ var ro = {
 		capeUpload: "Upload cape",
 		capeReplace: "Replace cape",
 		capeRemove: "Remove cape",
+		presetsTitle: "Presets",
+		externalSkinSites: "Where to find more skins",
 		passwordTitle: "Change password",
 		passwordCurrent: "Current password",
 		passwordNew: "New password",
@@ -7944,6 +7946,8 @@ var ro = {
 		capeUpload: "Загрузить плащ",
 		capeReplace: "Заменить плащ",
 		capeRemove: "Удалить плащ",
+		presetsTitle: "Готовые",
+		externalSkinSites: "Где найти ещё скины",
 		passwordTitle: "Сменить пароль",
 		passwordCurrent: "Текущий пароль",
 		passwordNew: "Новый пароль",
@@ -7989,6 +7993,8 @@ var ro = {
 		capeUpload: "Завантажити плащ",
 		capeReplace: "Замінити плащ",
 		capeRemove: "Видалити плащ",
+		presetsTitle: "Готові",
+		externalSkinSites: "Де знайти ще скіни",
 		passwordTitle: "Змінити пароль",
 		passwordCurrent: "Поточний пароль",
 		passwordNew: "Новий пароль",
@@ -8034,6 +8040,8 @@ var ro = {
 		capeUpload: "Umhang hochladen",
 		capeReplace: "Umhang ersetzen",
 		capeRemove: "Umhang entfernen",
+		presetsTitle: "Vorlagen",
+		externalSkinSites: "Mehr Skins finden",
 		passwordTitle: "Passwort ändern",
 		passwordCurrent: "Aktuelles Passwort",
 		passwordNew: "Neues Passwort",
@@ -8079,6 +8087,8 @@ var ro = {
 		capeUpload: "Wgraj pelerynę",
 		capeReplace: "Zamień pelerynę",
 		capeRemove: "Usuń pelerynę",
+		presetsTitle: "Szablony",
+		externalSkinSites: "Gdzie szukać więcej skórek",
 		passwordTitle: "Zmień hasło",
 		passwordCurrent: "Obecne hasło",
 		passwordNew: "Nowe hasło",
@@ -10162,8 +10172,8 @@ var dc = /* @__PURE__ */ new Xs(), fc = /* @__PURE__ */ new X(), pc = /* @__PURE
 		return this.multiplyMatrices(e, this);
 	}
 	multiplyMatrices(e, t) {
-		let n = e.elements, r = t.elements, i = this.elements, a = n[0], o = n[4], s = n[8], c = n[12], l = n[1], u = n[5], d = n[9], f = n[13], p = n[2], m = n[6], h = n[10], g = n[14], _ = n[3], v = n[7], y = n[11], b = n[15], x = r[0], S = r[4], C = r[8], w = r[12], T = r[1], E = r[5], D = r[9], O = r[13], k = r[2], A = r[6], j = r[10], M = r[14], N = r[3], ee = r[7], P = r[11], te = r[15];
-		return i[0] = a * x + o * T + s * k + c * N, i[4] = a * S + o * E + s * A + c * ee, i[8] = a * C + o * D + s * j + c * P, i[12] = a * w + o * O + s * M + c * te, i[1] = l * x + u * T + d * k + f * N, i[5] = l * S + u * E + d * A + f * ee, i[9] = l * C + u * D + d * j + f * P, i[13] = l * w + u * O + d * M + f * te, i[2] = p * x + m * T + h * k + g * N, i[6] = p * S + m * E + h * A + g * ee, i[10] = p * C + m * D + h * j + g * P, i[14] = p * w + m * O + h * M + g * te, i[3] = _ * x + v * T + y * k + b * N, i[7] = _ * S + v * E + y * A + b * ee, i[11] = _ * C + v * D + y * j + b * P, i[15] = _ * w + v * O + y * M + b * te, this;
+		let n = e.elements, r = t.elements, i = this.elements, a = n[0], o = n[4], s = n[8], c = n[12], l = n[1], u = n[5], d = n[9], f = n[13], p = n[2], m = n[6], h = n[10], g = n[14], _ = n[3], v = n[7], y = n[11], b = n[15], x = r[0], S = r[4], C = r[8], w = r[12], T = r[1], E = r[5], D = r[9], O = r[13], k = r[2], A = r[6], j = r[10], M = r[14], N = r[3], ee = r[7], te = r[11], ne = r[15];
+		return i[0] = a * x + o * T + s * k + c * N, i[4] = a * S + o * E + s * A + c * ee, i[8] = a * C + o * D + s * j + c * te, i[12] = a * w + o * O + s * M + c * ne, i[1] = l * x + u * T + d * k + f * N, i[5] = l * S + u * E + d * A + f * ee, i[9] = l * C + u * D + d * j + f * te, i[13] = l * w + u * O + d * M + f * ne, i[2] = p * x + m * T + h * k + g * N, i[6] = p * S + m * E + h * A + g * ee, i[10] = p * C + m * D + h * j + g * te, i[14] = p * w + m * O + h * M + g * ne, i[3] = _ * x + v * T + y * k + b * N, i[7] = _ * S + v * E + y * A + b * ee, i[11] = _ * C + v * D + y * j + b * te, i[15] = _ * w + v * O + y * M + b * ne, this;
 	}
 	multiplyScalar(e) {
 		let t = this.elements;
@@ -14587,7 +14597,7 @@ function zf(e, t, n, r, i, a, o) {
 			let e = xu[C];
 			D = e.vertexShader, O = e.fragmentShader;
 		} else D = a.vertexShader, O = a.fragmentShader, c.update(a), k = c.getVertexShaderID(a), A = c.getFragmentShaderID(a);
-		let j = e.getRenderTarget(), M = _.isInstancedMesh === !0, N = !!a.map, ee = !!a.matcap, P = !!x, te = !!a.aoMap, ne = !!a.lightMap, re = !!a.bumpMap, ie = !!a.normalMap, ae = !!a.displacementMap, oe = !!a.emissiveMap, se = !!a.metalnessMap, ce = !!a.roughnessMap, le = a.anisotropy > 0, ue = a.clearcoat > 0, de = a.iridescence > 0, F = a.sheen > 0, fe = a.transmission > 0, I = le && !!a.anisotropyMap, L = ue && !!a.clearcoatMap, R = ue && !!a.clearcoatNormalMap, pe = ue && !!a.clearcoatRoughnessMap, z = de && !!a.iridescenceMap, B = de && !!a.iridescenceThicknessMap, me = F && !!a.sheenColorMap, he = F && !!a.sheenRoughnessMap, ge = !!a.specularMap, _e = !!a.specularColorMap, ve = !!a.specularIntensityMap, V = fe && !!a.transmissionMap, ye = fe && !!a.thicknessMap, be = !!a.gradientMap, xe = !!a.alphaMap, Se = a.alphaTest > 0, H = !!a.alphaHash, Ce = !!a.extensions, we = !!y.attributes.uv1, Te = !!y.attributes.uv2, Ee = !!y.attributes.uv3, De = 0;
+		let j = e.getRenderTarget(), M = _.isInstancedMesh === !0, N = !!a.map, ee = !!a.matcap, te = !!x, ne = !!a.aoMap, re = !!a.lightMap, ie = !!a.bumpMap, ae = !!a.normalMap, oe = !!a.displacementMap, se = !!a.emissiveMap, ce = !!a.metalnessMap, le = !!a.roughnessMap, P = a.anisotropy > 0, ue = a.clearcoat > 0, de = a.iridescence > 0, F = a.sheen > 0, fe = a.transmission > 0, I = P && !!a.anisotropyMap, L = ue && !!a.clearcoatMap, R = ue && !!a.clearcoatNormalMap, pe = ue && !!a.clearcoatRoughnessMap, z = de && !!a.iridescenceMap, B = de && !!a.iridescenceThicknessMap, me = F && !!a.sheenColorMap, he = F && !!a.sheenRoughnessMap, ge = !!a.specularMap, _e = !!a.specularColorMap, ve = !!a.specularIntensityMap, V = fe && !!a.transmissionMap, ye = fe && !!a.thicknessMap, be = !!a.gradientMap, xe = !!a.alphaMap, Se = a.alphaTest > 0, H = !!a.alphaHash, Ce = !!a.extensions, we = !!y.attributes.uv1, Te = !!y.attributes.uv2, Ee = !!y.attributes.uv3, De = 0;
 		return a.toneMapped && (j === null || j.isXRRenderTarget === !0) && (De = e.toneMapping), {
 			isWebGL2: u,
 			shaderID: C,
@@ -14607,20 +14617,20 @@ function zf(e, t, n, r, i, a, o) {
 			outputColorSpace: j === null ? e.outputColorSpace : j.isXRRenderTarget === !0 ? j.texture.colorSpace : Vo,
 			map: N,
 			matcap: ee,
-			envMap: P,
-			envMapMode: P && x.mapping,
+			envMap: te,
+			envMapMode: te && x.mapping,
 			envMapCubeUVHeight: S,
-			aoMap: te,
-			lightMap: ne,
-			bumpMap: re,
-			normalMap: ie,
-			displacementMap: f && ae,
-			emissiveMap: oe,
-			normalMapObjectSpace: ie && a.normalMapType === 1,
-			normalMapTangentSpace: ie && a.normalMapType === 0,
-			metalnessMap: se,
-			roughnessMap: ce,
-			anisotropy: le,
+			aoMap: ne,
+			lightMap: re,
+			bumpMap: ie,
+			normalMap: ae,
+			displacementMap: f && oe,
+			emissiveMap: se,
+			normalMapObjectSpace: ae && a.normalMapType === 1,
+			normalMapTangentSpace: ae && a.normalMapType === 0,
+			metalnessMap: ce,
+			roughnessMap: le,
+			anisotropy: P,
 			anisotropyMap: I,
 			clearcoat: ue,
 			clearcoatMap: L,
@@ -14645,14 +14655,14 @@ function zf(e, t, n, r, i, a, o) {
 			alphaHash: H,
 			combine: a.combine,
 			mapUv: N && h(a.map.channel),
-			aoMapUv: te && h(a.aoMap.channel),
-			lightMapUv: ne && h(a.lightMap.channel),
-			bumpMapUv: re && h(a.bumpMap.channel),
-			normalMapUv: ie && h(a.normalMap.channel),
-			displacementMapUv: ae && h(a.displacementMap.channel),
-			emissiveMapUv: oe && h(a.emissiveMap.channel),
-			metalnessMapUv: se && h(a.metalnessMap.channel),
-			roughnessMapUv: ce && h(a.roughnessMap.channel),
+			aoMapUv: ne && h(a.aoMap.channel),
+			lightMapUv: re && h(a.lightMap.channel),
+			bumpMapUv: ie && h(a.bumpMap.channel),
+			normalMapUv: ae && h(a.normalMap.channel),
+			displacementMapUv: oe && h(a.displacementMap.channel),
+			emissiveMapUv: se && h(a.emissiveMap.channel),
+			metalnessMapUv: ce && h(a.metalnessMap.channel),
+			roughnessMapUv: le && h(a.roughnessMap.channel),
 			anisotropyMapUv: I && h(a.anisotropyMap.channel),
 			clearcoatMapUv: L && h(a.clearcoatMap.channel),
 			clearcoatNormalMapUv: R && h(a.clearcoatNormalMap.channel),
@@ -14667,7 +14677,7 @@ function zf(e, t, n, r, i, a, o) {
 			transmissionMapUv: V && h(a.transmissionMap.channel),
 			thicknessMapUv: ye && h(a.thicknessMap.channel),
 			alphaMapUv: xe && h(a.alphaMap.channel),
-			vertexTangents: !!y.attributes.tangent && (ie || le),
+			vertexTangents: !!y.attributes.tangent && (ae || P),
 			vertexColors: a.vertexColors,
 			vertexAlphas: a.vertexColors === !0 && !!y.attributes.color && y.attributes.color.itemSize === 4,
 			vertexUv1s: we,
@@ -15252,7 +15262,7 @@ function rp(e, t, n) {
 		let t = !1, n = null, r = null, i = null;
 		return {
 			setTest: function(t) {
-				t ? ce(e.DEPTH_TEST) : le(e.DEPTH_TEST);
+				t ? le(e.DEPTH_TEST) : P(e.DEPTH_TEST);
 			},
 			setMask: function(r) {
 				n !== r && !t && (e.depthMask(r), n = r);
@@ -15304,7 +15314,7 @@ function rp(e, t, n) {
 		let t = !1, n = null, r = null, i = null, a = null, o = null, s = null, c = null, l = null;
 		return {
 			setTest: function(n) {
-				t || (n ? ce(e.STENCIL_TEST) : le(e.STENCIL_TEST));
+				t || (n ? le(e.STENCIL_TEST) : P(e.STENCIL_TEST));
 			},
 			setMask: function(r) {
 				n !== r && !t && (e.stencilMask(r), n = r);
@@ -15328,19 +15338,19 @@ function rp(e, t, n) {
 	}
 	let s = new i(), c = new a(), l = new o(), u = /* @__PURE__ */ new WeakMap(), d = /* @__PURE__ */ new WeakMap(), f = {}, p = {}, m = /* @__PURE__ */ new WeakMap(), h = [], g = null, _ = !1, v = null, y = null, b = null, x = null, S = null, C = null, w = null, T = !1, E = null, D = null, O = null, k = null, A = null, j = e.getParameter(e.MAX_COMBINED_TEXTURE_IMAGE_UNITS), M = !1, N = 0, ee = e.getParameter(e.VERSION);
 	ee.indexOf("WebGL") === -1 ? ee.indexOf("OpenGL ES") !== -1 && (N = parseFloat(/^OpenGL ES (\d)/.exec(ee)[1]), M = N >= 2) : (N = parseFloat(/^WebGL (\d)/.exec(ee)[1]), M = N >= 1);
-	let P = null, te = {}, ne = e.getParameter(e.SCISSOR_BOX), re = e.getParameter(e.VIEWPORT), ie = new Hs().fromArray(ne), ae = new Hs().fromArray(re);
-	function oe(t, n, i, a) {
+	let te = null, ne = {}, re = e.getParameter(e.SCISSOR_BOX), ie = e.getParameter(e.VIEWPORT), ae = new Hs().fromArray(re), oe = new Hs().fromArray(ie);
+	function se(t, n, i, a) {
 		let o = new Uint8Array(4), s = e.createTexture();
 		e.bindTexture(t, s), e.texParameteri(t, e.TEXTURE_MIN_FILTER, e.NEAREST), e.texParameteri(t, e.TEXTURE_MAG_FILTER, e.NEAREST);
 		for (let s = 0; s < i; s++) r && (t === e.TEXTURE_3D || t === e.TEXTURE_2D_ARRAY) ? e.texImage3D(n, 0, e.RGBA, 1, 1, a, 0, e.RGBA, e.UNSIGNED_BYTE, o) : e.texImage2D(n + s, 0, e.RGBA, 1, 1, 0, e.RGBA, e.UNSIGNED_BYTE, o);
 		return s;
 	}
-	let se = {};
-	se[e.TEXTURE_2D] = oe(e.TEXTURE_2D, e.TEXTURE_2D, 1), se[e.TEXTURE_CUBE_MAP] = oe(e.TEXTURE_CUBE_MAP, e.TEXTURE_CUBE_MAP_POSITIVE_X, 6), r && (se[e.TEXTURE_2D_ARRAY] = oe(e.TEXTURE_2D_ARRAY, e.TEXTURE_2D_ARRAY, 1, 1), se[e.TEXTURE_3D] = oe(e.TEXTURE_3D, e.TEXTURE_3D, 1, 1)), s.setClear(0, 0, 0, 1), c.setClear(1), l.setClear(0), ce(e.DEPTH_TEST), c.setFunc(3), pe(!1), z(1), ce(e.CULL_FACE), L(0);
-	function ce(t) {
+	let ce = {};
+	ce[e.TEXTURE_2D] = se(e.TEXTURE_2D, e.TEXTURE_2D, 1), ce[e.TEXTURE_CUBE_MAP] = se(e.TEXTURE_CUBE_MAP, e.TEXTURE_CUBE_MAP_POSITIVE_X, 6), r && (ce[e.TEXTURE_2D_ARRAY] = se(e.TEXTURE_2D_ARRAY, e.TEXTURE_2D_ARRAY, 1, 1), ce[e.TEXTURE_3D] = se(e.TEXTURE_3D, e.TEXTURE_3D, 1, 1)), s.setClear(0, 0, 0, 1), c.setClear(1), l.setClear(0), le(e.DEPTH_TEST), c.setFunc(3), pe(!1), z(1), le(e.CULL_FACE), L(0);
+	function le(t) {
 		f[t] !== !0 && (e.enable(t), f[t] = !0);
 	}
-	function le(t) {
+	function P(t) {
 		f[t] !== !1 && (e.disable(t), f[t] = !1);
 	}
 	function ue(t, n) {
@@ -15386,10 +15396,10 @@ function rp(e, t, n) {
 	};
 	function L(t, n, r, i, a, o, s, c) {
 		if (t === 0) {
-			_ === !0 && (le(e.BLEND), _ = !1);
+			_ === !0 && (P(e.BLEND), _ = !1);
 			return;
 		}
-		if (_ === !1 && (ce(e.BLEND), _ = !0), t !== 5) {
+		if (_ === !1 && (le(e.BLEND), _ = !0), t !== 5) {
 			if (t !== v || c !== T) {
 				if ((y !== 100 || S !== 100) && (e.blendEquation(e.FUNC_ADD), y = 100, S = 100), c) switch (t) {
 					case 1:
@@ -15432,40 +15442,40 @@ function rp(e, t, n) {
 		a ||= n, o ||= r, s ||= i, (n !== y || a !== S) && (e.blendEquationSeparate(fe[n], fe[a]), y = n, S = a), (r !== b || i !== x || o !== C || s !== w) && (e.blendFuncSeparate(I[r], I[i], I[o], I[s]), b = r, x = i, C = o, w = s), v = t, T = !1;
 	}
 	function R(t, n) {
-		t.side === 2 ? le(e.CULL_FACE) : ce(e.CULL_FACE);
+		t.side === 2 ? P(e.CULL_FACE) : le(e.CULL_FACE);
 		let r = t.side === 1;
 		n && (r = !r), pe(r), t.blending === 1 && t.transparent === !1 ? L(0) : L(t.blending, t.blendEquation, t.blendSrc, t.blendDst, t.blendEquationAlpha, t.blendSrcAlpha, t.blendDstAlpha, t.premultipliedAlpha), c.setFunc(t.depthFunc), c.setTest(t.depthTest), c.setMask(t.depthWrite), s.setMask(t.colorWrite);
 		let i = t.stencilWrite;
-		l.setTest(i), i && (l.setMask(t.stencilWriteMask), l.setFunc(t.stencilFunc, t.stencilRef, t.stencilFuncMask), l.setOp(t.stencilFail, t.stencilZFail, t.stencilZPass)), me(t.polygonOffset, t.polygonOffsetFactor, t.polygonOffsetUnits), t.alphaToCoverage === !0 ? ce(e.SAMPLE_ALPHA_TO_COVERAGE) : le(e.SAMPLE_ALPHA_TO_COVERAGE);
+		l.setTest(i), i && (l.setMask(t.stencilWriteMask), l.setFunc(t.stencilFunc, t.stencilRef, t.stencilFuncMask), l.setOp(t.stencilFail, t.stencilZFail, t.stencilZPass)), me(t.polygonOffset, t.polygonOffsetFactor, t.polygonOffsetUnits), t.alphaToCoverage === !0 ? le(e.SAMPLE_ALPHA_TO_COVERAGE) : P(e.SAMPLE_ALPHA_TO_COVERAGE);
 	}
 	function pe(t) {
 		E !== t && (t ? e.frontFace(e.CW) : e.frontFace(e.CCW), E = t);
 	}
 	function z(t) {
-		t === 0 ? le(e.CULL_FACE) : (ce(e.CULL_FACE), t !== D && (t === 1 ? e.cullFace(e.BACK) : t === 2 ? e.cullFace(e.FRONT) : e.cullFace(e.FRONT_AND_BACK))), D = t;
+		t === 0 ? P(e.CULL_FACE) : (le(e.CULL_FACE), t !== D && (t === 1 ? e.cullFace(e.BACK) : t === 2 ? e.cullFace(e.FRONT) : e.cullFace(e.FRONT_AND_BACK))), D = t;
 	}
 	function B(t) {
 		t !== O && (M && e.lineWidth(t), O = t);
 	}
 	function me(t, n, r) {
-		t ? (ce(e.POLYGON_OFFSET_FILL), (k !== n || A !== r) && (e.polygonOffset(n, r), k = n, A = r)) : le(e.POLYGON_OFFSET_FILL);
+		t ? (le(e.POLYGON_OFFSET_FILL), (k !== n || A !== r) && (e.polygonOffset(n, r), k = n, A = r)) : P(e.POLYGON_OFFSET_FILL);
 	}
 	function he(t) {
-		t ? ce(e.SCISSOR_TEST) : le(e.SCISSOR_TEST);
+		t ? le(e.SCISSOR_TEST) : P(e.SCISSOR_TEST);
 	}
 	function ge(t) {
-		t === void 0 && (t = e.TEXTURE0 + j - 1), P !== t && (e.activeTexture(t), P = t);
+		t === void 0 && (t = e.TEXTURE0 + j - 1), te !== t && (e.activeTexture(t), te = t);
 	}
 	function _e(t, n, r) {
-		r === void 0 && (r = P === null ? e.TEXTURE0 + j - 1 : P);
-		let i = te[r];
+		r === void 0 && (r = te === null ? e.TEXTURE0 + j - 1 : te);
+		let i = ne[r];
 		i === void 0 && (i = {
 			type: void 0,
 			texture: void 0
-		}, te[r] = i), (i.type !== t || i.texture !== n) && (P !== r && (e.activeTexture(r), P = r), e.bindTexture(t, n || se[t]), i.type = t, i.texture = n);
+		}, ne[r] = i), (i.type !== t || i.texture !== n) && (te !== r && (e.activeTexture(r), te = r), e.bindTexture(t, n || ce[t]), i.type = t, i.texture = n);
 	}
 	function ve() {
-		let t = te[P];
+		let t = ne[te];
 		t !== void 0 && t.type !== void 0 && (e.bindTexture(t.type, null), t.type = void 0, t.texture = void 0);
 	}
 	function V() {
@@ -15539,10 +15549,10 @@ function rp(e, t, n) {
 		}
 	}
 	function De(t) {
-		ie.equals(t) === !1 && (e.scissor(t.x, t.y, t.z, t.w), ie.copy(t));
+		ae.equals(t) === !1 && (e.scissor(t.x, t.y, t.z, t.w), ae.copy(t));
 	}
 	function Oe(t) {
-		ae.equals(t) === !1 && (e.viewport(t.x, t.y, t.z, t.w), ae.copy(t));
+		oe.equals(t) === !1 && (e.viewport(t.x, t.y, t.z, t.w), oe.copy(t));
 	}
 	function ke(t, n) {
 		let r = d.get(n);
@@ -15555,7 +15565,7 @@ function rp(e, t, n) {
 		u.get(n) !== r && (e.uniformBlockBinding(n, r, t.__bindingPointIndex), u.set(n, r));
 	}
 	function je() {
-		e.disable(e.BLEND), e.disable(e.CULL_FACE), e.disable(e.DEPTH_TEST), e.disable(e.POLYGON_OFFSET_FILL), e.disable(e.SCISSOR_TEST), e.disable(e.STENCIL_TEST), e.disable(e.SAMPLE_ALPHA_TO_COVERAGE), e.blendEquation(e.FUNC_ADD), e.blendFunc(e.ONE, e.ZERO), e.blendFuncSeparate(e.ONE, e.ZERO, e.ONE, e.ZERO), e.colorMask(!0, !0, !0, !0), e.clearColor(0, 0, 0, 0), e.depthMask(!0), e.depthFunc(e.LESS), e.clearDepth(1), e.stencilMask(4294967295), e.stencilFunc(e.ALWAYS, 0, 4294967295), e.stencilOp(e.KEEP, e.KEEP, e.KEEP), e.clearStencil(0), e.cullFace(e.BACK), e.frontFace(e.CCW), e.polygonOffset(0, 0), e.activeTexture(e.TEXTURE0), e.bindFramebuffer(e.FRAMEBUFFER, null), r === !0 && (e.bindFramebuffer(e.DRAW_FRAMEBUFFER, null), e.bindFramebuffer(e.READ_FRAMEBUFFER, null)), e.useProgram(null), e.lineWidth(1), e.scissor(0, 0, e.canvas.width, e.canvas.height), e.viewport(0, 0, e.canvas.width, e.canvas.height), f = {}, P = null, te = {}, p = {}, m = /* @__PURE__ */ new WeakMap(), h = [], g = null, _ = !1, v = null, y = null, b = null, x = null, S = null, C = null, w = null, T = !1, E = null, D = null, O = null, k = null, A = null, ie.set(0, 0, e.canvas.width, e.canvas.height), ae.set(0, 0, e.canvas.width, e.canvas.height), s.reset(), c.reset(), l.reset();
+		e.disable(e.BLEND), e.disable(e.CULL_FACE), e.disable(e.DEPTH_TEST), e.disable(e.POLYGON_OFFSET_FILL), e.disable(e.SCISSOR_TEST), e.disable(e.STENCIL_TEST), e.disable(e.SAMPLE_ALPHA_TO_COVERAGE), e.blendEquation(e.FUNC_ADD), e.blendFunc(e.ONE, e.ZERO), e.blendFuncSeparate(e.ONE, e.ZERO, e.ONE, e.ZERO), e.colorMask(!0, !0, !0, !0), e.clearColor(0, 0, 0, 0), e.depthMask(!0), e.depthFunc(e.LESS), e.clearDepth(1), e.stencilMask(4294967295), e.stencilFunc(e.ALWAYS, 0, 4294967295), e.stencilOp(e.KEEP, e.KEEP, e.KEEP), e.clearStencil(0), e.cullFace(e.BACK), e.frontFace(e.CCW), e.polygonOffset(0, 0), e.activeTexture(e.TEXTURE0), e.bindFramebuffer(e.FRAMEBUFFER, null), r === !0 && (e.bindFramebuffer(e.DRAW_FRAMEBUFFER, null), e.bindFramebuffer(e.READ_FRAMEBUFFER, null)), e.useProgram(null), e.lineWidth(1), e.scissor(0, 0, e.canvas.width, e.canvas.height), e.viewport(0, 0, e.canvas.width, e.canvas.height), f = {}, te = null, ne = {}, p = {}, m = /* @__PURE__ */ new WeakMap(), h = [], g = null, _ = !1, v = null, y = null, b = null, x = null, S = null, C = null, w = null, T = !1, E = null, D = null, O = null, k = null, A = null, ae.set(0, 0, e.canvas.width, e.canvas.height), oe.set(0, 0, e.canvas.width, e.canvas.height), s.reset(), c.reset(), l.reset();
 	}
 	return {
 		buffers: {
@@ -15563,8 +15573,8 @@ function rp(e, t, n) {
 			depth: c,
 			stencil: l
 		},
-		enable: ce,
-		disable: le,
+		enable: le,
+		disable: P,
 		bindFramebuffer: ue,
 		drawBuffers: de,
 		useProgram: F,
@@ -15691,11 +15701,11 @@ function ip(e, t, n, r, i, a, o) {
 		let e = M;
 		return e >= c && console.warn("THREE.WebGLTextures: Trying to use " + e + " texture units while this GPU supports only " + c), M += 1, e;
 	}
-	function P(e) {
+	function te(e) {
 		let t = [];
 		return t.push(e.wrapS), t.push(e.wrapT), t.push(e.wrapR || 0), t.push(e.magFilter), t.push(e.minFilter), t.push(e.anisotropy), t.push(e.internalFormat), t.push(e.format), t.push(e.type), t.push(e.generateMipmaps), t.push(e.premultiplyAlpha), t.push(e.flipY), t.push(e.unpackAlignment), t.push(e.colorSpace), t.join();
 	}
-	function te(t, i) {
+	function ne(t, i) {
 		let a = r.get(t);
 		if (t.isVideoTexture && ge(t), t.isRenderTargetTexture === !1 && t.version > 0 && a.__version !== t.version) {
 			let e = t.image;
@@ -15708,7 +15718,7 @@ function ip(e, t, n, r, i, a, o) {
 		}
 		n.bindTexture(e.TEXTURE_2D, a.__webglTexture, e.TEXTURE0 + i);
 	}
-	function ne(t, i) {
+	function re(t, i) {
 		let a = r.get(t);
 		if (t.version > 0 && a.__version !== t.version) {
 			ue(a, t, i);
@@ -15716,7 +15726,7 @@ function ip(e, t, n, r, i, a, o) {
 		}
 		n.bindTexture(e.TEXTURE_2D_ARRAY, a.__webglTexture, e.TEXTURE0 + i);
 	}
-	function re(t, i) {
+	function ie(t, i) {
 		let a = r.get(t);
 		if (t.version > 0 && a.__version !== t.version) {
 			ue(a, t, i);
@@ -15724,7 +15734,7 @@ function ip(e, t, n, r, i, a, o) {
 		}
 		n.bindTexture(e.TEXTURE_3D, a.__webglTexture, e.TEXTURE0 + i);
 	}
-	function ie(t, i) {
+	function ae(t, i) {
 		let a = r.get(t);
 		if (t.version > 0 && a.__version !== t.version) {
 			de(a, t, i);
@@ -15732,18 +15742,18 @@ function ip(e, t, n, r, i, a, o) {
 		}
 		n.bindTexture(e.TEXTURE_CUBE_MAP, a.__webglTexture, e.TEXTURE0 + i);
 	}
-	let ae = {
+	let oe = {
 		[po]: e.REPEAT,
 		[mo]: e.CLAMP_TO_EDGE,
 		[ho]: e.MIRRORED_REPEAT
-	}, oe = {
+	}, se = {
 		[go]: e.NEAREST,
 		[_o]: e.NEAREST_MIPMAP_NEAREST,
 		[vo]: e.NEAREST_MIPMAP_LINEAR,
 		[yo]: e.LINEAR,
 		[bo]: e.LINEAR_MIPMAP_NEAREST,
 		[xo]: e.LINEAR_MIPMAP_LINEAR
-	}, se = {
+	}, ce = {
 		512: e.NEVER,
 		519: e.ALWAYS,
 		513: e.LESS,
@@ -15753,19 +15763,19 @@ function ip(e, t, n, r, i, a, o) {
 		516: e.GREATER,
 		517: e.NOTEQUAL
 	};
-	function ce(n, a, o) {
-		if (o ? (e.texParameteri(n, e.TEXTURE_WRAP_S, ae[a.wrapS]), e.texParameteri(n, e.TEXTURE_WRAP_T, ae[a.wrapT]), (n === e.TEXTURE_3D || n === e.TEXTURE_2D_ARRAY) && e.texParameteri(n, e.TEXTURE_WRAP_R, ae[a.wrapR]), e.texParameteri(n, e.TEXTURE_MAG_FILTER, oe[a.magFilter]), e.texParameteri(n, e.TEXTURE_MIN_FILTER, oe[a.minFilter])) : (e.texParameteri(n, e.TEXTURE_WRAP_S, e.CLAMP_TO_EDGE), e.texParameteri(n, e.TEXTURE_WRAP_T, e.CLAMP_TO_EDGE), (n === e.TEXTURE_3D || n === e.TEXTURE_2D_ARRAY) && e.texParameteri(n, e.TEXTURE_WRAP_R, e.CLAMP_TO_EDGE), (a.wrapS !== 1001 || a.wrapT !== 1001) && console.warn("THREE.WebGLRenderer: Texture is not power of two. Texture.wrapS and Texture.wrapT should be set to THREE.ClampToEdgeWrapping."), e.texParameteri(n, e.TEXTURE_MAG_FILTER, E(a.magFilter)), e.texParameteri(n, e.TEXTURE_MIN_FILTER, E(a.minFilter)), a.minFilter !== 1003 && a.minFilter !== 1006 && console.warn("THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter should be set to THREE.NearestFilter or THREE.LinearFilter.")), a.compareFunction && (e.texParameteri(n, e.TEXTURE_COMPARE_MODE, e.COMPARE_REF_TO_TEXTURE), e.texParameteri(n, e.TEXTURE_COMPARE_FUNC, se[a.compareFunction])), t.has("EXT_texture_filter_anisotropic") === !0) {
+	function le(n, a, o) {
+		if (o ? (e.texParameteri(n, e.TEXTURE_WRAP_S, oe[a.wrapS]), e.texParameteri(n, e.TEXTURE_WRAP_T, oe[a.wrapT]), (n === e.TEXTURE_3D || n === e.TEXTURE_2D_ARRAY) && e.texParameteri(n, e.TEXTURE_WRAP_R, oe[a.wrapR]), e.texParameteri(n, e.TEXTURE_MAG_FILTER, se[a.magFilter]), e.texParameteri(n, e.TEXTURE_MIN_FILTER, se[a.minFilter])) : (e.texParameteri(n, e.TEXTURE_WRAP_S, e.CLAMP_TO_EDGE), e.texParameteri(n, e.TEXTURE_WRAP_T, e.CLAMP_TO_EDGE), (n === e.TEXTURE_3D || n === e.TEXTURE_2D_ARRAY) && e.texParameteri(n, e.TEXTURE_WRAP_R, e.CLAMP_TO_EDGE), (a.wrapS !== 1001 || a.wrapT !== 1001) && console.warn("THREE.WebGLRenderer: Texture is not power of two. Texture.wrapS and Texture.wrapT should be set to THREE.ClampToEdgeWrapping."), e.texParameteri(n, e.TEXTURE_MAG_FILTER, E(a.magFilter)), e.texParameteri(n, e.TEXTURE_MIN_FILTER, E(a.minFilter)), a.minFilter !== 1003 && a.minFilter !== 1006 && console.warn("THREE.WebGLRenderer: Texture is not power of two. Texture.minFilter should be set to THREE.NearestFilter or THREE.LinearFilter.")), a.compareFunction && (e.texParameteri(n, e.TEXTURE_COMPARE_MODE, e.COMPARE_REF_TO_TEXTURE), e.texParameteri(n, e.TEXTURE_COMPARE_FUNC, ce[a.compareFunction])), t.has("EXT_texture_filter_anisotropic") === !0) {
 			let o = t.get("EXT_texture_filter_anisotropic");
 			if (a.magFilter === 1003 || a.minFilter !== 1005 && a.minFilter !== 1008 || a.type === 1015 && t.has("OES_texture_float_linear") === !1 || s === !1 && a.type === 1016 && t.has("OES_texture_half_float_linear") === !1) return;
 			(a.anisotropy > 1 || r.get(a).__currentAnisotropy) && (e.texParameterf(n, o.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(a.anisotropy, i.getMaxAnisotropy())), r.get(a).__currentAnisotropy = a.anisotropy);
 		}
 	}
-	function le(t, n) {
+	function P(t, n) {
 		let r = !1;
 		t.__webglInit === void 0 && (t.__webglInit = !0, n.addEventListener("dispose", D));
 		let i = n.source, a = g.get(i);
 		a === void 0 && (a = {}, g.set(i, a));
-		let s = P(n);
+		let s = te(n);
 		if (s !== t.__cacheKey) {
 			a[s] === void 0 && (a[s] = {
 				texture: e.createTexture(),
@@ -15779,7 +15789,7 @@ function ip(e, t, n, r, i, a, o) {
 	function ue(t, i, o) {
 		let c = e.TEXTURE_2D;
 		(i.isDataArrayTexture || i.isCompressedArrayTexture) && (c = e.TEXTURE_2D_ARRAY), i.isData3DTexture && (c = e.TEXTURE_3D);
-		let l = le(t, i), d = i.source;
+		let l = P(t, i), d = i.source;
 		n.bindTexture(c, t.__webglTexture, e.TEXTURE0 + o);
 		let f = r.get(d);
 		if (d.version !== f.__version || l === !0) {
@@ -15787,7 +15797,7 @@ function ip(e, t, n, r, i, a, o) {
 			let t = x(i) && b(i.image) === !1, r = y(i.image, t, !1, u);
 			r = _e(i, r);
 			let p = b(r) || s, m = a.convert(i.format, i.colorSpace), h = a.convert(i.type), g = w(i.internalFormat, m, h, i.colorSpace, i.isVideoTexture);
-			ce(c, i, p);
+			le(c, i, p);
 			let _, v = i.mipmaps, E = s && i.isVideoTexture !== !0, D = f.__version === void 0 || l === !0, O = T(i, r, p);
 			if (i.isDepthTexture) g = e.DEPTH_COMPONENT, s ? g = i.type === 1015 ? e.DEPTH_COMPONENT32F : i.type === 1014 ? e.DEPTH_COMPONENT24 : i.type === 1020 ? e.DEPTH24_STENCIL8 : e.DEPTH_COMPONENT16 : i.type === 1015 && console.error("WebGLRenderer: Floating point depth texture requires WebGL2."), i.format === 1026 && g === e.DEPTH_COMPONENT && i.type !== 1012 && i.type !== 1014 && (console.warn("THREE.WebGLRenderer: Use UnsignedShortType or UnsignedIntType for DepthFormat DepthTexture."), i.type = Co, h = a.convert(i.type)), i.format === 1027 && g === e.DEPTH_COMPONENT && (g = e.DEPTH_STENCIL, i.type !== 1020 && (console.warn("THREE.WebGLRenderer: Use UnsignedInt248Type for DepthStencilFormat DepthTexture."), i.type = Eo, h = a.convert(i.type))), D && (E ? n.texStorage2D(e.TEXTURE_2D, 1, g, r.width, r.height) : n.texImage2D(e.TEXTURE_2D, 0, g, r.width, r.height, 0, m, h, null));
 			else if (i.isDataTexture) if (v.length > 0 && p) {
@@ -15821,7 +15831,7 @@ function ip(e, t, n, r, i, a, o) {
 	}
 	function de(t, i, o) {
 		if (i.image.length !== 6) return;
-		let c = le(t, i), u = i.source;
+		let c = P(t, i), u = i.source;
 		n.bindTexture(e.TEXTURE_CUBE_MAP, t.__webglTexture, e.TEXTURE0 + o);
 		let d = r.get(u);
 		if (u.version !== d.__version || c === !0) {
@@ -15829,7 +15839,7 @@ function ip(e, t, n, r, i, a, o) {
 			let t = i.isCompressedTexture || i.image[0].isCompressedTexture, r = i.image[0] && i.image[0].isDataTexture, f = [];
 			for (let e = 0; e < 6; e++) !t && !r ? f[e] = y(i.image[e], !1, !0, l) : f[e] = r ? i.image[e].image : i.image[e], f[e] = _e(i, f[e]);
 			let p = f[0], m = b(p) || s, h = a.convert(i.format, i.colorSpace), g = a.convert(i.type), _ = w(i.internalFormat, h, g, i.colorSpace), v = s && i.isVideoTexture !== !0, x = d.__version === void 0 || c === !0, E = T(i, p, m);
-			ce(e.TEXTURE_CUBE_MAP, i, m);
+			le(e.TEXTURE_CUBE_MAP, i, m);
 			let D;
 			if (t) {
 				v && x && n.texStorage2D(e.TEXTURE_CUBE_MAP, E, _, p.width, p.height);
@@ -15893,7 +15903,7 @@ function ip(e, t, n, r, i, a, o) {
 	function I(t, i) {
 		if (i && i.isWebGLCubeRenderTarget) throw Error("Depth Texture with cube render targets is not supported");
 		if (n.bindFramebuffer(e.FRAMEBUFFER, t), !(i.depthTexture && i.depthTexture.isDepthTexture)) throw Error("renderTarget.depthTexture must be an instance of THREE.DepthTexture");
-		(!r.get(i.depthTexture).__webglTexture || i.depthTexture.image.width !== i.width || i.depthTexture.image.height !== i.height) && (i.depthTexture.image.width = i.width, i.depthTexture.image.height = i.height, i.depthTexture.needsUpdate = !0), te(i.depthTexture, 0);
+		(!r.get(i.depthTexture).__webglTexture || i.depthTexture.image.width !== i.width || i.depthTexture.image.height !== i.height) && (i.depthTexture.image.width = i.width, i.depthTexture.image.height = i.height, i.depthTexture.needsUpdate = !0), ne(i.depthTexture, 0);
 		let a = r.get(i.depthTexture).__webglTexture, o = me(i);
 		if (i.depthTexture.format === 1026) he(i) ? f.framebufferTexture2DMultisampleEXT(e.FRAMEBUFFER, e.DEPTH_ATTACHMENT, e.TEXTURE_2D, a, 0, o) : e.framebufferTexture2D(e.FRAMEBUFFER, e.DEPTH_ATTACHMENT, e.TEXTURE_2D, a, 0);
 		else if (i.depthTexture.format === 1027) he(i) ? f.framebufferTexture2DMultisampleEXT(e.FRAMEBUFFER, e.DEPTH_STENCIL_ATTACHMENT, e.TEXTURE_2D, a, 0, o) : e.framebufferTexture2D(e.FRAMEBUFFER, e.DEPTH_STENCIL_ATTACHMENT, e.TEXTURE_2D, a, 0);
@@ -15949,7 +15959,7 @@ function ip(e, t, n, r, i, a, o) {
 			}
 		}
 		if (d) {
-			n.bindTexture(e.TEXTURE_CUBE_MAP, u.__webglTexture), ce(e.TEXTURE_CUBE_MAP, c, p);
+			n.bindTexture(e.TEXTURE_CUBE_MAP, u.__webglTexture), le(e.TEXTURE_CUBE_MAP, c, p);
 			for (let n = 0; n < 6; n++) if (s && c.mipmaps && c.mipmaps.length > 0) for (let r = 0; r < c.mipmaps.length; r++) F(l.__webglFramebuffer[n][r], t, c, e.COLOR_ATTACHMENT0, e.TEXTURE_CUBE_MAP_POSITIVE_X + n, r);
 			else F(l.__webglFramebuffer[n], t, c, e.COLOR_ATTACHMENT0, e.TEXTURE_CUBE_MAP_POSITIVE_X + n, 0);
 			S(c, p) && C(e.TEXTURE_CUBE_MAP), n.unbindTexture();
@@ -15957,12 +15967,12 @@ function ip(e, t, n, r, i, a, o) {
 			let i = t.texture;
 			for (let a = 0, o = i.length; a < o; a++) {
 				let o = i[a], s = r.get(o);
-				n.bindTexture(e.TEXTURE_2D, s.__webglTexture), ce(e.TEXTURE_2D, o, p), F(l.__webglFramebuffer, t, o, e.COLOR_ATTACHMENT0 + a, e.TEXTURE_2D, 0), S(o, p) && C(e.TEXTURE_2D);
+				n.bindTexture(e.TEXTURE_2D, s.__webglTexture), le(e.TEXTURE_2D, o, p), F(l.__webglFramebuffer, t, o, e.COLOR_ATTACHMENT0 + a, e.TEXTURE_2D, 0), S(o, p) && C(e.TEXTURE_2D);
 			}
 			n.unbindTexture();
 		} else {
 			let r = e.TEXTURE_2D;
-			if ((t.isWebGL3DRenderTarget || t.isWebGLArrayRenderTarget) && (s ? r = t.isWebGL3DRenderTarget ? e.TEXTURE_3D : e.TEXTURE_2D_ARRAY : console.error("THREE.WebGLTextures: THREE.Data3DTexture and THREE.DataArrayTexture only supported with WebGL2.")), n.bindTexture(r, u.__webglTexture), ce(r, c, p), s && c.mipmaps && c.mipmaps.length > 0) for (let n = 0; n < c.mipmaps.length; n++) F(l.__webglFramebuffer[n], t, c, e.COLOR_ATTACHMENT0, r, n);
+			if ((t.isWebGL3DRenderTarget || t.isWebGLArrayRenderTarget) && (s ? r = t.isWebGL3DRenderTarget ? e.TEXTURE_3D : e.TEXTURE_2D_ARRAY : console.error("THREE.WebGLTextures: THREE.Data3DTexture and THREE.DataArrayTexture only supported with WebGL2.")), n.bindTexture(r, u.__webglTexture), le(r, c, p), s && c.mipmaps && c.mipmaps.length > 0) for (let n = 0; n < c.mipmaps.length; n++) F(l.__webglFramebuffer[n], t, c, e.COLOR_ATTACHMENT0, r, n);
 			else F(l.__webglFramebuffer, t, c, e.COLOR_ATTACHMENT0, r, 0);
 			S(c, p) && C(r), n.unbindTexture();
 		}
@@ -16015,7 +16025,7 @@ function ip(e, t, n, r, i, a, o) {
 		let r = e.colorSpace, i = e.format, a = e.type;
 		return e.isCompressedTexture === !0 || e.isVideoTexture === !0 || e.format === 1035 || r !== "srgb-linear" && r !== "" && (r === "srgb" || r === "display-p3" ? s === !1 ? t.has("EXT_sRGB") === !0 && i === 1023 ? (e.format = Go, e.minFilter = yo, e.generateMipmaps = !1) : n = Is.sRGBToLinear(n) : (i !== 1023 || a !== 1009) && console.warn("THREE.WebGLTextures: sRGB encoded textures have to use RGBAFormat and UnsignedByteType.") : console.error("THREE.WebGLTextures: Unsupported texture color space:", r)), n;
 	}
-	this.allocateTextureUnit = ee, this.resetTextureUnits = N, this.setTexture2D = te, this.setTexture2DArray = ne, this.setTexture3D = re, this.setTextureCube = ie, this.rebindTextures = R, this.setupRenderTarget = pe, this.updateRenderTargetMipmap = z, this.updateMultisampleRenderTarget = B, this.setupDepthRenderbuffer = L, this.setupFrameBufferTexture = F, this.useMultisampledRTT = he;
+	this.allocateTextureUnit = ee, this.resetTextureUnits = N, this.setTexture2D = ne, this.setTexture2DArray = re, this.setTexture3D = ie, this.setTextureCube = ae, this.rebindTextures = R, this.setupRenderTarget = pe, this.updateRenderTargetMipmap = z, this.updateMultisampleRenderTarget = B, this.setupDepthRenderbuffer = L, this.setupFrameBufferTexture = F, this.useMultisampledRTT = he;
 }
 var ap = 0, op = 1;
 function sp(e, t, n) {
@@ -16219,7 +16229,7 @@ var cp = class extends au {
 				let t = v[e];
 				t !== null && (v[e] = null, _[e].disconnect(t));
 			}
-			C = null, w = null, e.setRenderTarget(h), f = null, d = null, u = null, r = null, g = null, P.stop(), n.isPresenting = !1, n.dispatchEvent({ type: "sessionend" });
+			C = null, w = null, e.setRenderTarget(h), f = null, d = null, u = null, r = null, g = null, te.stop(), n.isPresenting = !1, n.dispatchEvent({ type: "sessionend" });
 		}
 		this.setFramebufferScaleFactor = function(e) {
 			i = e, n.isPresenting === !0 && console.warn("THREE.WebXRManager: Cannot change framebuffer scale while presenting.");
@@ -16272,7 +16282,7 @@ var cp = class extends au {
 					let c = e.properties.get(g);
 					c.__ignoreDepthValues = d.ignoreDepthValues;
 				}
-				g.isXRRenderTarget = !0, this.setFoveation(s), c = null, a = await r.requestReferenceSpace(o), P.setContext(r), P.start(), n.isPresenting = !0, n.dispatchEvent({ type: "sessionstart" });
+				g.isXRRenderTarget = !0, this.setFoveation(s), c = null, a = await r.requestReferenceSpace(o), te.setContext(r), te.start(), n.isPresenting = !0, n.dispatchEvent({ type: "sessionstart" });
 			}
 		}, this.getEnvironmentBlendMode = function() {
 			if (r !== null) return r.environmentBlendMode;
@@ -16357,8 +16367,8 @@ var cp = class extends au {
 				data: r
 			}), p = null;
 		}
-		let P = new vu();
-		P.setAnimationLoop(ee), this.setAnimationLoop = function(e) {
+		let te = new vu();
+		te.setAnimationLoop(ee), this.setAnimationLoop = function(e) {
 			N = e;
 		}, this.dispose = function() {};
 	}
@@ -16534,7 +16544,7 @@ var gp = class {
 			checkShaderErrors: !0,
 			onShaderError: null
 		}, this.autoClear = !0, this.autoClearColor = !0, this.autoClearDepth = !0, this.autoClearStencil = !0, this.sortObjects = !0, this.clippingPlanes = [], this.localClippingEnabled = !1, this.outputColorSpace = Bo, this._useLegacyLights = !1, this.toneMapping = 0, this.toneMappingExposure = 1;
-		let v = this, y = !1, b = 0, x = 0, S = null, C = -1, w = null, T = new Hs(), E = new Hs(), D = null, O = new Z(0), k = 0, A = t.width, j = t.height, M = 1, N = null, ee = null, P = new Hs(0, 0, A, j), te = new Hs(0, 0, A, j), ne = !1, re = new _u(), ie = !1, ae = !1, oe = null, se = new Cc(), ce = new J(), le = new X(), ue = {
+		let v = this, y = !1, b = 0, x = 0, S = null, C = -1, w = null, T = new Hs(), E = new Hs(), D = null, O = new Z(0), k = 0, A = t.width, j = t.height, M = 1, N = null, ee = null, te = new Hs(0, 0, A, j), ne = new Hs(0, 0, A, j), re = !1, ie = new _u(), ae = !1, oe = !1, se = null, ce = new Cc(), le = new J(), P = new X(), ue = {
 			background: null,
 			fog: null,
 			environment: null,
@@ -16616,17 +16626,17 @@ var gp = class {
 		}, this.getCurrentViewport = function(e) {
 			return e.copy(T);
 		}, this.getViewport = function(e) {
-			return e.copy(P);
-		}, this.setViewport = function(e, t, n, r) {
-			e.isVector4 ? P.set(e.x, e.y, e.z, e.w) : P.set(e, t, n, r), R.viewport(T.copy(P).multiplyScalar(M).floor());
-		}, this.getScissor = function(e) {
 			return e.copy(te);
+		}, this.setViewport = function(e, t, n, r) {
+			e.isVector4 ? te.set(e.x, e.y, e.z, e.w) : te.set(e, t, n, r), R.viewport(T.copy(te).multiplyScalar(M).floor());
+		}, this.getScissor = function(e) {
+			return e.copy(ne);
 		}, this.setScissor = function(e, t, n, r) {
-			e.isVector4 ? te.set(e.x, e.y, e.z, e.w) : te.set(e, t, n, r), R.scissor(E.copy(te).multiplyScalar(M).floor());
+			e.isVector4 ? ne.set(e.x, e.y, e.z, e.w) : ne.set(e, t, n, r), R.scissor(E.copy(ne).multiplyScalar(M).floor());
 		}, this.getScissorTest = function() {
-			return ne;
+			return re;
 		}, this.setScissorTest = function(e) {
-			R.setScissorTest(ne = e);
+			R.setScissorTest(re = e);
 		}, this.setOpaqueSort = function(e) {
 			N = e;
 		}, this.setTransparentSort = function(e) {
@@ -16660,7 +16670,7 @@ var gp = class {
 		}, this.clearStencil = function() {
 			this.clear(!1, !1, !0);
 		}, this.dispose = function() {
-			t.removeEventListener("webglcontextlost", Me, !1), t.removeEventListener("webglcontextrestored", Ne, !1), t.removeEventListener("webglcontextcreationerror", Pe, !1), be.dispose(), xe.dispose(), z.dispose(), me.dispose(), he.dispose(), ve.dispose(), Oe.dispose(), ke.dispose(), V.dispose(), je.dispose(), je.removeEventListener("sessionstart", Be), je.removeEventListener("sessionend", Ve), oe &&= (oe.dispose(), null), He.stop();
+			t.removeEventListener("webglcontextlost", Me, !1), t.removeEventListener("webglcontextrestored", Ne, !1), t.removeEventListener("webglcontextcreationerror", Pe, !1), be.dispose(), xe.dispose(), z.dispose(), me.dispose(), he.dispose(), ve.dispose(), Oe.dispose(), ke.dispose(), V.dispose(), je.dispose(), je.removeEventListener("sessionstart", Be), je.removeEventListener("sessionend", Ve), se &&= (se.dispose(), null), He.stop();
 		};
 		function Me(e) {
 			e.preventDefault(), console.log("THREE.WebGLRenderer: Context Lost."), y = !0;
@@ -16745,9 +16755,9 @@ var gp = class {
 				return;
 			}
 			if (y === !0) return;
-			e.matrixWorldAutoUpdate === !0 && e.updateMatrixWorld(), t.parent === null && t.matrixWorldAutoUpdate === !0 && t.updateMatrixWorld(), je.enabled === !0 && je.isPresenting === !0 && (je.cameraAutoUpdate === !0 && je.updateCamera(t), t = je.getCamera()), e.isScene === !0 && e.onBeforeRender(v, e, t, S), h = xe.get(e, _.length), h.init(), _.push(h), se.multiplyMatrices(t.projectionMatrix, t.matrixWorldInverse), re.setFromProjectionMatrix(se), ae = this.localClippingEnabled, ie = Se.init(this.clippingPlanes, ae), m = be.get(e, g.length), m.init(), g.push(m), Ue(e, t, 0, v.sortObjects), m.finish(), v.sortObjects === !0 && m.sort(N, ee), this.info.render.frame++, ie === !0 && Se.beginShadows();
+			e.matrixWorldAutoUpdate === !0 && e.updateMatrixWorld(), t.parent === null && t.matrixWorldAutoUpdate === !0 && t.updateMatrixWorld(), je.enabled === !0 && je.isPresenting === !0 && (je.cameraAutoUpdate === !0 && je.updateCamera(t), t = je.getCamera()), e.isScene === !0 && e.onBeforeRender(v, e, t, S), h = xe.get(e, _.length), h.init(), _.push(h), ce.multiplyMatrices(t.projectionMatrix, t.matrixWorldInverse), ie.setFromProjectionMatrix(ce), oe = this.localClippingEnabled, ae = Se.init(this.clippingPlanes, oe), m = be.get(e, g.length), m.init(), g.push(m), Ue(e, t, 0, v.sortObjects), m.finish(), v.sortObjects === !0 && m.sort(N, ee), this.info.render.frame++, ae === !0 && Se.beginShadows();
 			let n = h.state.shadowsArray;
-			if (H.render(n, e, t), ie === !0 && Se.endShadows(), this.info.autoReset === !0 && this.info.reset(), Ce.render(m, e), h.setupLights(v._useLegacyLights), t.isArrayCamera) {
+			if (H.render(n, e, t), ae === !0 && Se.endShadows(), this.info.autoReset === !0 && this.info.reset(), Ce.render(m, e), h.setupLights(v._useLegacyLights), t.isArrayCamera) {
 				let n = t.cameras;
 				for (let t = 0, r = n.length; t < r; t++) {
 					let r = n[t];
@@ -16763,20 +16773,20 @@ var gp = class {
 				else if (e.isLOD) e.autoUpdate === !0 && e.update(t);
 				else if (e.isLight) h.pushLight(e), e.castShadow && h.pushShadow(e);
 				else if (e.isSprite) {
-					if (!e.frustumCulled || re.intersectsSprite(e)) {
-						r && le.setFromMatrixPosition(e.matrixWorld).applyMatrix4(se);
+					if (!e.frustumCulled || ie.intersectsSprite(e)) {
+						r && P.setFromMatrixPosition(e.matrixWorld).applyMatrix4(ce);
 						let t = ve.update(e), i = e.material;
-						i.visible && m.push(e, t, i, n, le.z, null);
+						i.visible && m.push(e, t, i, n, P.z, null);
 					}
-				} else if ((e.isMesh || e.isLine || e.isPoints) && (!e.frustumCulled || re.intersectsObject(e))) {
+				} else if ((e.isMesh || e.isLine || e.isPoints) && (!e.frustumCulled || ie.intersectsObject(e))) {
 					let t = ve.update(e), i = e.material;
-					if (r && (e.boundingSphere === void 0 ? (t.boundingSphere === null && t.computeBoundingSphere(), le.copy(t.boundingSphere.center)) : (e.boundingSphere === null && e.computeBoundingSphere(), le.copy(e.boundingSphere.center)), le.applyMatrix4(e.matrixWorld).applyMatrix4(se)), Array.isArray(i)) {
+					if (r && (e.boundingSphere === void 0 ? (t.boundingSphere === null && t.computeBoundingSphere(), P.copy(t.boundingSphere.center)) : (e.boundingSphere === null && e.computeBoundingSphere(), P.copy(e.boundingSphere.center)), P.applyMatrix4(e.matrixWorld).applyMatrix4(ce)), Array.isArray(i)) {
 						let r = t.groups;
 						for (let a = 0, o = r.length; a < o; a++) {
 							let o = r[a], s = i[o.materialIndex];
-							s && s.visible && m.push(e, t, s, n, le.z, o);
+							s && s.visible && m.push(e, t, s, n, P.z, o);
 						}
-					} else i.visible && m.push(e, t, i, n, le.z, null);
+					} else i.visible && m.push(e, t, i, n, P.z, null);
 				}
 			}
 			let i = e.children;
@@ -16784,20 +16794,20 @@ var gp = class {
 		}
 		function We(e, t, n, r) {
 			let i = e.opaque, a = e.transmissive, o = e.transparent;
-			h.setupLightsView(n), ie === !0 && Se.setGlobalState(v.clippingPlanes, n), a.length > 0 && Ge(i, a, t, n), r && R.viewport(T.copy(r)), i.length > 0 && Ke(i, t, n), a.length > 0 && Ke(a, t, n), o.length > 0 && Ke(o, t, n), R.buffers.depth.setTest(!0), R.buffers.depth.setMask(!0), R.buffers.color.setMask(!0), R.setPolygonOffset(!1);
+			h.setupLightsView(n), ae === !0 && Se.setGlobalState(v.clippingPlanes, n), a.length > 0 && Ge(i, a, t, n), r && R.viewport(T.copy(r)), i.length > 0 && Ke(i, t, n), a.length > 0 && Ke(a, t, n), o.length > 0 && Ke(o, t, n), R.buffers.depth.setTest(!0), R.buffers.depth.setMask(!0), R.buffers.color.setMask(!0), R.setPolygonOffset(!1);
 		}
 		function Ge(e, t, n, r) {
 			let i = L.isWebGL2;
-			oe === null && (oe = new Ws(1, 1, {
+			se === null && (se = new Ws(1, 1, {
 				generateMipmaps: !0,
 				type: I.has("EXT_color_buffer_half_float") ? To : So,
 				minFilter: xo,
 				samples: i ? 4 : 0
-			})), v.getDrawingBufferSize(ce), i ? oe.setSize(ce.x, ce.y) : oe.setSize(gs(ce.x), gs(ce.y));
+			})), v.getDrawingBufferSize(le), i ? se.setSize(le.x, le.y) : se.setSize(gs(le.x), gs(le.y));
 			let a = v.getRenderTarget();
-			v.setRenderTarget(oe), v.getClearColor(O), k = v.getClearAlpha(), k < 1 && v.setClearColor(16777215, .5), v.clear();
+			v.setRenderTarget(se), v.getClearColor(O), k = v.getClearAlpha(), k < 1 && v.setClearColor(16777215, .5), v.clear();
 			let o = v.toneMapping;
-			v.toneMapping = 0, Ke(e, n, r), B.updateMultisampleRenderTarget(oe), B.updateRenderTargetMipmap(oe);
+			v.toneMapping = 0, Ke(e, n, r), B.updateMultisampleRenderTarget(se), B.updateRenderTargetMipmap(se);
 			let s = !1;
 			for (let e = 0, i = t.length; e < i; e++) {
 				let i = t[e], a = i.object, o = i.geometry, c = i.material, l = i.group;
@@ -16806,7 +16816,7 @@ var gp = class {
 					c.side = 1, c.needsUpdate = !0, qe(a, n, r, o, c, l), c.side = e, c.needsUpdate = !0, s = !0;
 				}
 			}
-			s === !0 && (B.updateMultisampleRenderTarget(oe), B.updateRenderTargetMipmap(oe)), v.setRenderTarget(a), v.setClearColor(O, k), v.toneMapping = o;
+			s === !0 && (B.updateMultisampleRenderTarget(se), B.updateRenderTargetMipmap(se)), v.setRenderTarget(a), v.setClearColor(O, k), v.toneMapping = o;
 		}
 		function Ke(e, t, n) {
 			let r = t.isScene === !0 ? t.overrideMaterial : null;
@@ -16840,7 +16850,7 @@ var gp = class {
 			let a = t.fog, o = r.isMeshStandardMaterial ? t.environment : null, s = S === null ? v.outputColorSpace : S.isXRRenderTarget === !0 ? S.texture.colorSpace : Vo, c = (r.isMeshStandardMaterial ? he : me).get(r.envMap || o), l = r.vertexColors === !0 && !!n.attributes.color && n.attributes.color.itemSize === 4, u = !!n.attributes.tangent && (!!r.normalMap || r.anisotropy > 0), d = !!n.morphAttributes.position, f = !!n.morphAttributes.normal, p = !!n.morphAttributes.color, m = 0;
 			r.toneMapped && (S === null || S.isXRRenderTarget === !0) && (m = v.toneMapping);
 			let g = n.morphAttributes.position || n.morphAttributes.normal || n.morphAttributes.color, _ = g === void 0 ? 0 : g.length, y = z.get(r), b = h.state.lights;
-			if (ie === !0 && (ae === !0 || e !== w)) {
+			if (ae === !0 && (oe === !0 || e !== w)) {
 				let t = e === w && r.id === C;
 				Se.setState(r, e, t);
 			}
@@ -16852,7 +16862,7 @@ var gp = class {
 			if (R.useProgram(T.program) && (E = !0, D = !0, O = !0), r.id !== C && (C = r.id, D = !0), E || w !== e) {
 				k.setValue(F, "projectionMatrix", e.projectionMatrix), k.setValue(F, "viewMatrix", e.matrixWorldInverse);
 				let t = k.map.cameraPosition;
-				t !== void 0 && t.setValue(F, le.setFromMatrixPosition(e.matrixWorld)), L.logarithmicDepthBuffer && k.setValue(F, "logDepthBufFC", 2 / (Math.log(e.far + 1) / Math.LN2)), (r.isMeshPhongMaterial || r.isMeshToonMaterial || r.isMeshLambertMaterial || r.isMeshBasicMaterial || r.isMeshStandardMaterial || r.isShaderMaterial) && k.setValue(F, "isOrthographic", e.isOrthographicCamera === !0), w !== e && (w = e, D = !0, O = !0);
+				t !== void 0 && t.setValue(F, P.setFromMatrixPosition(e.matrixWorld)), L.logarithmicDepthBuffer && k.setValue(F, "logDepthBufFC", 2 / (Math.log(e.far + 1) / Math.LN2)), (r.isMeshPhongMaterial || r.isMeshToonMaterial || r.isMeshLambertMaterial || r.isMeshBasicMaterial || r.isMeshStandardMaterial || r.isShaderMaterial) && k.setValue(F, "isOrthographic", e.isOrthographicCamera === !0), w !== e && (w = e, D = !0, O = !0);
 			}
 			if (i.isSkinnedMesh) {
 				k.setOptional(F, i, "bindMatrix"), k.setOptional(F, i, "bindMatrixInverse");
@@ -16860,7 +16870,7 @@ var gp = class {
 				e && (L.floatVertexTextures ? (e.boneTexture === null && e.computeBoneTexture(), k.setValue(F, "boneTexture", e.boneTexture, B), k.setValue(F, "boneTextureSize", e.boneTextureSize)) : console.warn("THREE.WebGLRenderer: SkinnedMesh can only be used with WebGL 2. With WebGL 1 OES_texture_float and vertex textures support is required."));
 			}
 			let N = n.morphAttributes;
-			if ((N.position !== void 0 || N.normal !== void 0 || N.color !== void 0 && L.isWebGL2 === !0) && we.update(i, n, T), (D || y.receiveShadow !== i.receiveShadow) && (y.receiveShadow = i.receiveShadow, k.setValue(F, "receiveShadow", i.receiveShadow)), r.isMeshGouraudMaterial && r.envMap !== null && (A.envMap.value = c, A.flipEnvMap.value = c.isCubeTexture && c.isRenderTargetTexture === !1 ? -1 : 1), D && (k.setValue(F, "toneMappingExposure", v.toneMappingExposure), y.needsLights && Ze(A, O), a && r.fog === !0 && ye.refreshFogUniforms(A, a), ye.refreshMaterialUniforms(A, r, M, j, oe), cf.upload(F, y.uniformsList, A, B)), r.isShaderMaterial && r.uniformsNeedUpdate === !0 && (cf.upload(F, y.uniformsList, A, B), r.uniformsNeedUpdate = !1), r.isSpriteMaterial && k.setValue(F, "center", i.center), k.setValue(F, "modelViewMatrix", i.modelViewMatrix), k.setValue(F, "normalMatrix", i.normalMatrix), k.setValue(F, "modelMatrix", i.matrixWorld), r.isShaderMaterial || r.isRawShaderMaterial) {
+			if ((N.position !== void 0 || N.normal !== void 0 || N.color !== void 0 && L.isWebGL2 === !0) && we.update(i, n, T), (D || y.receiveShadow !== i.receiveShadow) && (y.receiveShadow = i.receiveShadow, k.setValue(F, "receiveShadow", i.receiveShadow)), r.isMeshGouraudMaterial && r.envMap !== null && (A.envMap.value = c, A.flipEnvMap.value = c.isCubeTexture && c.isRenderTargetTexture === !1 ? -1 : 1), D && (k.setValue(F, "toneMappingExposure", v.toneMappingExposure), y.needsLights && Ze(A, O), a && r.fog === !0 && ye.refreshFogUniforms(A, a), ye.refreshMaterialUniforms(A, r, M, j, se), cf.upload(F, y.uniformsList, A, B)), r.isShaderMaterial && r.uniformsNeedUpdate === !0 && (cf.upload(F, y.uniformsList, A, B), r.uniformsNeedUpdate = !1), r.isSpriteMaterial && k.setValue(F, "center", i.center), k.setValue(F, "modelViewMatrix", i.modelViewMatrix), k.setValue(F, "normalMatrix", i.normalMatrix), k.setValue(F, "modelMatrix", i.matrixWorld), r.isShaderMaterial || r.isRawShaderMaterial) {
 				let e = r.uniformsGroups;
 				for (let t = 0, n = e.length; t < n; t++) if (L.isWebGL2) {
 					let n = e[t];
@@ -16898,7 +16908,7 @@ var gp = class {
 				(c.isData3DTexture || c.isDataArrayTexture || c.isCompressedArrayTexture) && (o = !0);
 				let l = z.get(e).__webglFramebuffer;
 				e.isWebGLCubeRenderTarget ? (i = Array.isArray(l[t]) ? l[t][n] : l[t], a = !0) : i = L.isWebGL2 && e.samples > 0 && B.useMultisampledRTT(e) === !1 ? z.get(e).__webglMultisampledFramebuffer : Array.isArray(l) ? l[n] : l, T.copy(e.viewport), E.copy(e.scissor), D = e.scissorTest;
-			} else T.copy(P).multiplyScalar(M).floor(), E.copy(te).multiplyScalar(M).floor(), D = ne;
+			} else T.copy(te).multiplyScalar(M).floor(), E.copy(ne).multiplyScalar(M).floor(), D = re;
 			if (R.bindFramebuffer(F.FRAMEBUFFER, i) && L.drawBuffers && r && R.drawBuffers(e, i), R.viewport(T), R.scissor(E), R.setScissorTest(D), a) {
 				let r = z.get(e.texture);
 				F.framebufferTexture2D(F.FRAMEBUFFER, F.COLOR_ATTACHMENT0, F.TEXTURE_CUBE_MAP_POSITIVE_X + t, r.__webglTexture, n);
@@ -18521,30 +18531,30 @@ var eh = { type: "change" }, th = { type: "start" }, nh = { type: "end" }, rh = 
 		function ee(e) {
 			return Math.max(n.minDistance, Math.min(n.maxDistance, e));
 		}
-		function P(e) {
+		function te(e) {
 			u.set(e.clientX, e.clientY);
 		}
-		function te(e) {
+		function ne(e) {
 			N(e), g.set(e.clientX, e.clientY);
 		}
-		function ne(e) {
+		function re(e) {
 			p.set(e.clientX, e.clientY);
 		}
-		function re(e) {
+		function ie(e) {
 			d.set(e.clientX, e.clientY), f.subVectors(d, u).multiplyScalar(n.rotateSpeed);
 			let t = n.domElement;
 			E(2 * Math.PI * f.x / t.clientHeight), D(2 * Math.PI * f.y / t.clientHeight), u.copy(d), n.update();
 		}
-		function ie(e) {
+		function ae(e) {
 			_.set(e.clientX, e.clientY), v.subVectors(_, g), v.y > 0 ? j(T()) : v.y < 0 && M(T()), g.copy(_), n.update();
 		}
-		function ae(e) {
+		function oe(e) {
 			m.set(e.clientX, e.clientY), h.subVectors(m, p).multiplyScalar(n.panSpeed), A(h.x, h.y), p.copy(m), n.update();
 		}
-		function oe(e) {
+		function se(e) {
 			N(e), e.deltaY < 0 ? M(T()) : e.deltaY > 0 && j(T()), n.update();
 		}
-		function se(e) {
+		function ce(e) {
 			let t = !1;
 			switch (e.code) {
 				case n.keys.UP:
@@ -18562,14 +18572,14 @@ var eh = { type: "change" }, th = { type: "start" }, nh = { type: "end" }, rh = 
 			}
 			t && (e.preventDefault(), n.update());
 		}
-		function ce() {
+		function le() {
 			if (S.length === 1) u.set(S[0].pageX, S[0].pageY);
 			else {
 				let e = .5 * (S[0].pageX + S[1].pageX), t = .5 * (S[0].pageY + S[1].pageY);
 				u.set(e, t);
 			}
 		}
-		function le() {
+		function P() {
 			if (S.length === 1) p.set(S[0].pageX, S[0].pageY);
 			else {
 				let e = .5 * (S[0].pageX + S[1].pageX), t = .5 * (S[0].pageY + S[1].pageY);
@@ -18581,10 +18591,10 @@ var eh = { type: "change" }, th = { type: "start" }, nh = { type: "end" }, rh = 
 			g.set(0, n);
 		}
 		function de() {
-			n.enableZoom && ue(), n.enablePan && le();
+			n.enableZoom && ue(), n.enablePan && P();
 		}
 		function F() {
-			n.enableZoom && ue(), n.enableRotate && ce();
+			n.enableZoom && ue(), n.enableRotate && le();
 		}
 		function fe(e) {
 			if (S.length == 1) d.set(e.pageX, e.pageY);
@@ -18640,24 +18650,24 @@ var eh = { type: "change" }, th = { type: "start" }, nh = { type: "end" }, rh = 
 			switch (t) {
 				case uo.DOLLY:
 					if (n.enableZoom === !1) return;
-					te(e), i = r.DOLLY;
+					ne(e), i = r.DOLLY;
 					break;
 				case uo.ROTATE:
 					if (e.ctrlKey || e.metaKey || e.shiftKey) {
 						if (n.enablePan === !1) return;
-						ne(e), i = r.PAN;
+						re(e), i = r.PAN;
 					} else {
 						if (n.enableRotate === !1) return;
-						P(e), i = r.ROTATE;
+						te(e), i = r.ROTATE;
 					}
 					break;
 				case uo.PAN:
 					if (e.ctrlKey || e.metaKey || e.shiftKey) {
 						if (n.enableRotate === !1) return;
-						P(e), i = r.ROTATE;
+						te(e), i = r.ROTATE;
 					} else {
 						if (n.enablePan === !1) return;
-						ne(e), i = r.PAN;
+						re(e), i = r.PAN;
 					}
 					break;
 				default: i = r.NONE;
@@ -18668,23 +18678,23 @@ var eh = { type: "change" }, th = { type: "start" }, nh = { type: "end" }, rh = 
 			switch (i) {
 				case r.ROTATE:
 					if (n.enableRotate === !1) return;
-					re(e);
+					ie(e);
 					break;
 				case r.DOLLY:
 					if (n.enableZoom === !1) return;
-					ie(e);
+					ae(e);
 					break;
 				case r.PAN:
 					if (n.enablePan === !1) return;
-					ae(e);
+					oe(e);
 					break;
 			}
 		}
 		function _e(e) {
-			n.enabled === !1 || n.enableZoom === !1 || i !== r.NONE || (e.preventDefault(), n.dispatchEvent(th), oe(e), n.dispatchEvent(nh));
+			n.enabled === !1 || n.enableZoom === !1 || i !== r.NONE || (e.preventDefault(), n.dispatchEvent(th), se(e), n.dispatchEvent(nh));
 		}
 		function ve(e) {
-			n.enabled === !1 || n.enablePan === !1 || se(e);
+			n.enabled === !1 || n.enablePan === !1 || ce(e);
 		}
 		function V(e) {
 			switch (H(e), S.length) {
@@ -18692,11 +18702,11 @@ var eh = { type: "change" }, th = { type: "start" }, nh = { type: "end" }, rh = 
 					switch (n.touches.ONE) {
 						case fo.ROTATE:
 							if (n.enableRotate === !1) return;
-							ce(), i = r.TOUCH_ROTATE;
+							le(), i = r.TOUCH_ROTATE;
 							break;
 						case fo.PAN:
 							if (n.enablePan === !1) return;
-							le(), i = r.TOUCH_PAN;
+							P(), i = r.TOUCH_PAN;
 							break;
 						default: i = r.NONE;
 					}
@@ -19422,8 +19432,173 @@ function Ch({ skinUrl: e, capeUrl: t, slim: n = !1, width: r = 280, height: i = 
 	});
 }
 //#endregion
+//#region src/components/PresetCards.tsx
+async function wh(e) {
+	let t = await crypto.subtle.digest("SHA-256", e);
+	return Array.from(new Uint8Array(t)).map((e) => e.toString(16).padStart(2, "0")).join("");
+}
+function Th({ sb: e, user: t, t: n, items: r, thumbWidth: i = 64, thumbHeight: a = 64, onApplied: o }) {
+	let [s, c] = Ae(null), [l, u] = Ae("");
+	async function d(r) {
+		u(""), c(r.name);
+		try {
+			let n = await fetch(r.url);
+			if (!n.ok) throw Error(`fetch ${n.status}`);
+			let i = await n.arrayBuffer(), a = await wh(i), s = `${t.id}/${a}.png`, { error: c } = await e.storage.from("textures").upload(s, new Blob([i], { type: "image/png" }), {
+				contentType: "image/png",
+				upsert: !0,
+				cacheControl: "31536000, immutable"
+			});
+			if (c) throw c;
+			await o(r, a);
+		} catch (e) {
+			u(`${n.errUploadFailed} ${e?.message ?? String(e)}`);
+		} finally {
+			c(null);
+		}
+	}
+	return /* @__PURE__ */ K("div", {
+		class: "space-y-3",
+		children: [/* @__PURE__ */ K("div", {
+			class: "grid grid-cols-3 gap-3",
+			children: r.map((e) => {
+				let t = s === e.name;
+				return /* @__PURE__ */ K("button", {
+					type: "button",
+					disabled: !!s,
+					onClick: () => d(e),
+					class: "group flex flex-col items-center gap-2 p-3 rounded-2xl border border-brand-500/25 bg-brand-500/5 hover:bg-brand-500/12 hover:border-brand-400/55 transition disabled:opacity-50 disabled:cursor-wait",
+					children: [/* @__PURE__ */ K("div", {
+						class: "rounded-lg overflow-hidden border border-brand-500/20",
+						style: `width:${i * 2}px;height:${a * 2}px;background:#0d0a1c;image-rendering:pixelated`,
+						children: /* @__PURE__ */ K("img", {
+							src: e.url,
+							alt: e.name,
+							width: i * 2,
+							height: a * 2,
+							style: "image-rendering:pixelated;width:100%;height:100%;object-fit:cover",
+							referrerpolicy: "no-referrer"
+						})
+					}), /* @__PURE__ */ K("div", {
+						class: "text-center",
+						children: [/* @__PURE__ */ K("div", {
+							class: "text-sm font-bold text-white group-hover:text-brand-200",
+							children: t ? n.uploading : e.name
+						}), e.caption && /* @__PURE__ */ K("div", {
+							class: "text-[10px] text-gray-400 leading-tight",
+							children: e.caption
+						})]
+					})]
+				});
+			})
+		}), l && /* @__PURE__ */ K("p", {
+			class: "text-xs text-rose-400 text-center",
+			children: l
+		})]
+	});
+}
+//#endregion
+//#region src/components/ExternalLinks.tsx
+function Eh({ items: e, title: t }) {
+	return /* @__PURE__ */ K("div", {
+		class: "space-y-2",
+		children: [/* @__PURE__ */ K("h3", {
+			class: "text-xs font-semibold uppercase tracking-wider text-gray-400",
+			children: t
+		}), /* @__PURE__ */ K("div", {
+			class: "grid grid-cols-2 gap-2",
+			children: e.map((e) => /* @__PURE__ */ K("a", {
+				href: e.url,
+				target: "_blank",
+				rel: "noopener noreferrer",
+				class: "group flex items-start gap-2 p-3 rounded-xl border border-brand-500/15 bg-brand-500/5 hover:bg-brand-500/10 hover:border-brand-400/35 transition",
+				children: [/* @__PURE__ */ K("svg", {
+					class: "w-4 h-4 text-brand-300 flex-shrink-0 mt-0.5",
+					fill: "none",
+					stroke: "currentColor",
+					"stroke-width": "2",
+					viewBox: "0 0 24 24",
+					children: /* @__PURE__ */ K("path", {
+						"stroke-linecap": "round",
+						"stroke-linejoin": "round",
+						d: "M14 3l7 7m0 0l-7 7m7-7H3"
+					})
+				}), /* @__PURE__ */ K("div", {
+					class: "min-w-0",
+					children: [/* @__PURE__ */ K("div", {
+						class: "text-sm font-semibold text-white group-hover:text-brand-200",
+						children: e.name
+					}), /* @__PURE__ */ K("div", {
+						class: "text-[11px] text-gray-400 leading-snug",
+						children: e.hint
+					})]
+				})]
+			}))
+		})]
+	});
+}
+//#endregion
+//#region src/presets.ts
+var Dh = [
+	{
+		name: "Steve",
+		model: "default",
+		url: "https://textures.minecraft.net/texture/31f477eb1a7beee631c2ca64d06f8f68fa93a3386d04452ab27f43acdf1b60cb",
+		caption: "Classic"
+	},
+	{
+		name: "Alex",
+		model: "slim",
+		url: "https://textures.minecraft.net/texture/3b60a1f6d562f52aaebbf1434f1de147933a3affe0e764fa49ea057536623cd3",
+		caption: "Slim model"
+	},
+	{
+		name: "Zuri",
+		model: "default",
+		url: "https://textures.minecraft.net/texture/f5dddb41dcafef616e959c2817808e0be741c89ffbfed39134a13e75b811863d",
+		caption: "Default"
+	}
+], Oh = [
+	{
+		name: "Migrator",
+		url: "https://textures.minecraft.net/texture/2340c0e03dd24a11b15a8b33c2a7e9e32abb2051b2481d0ba7defd635ca7a933",
+		caption: "Mojang account migration"
+	},
+	{
+		name: "MineCon 2011",
+		url: "https://textures.minecraft.net/texture/953cac8b779fe41383e675ee2b86071a71658f2180f56fbce8aa315ea70e2ed6",
+		caption: "Convention attendee"
+	},
+	{
+		name: "MineCon 2016",
+		url: "https://textures.minecraft.net/texture/9e507afc56359978a3eb3e32367042b853cddd0995d17d0da995662913fb00f7",
+		caption: "Convention attendee"
+	}
+], kh = [
+	{
+		name: "NameMC",
+		url: "https://namemc.com/skins",
+		hint: "Search any player's skin by nick"
+	},
+	{
+		name: "minecraftskins.com",
+		url: "https://www.minecraftskins.com",
+		hint: "600k+ community skins"
+	},
+	{
+		name: "Planet Minecraft",
+		url: "https://www.planetminecraft.com/skins/",
+		hint: "Curated community uploads"
+	},
+	{
+		name: "NovaSkin Editor",
+		url: "https://minecraft.novaskin.me",
+		hint: "Edit your own in-browser"
+	}
+];
+//#endregion
 //#region src/pages/SkinPage.tsx
-function wh({ sb: e, user: t, t: n }) {
+function Ah({ sb: e, user: t, t: n }) {
 	let [r, i] = Ae(null), [a, o] = Ae(null), [s, c] = Ae(!1), l = Fe(async () => {
 		let { data: n } = await e.from("skins").select("skin_sha, cape_sha, slim_model").eq("user_id", t.id).maybeSingle();
 		i(n?.skin_sha ?? null), o(n?.cape_sha ?? null), c(!!n?.slim_model);
@@ -19446,56 +19621,85 @@ function wh({ sb: e, user: t, t: n }) {
 	}
 	return /* @__PURE__ */ K("div", {
 		class: "space-y-5",
-		children: [/* @__PURE__ */ K("h2", {
-			class: "text-lg font-bold text-white",
-			children: n.skinTitle
-		}), /* @__PURE__ */ K("div", {
-			class: "grid gap-5 md:grid-cols-[1fr_280px]",
-			children: [/* @__PURE__ */ K("div", {
-				class: "space-y-3",
-				children: [
-					/* @__PURE__ */ K(lo, {
-						sb: e,
-						user: t,
-						t: n,
-						accept: "image/png",
-						validateImage: (e) => Th(e),
-						onUploaded: p,
-						label: r ? n.skinReplace : n.skinUpload,
-						hint: n.skinHint
-					}),
-					r && /* @__PURE__ */ K("button", {
-						type: "button",
-						onClick: m,
-						class: "block mx-auto text-xs text-rose-400 hover:text-rose-300 hover:underline",
-						children: n.skinRemove
-					}),
-					/* @__PURE__ */ K("p", {
-						class: "text-[11px] text-gray-500",
-						children: s ? n.skinModelSlim : n.skinModelDefault
-					})
-				]
-			}), /* @__PURE__ */ K("div", {
-				class: "flex flex-col items-center gap-2",
-				children: [/* @__PURE__ */ K(Ch, {
-					skinUrl: d,
-					capeUrl: f,
-					slim: s
-				}), /* @__PURE__ */ K("p", {
-					class: "text-[11px] text-gray-500 text-center",
-					children: n.skinPreviewHint
+		children: [
+			/* @__PURE__ */ K("h2", {
+				class: "text-lg font-bold text-white",
+				children: n.skinTitle
+			}),
+			/* @__PURE__ */ K("div", {
+				class: "grid gap-5 md:grid-cols-[1fr_280px]",
+				children: [/* @__PURE__ */ K("div", {
+					class: "space-y-3",
+					children: [
+						/* @__PURE__ */ K(lo, {
+							sb: e,
+							user: t,
+							t: n,
+							accept: "image/png",
+							validateImage: (e) => jh(e),
+							onUploaded: p,
+							label: r ? n.skinReplace : n.skinUpload,
+							hint: n.skinHint
+						}),
+						r && /* @__PURE__ */ K("button", {
+							type: "button",
+							onClick: m,
+							class: "block mx-auto text-xs text-rose-400 hover:text-rose-300 hover:underline",
+							children: n.skinRemove
+						}),
+						/* @__PURE__ */ K("p", {
+							class: "text-[11px] text-gray-500",
+							children: s ? n.skinModelSlim : n.skinModelDefault
+						})
+					]
+				}), /* @__PURE__ */ K("div", {
+					class: "flex flex-col items-center gap-2",
+					children: [/* @__PURE__ */ K(Ch, {
+						skinUrl: d,
+						capeUrl: f,
+						slim: s
+					}), /* @__PURE__ */ K("p", {
+						class: "text-[11px] text-gray-500 text-center",
+						children: n.skinPreviewHint
+					})]
 				})]
-			})]
-		})]
+			}),
+			/* @__PURE__ */ K("div", {
+				class: "pt-5 border-t border-brand-500/15 space-y-3",
+				children: [/* @__PURE__ */ K("h3", {
+					class: "text-xs font-semibold uppercase tracking-wider text-gray-400",
+					children: n.presetsTitle
+				}), /* @__PURE__ */ K(Th, {
+					sb: e,
+					user: t,
+					t: n,
+					items: Dh,
+					onApplied: async (n, r) => {
+						await e.from("skins").update({
+							skin_sha: r,
+							slim_model: n.model === "slim",
+							updated_at: (/* @__PURE__ */ new Date()).toISOString()
+						}).eq("user_id", t.id), await l();
+					}
+				})]
+			}),
+			/* @__PURE__ */ K("div", {
+				class: "pt-5 border-t border-brand-500/15",
+				children: /* @__PURE__ */ K(Eh, {
+					items: kh,
+					title: n.externalSkinSites
+				})
+			})
+		]
 	});
 }
-function Th(e) {
+function jh(e) {
 	let t = e.naturalWidth, n = e.naturalHeight;
 	return t === 64 && n === 64 || t === 64 && n === 32 || t === 128 && n === 128 || t === 128 && n === 64;
 }
 //#endregion
 //#region src/pages/CapePage.tsx
-function Eh({ sb: e, user: t, t: n }) {
+function Mh({ sb: e, user: t, t: n }) {
 	let [r, i] = Ae(null), [a, o] = Ae(null), [s, c] = Ae(!1), l = Fe(async () => {
 		let { data: n } = await e.from("skins").select("skin_sha, cape_sha, slim_model").eq("user_id", t.id).maybeSingle();
 		i(n?.skin_sha ?? null), o(n?.cape_sha ?? null), c(!!n?.slim_model);
@@ -19518,50 +19722,73 @@ function Eh({ sb: e, user: t, t: n }) {
 	}
 	return /* @__PURE__ */ K("div", {
 		class: "space-y-5",
-		children: [/* @__PURE__ */ K("h2", {
-			class: "text-lg font-bold text-white",
-			children: n.capeTitle
-		}), /* @__PURE__ */ K("div", {
-			class: "grid gap-5 md:grid-cols-[1fr_280px]",
-			children: [/* @__PURE__ */ K("div", {
-				class: "space-y-3",
-				children: [/* @__PURE__ */ K(lo, {
+		children: [
+			/* @__PURE__ */ K("h2", {
+				class: "text-lg font-bold text-white",
+				children: n.capeTitle
+			}),
+			/* @__PURE__ */ K("div", {
+				class: "grid gap-5 md:grid-cols-[1fr_280px]",
+				children: [/* @__PURE__ */ K("div", {
+					class: "space-y-3",
+					children: [/* @__PURE__ */ K(lo, {
+						sb: e,
+						user: t,
+						t: n,
+						accept: "image/png",
+						validateImage: (e) => Nh(e),
+						onUploaded: p,
+						label: a ? n.capeReplace : n.capeUpload,
+						hint: n.capeHint
+					}), a && /* @__PURE__ */ K("button", {
+						type: "button",
+						onClick: m,
+						class: "block mx-auto text-xs text-rose-400 hover:text-rose-300 hover:underline",
+						children: n.capeRemove
+					})]
+				}), /* @__PURE__ */ K("div", {
+					class: "flex flex-col items-center gap-2",
+					children: [/* @__PURE__ */ K(Ch, {
+						skinUrl: d,
+						capeUrl: f,
+						slim: s,
+						walking: !0
+					}), /* @__PURE__ */ K("p", {
+						class: "text-[11px] text-gray-500 text-center",
+						children: n.skinPreviewHint
+					})]
+				})]
+			}),
+			/* @__PURE__ */ K("div", {
+				class: "pt-5 border-t border-brand-500/15 space-y-3",
+				children: [/* @__PURE__ */ K("h3", {
+					class: "text-xs font-semibold uppercase tracking-wider text-gray-400",
+					children: n.presetsTitle
+				}), /* @__PURE__ */ K(Th, {
 					sb: e,
 					user: t,
 					t: n,
-					accept: "image/png",
-					validateImage: (e) => Dh(e),
-					onUploaded: p,
-					label: a ? n.capeReplace : n.capeUpload,
-					hint: n.capeHint
-				}), a && /* @__PURE__ */ K("button", {
-					type: "button",
-					onClick: m,
-					class: "block mx-auto text-xs text-rose-400 hover:text-rose-300 hover:underline",
-					children: n.capeRemove
+					items: Oh,
+					thumbWidth: 64,
+					thumbHeight: 32,
+					onApplied: async (n, r) => {
+						await e.from("skins").update({
+							cape_sha: r,
+							updated_at: (/* @__PURE__ */ new Date()).toISOString()
+						}).eq("user_id", t.id), await l();
+					}
 				})]
-			}), /* @__PURE__ */ K("div", {
-				class: "flex flex-col items-center gap-2",
-				children: [/* @__PURE__ */ K(Ch, {
-					skinUrl: d,
-					capeUrl: f,
-					slim: s,
-					walking: !0
-				}), /* @__PURE__ */ K("p", {
-					class: "text-[11px] text-gray-500 text-center",
-					children: n.skinPreviewHint
-				})]
-			})]
-		})]
+			})
+		]
 	});
 }
-function Dh(e) {
+function Nh(e) {
 	let t = e.naturalWidth, n = e.naturalHeight;
 	return t === 64 && n === 32 || t === 128 && n === 64;
 }
 //#endregion
 //#region src/pages/PasswordPage.tsx
-function Oh({ sb: e, t }) {
+function Ph({ sb: e, t }) {
 	let [n, r] = Ae(""), [i, a] = Ae(""), [o, s] = Ae(!1), [c, l] = Ae(""), [u, d] = Ae(!1);
 	async function f(o) {
 		if (o.preventDefault(), l(""), d(!1), n.length < 6) {
@@ -19640,7 +19867,7 @@ function Oh({ sb: e, t }) {
 }
 //#endregion
 //#region src/CabinetWidget.tsx
-function kh({ supabaseUrl: e, supabaseKey: t, lang: n, mode: r }) {
+function Fh({ supabaseUrl: e, supabaseKey: t, lang: n, mode: r }) {
 	let i = io(n), a = r === "launcher", o = Ne(null);
 	!o.current && e && t && (o.current = to(e, t, { auth: {
 		persistSession: !0,
@@ -19663,7 +19890,7 @@ function kh({ supabaseUrl: e, supabaseKey: t, lang: n, mode: r }) {
 		children: /* @__PURE__ */ K("div", { class: "w-6 h-6 rounded-full border-2 border-brand-500/30 border-t-brand-400 animate-spin" })
 	}) : c?.user ? /* @__PURE__ */ K("div", {
 		class: "aw-cabinet-scope",
-		children: /* @__PURE__ */ K(Ah, {
+		children: /* @__PURE__ */ K(Ih, {
 			sb: s,
 			user: c.user,
 			t: i,
@@ -19682,7 +19909,7 @@ function kh({ supabaseUrl: e, supabaseKey: t, lang: n, mode: r }) {
 		children: "missing supabase-url / supabase-key"
 	});
 }
-function Ah({ sb: e, user: t, t: n, page: r, onPage: i, inLauncher: a, onSignOut: o }) {
+function Ih({ sb: e, user: t, t: n, page: r, onPage: i, inLauncher: a, onSignOut: o }) {
 	let [s, c] = Ae(null);
 	Me(() => {
 		e.from("profiles").select("minecraft_nick").eq("id", t.id).maybeSingle().then(({ data: e }) => c(e?.minecraft_nick ?? null));
@@ -19691,22 +19918,22 @@ function Ah({ sb: e, user: t, t: n, page: r, onPage: i, inLauncher: a, onSignOut
 		{
 			id: "profile",
 			label: n.navProfile,
-			icon: /* @__PURE__ */ K(jh, {})
+			icon: /* @__PURE__ */ K(Lh, {})
 		},
 		{
 			id: "skin",
 			label: n.navSkin,
-			icon: /* @__PURE__ */ K(Mh, {})
+			icon: /* @__PURE__ */ K(Rh, {})
 		},
 		{
 			id: "cape",
 			label: n.navCape,
-			icon: /* @__PURE__ */ K(Nh, {})
+			icon: /* @__PURE__ */ K(zh, {})
 		},
 		{
 			id: "password",
 			label: n.navPassword,
-			icon: /* @__PURE__ */ K(Ph, {})
+			icon: /* @__PURE__ */ K(Bh, {})
 		}
 	], [n]);
 	return /* @__PURE__ */ K("div", {
@@ -19760,18 +19987,18 @@ function Ah({ sb: e, user: t, t: n, page: r, onPage: i, inLauncher: a, onSignOut
 						t: n,
 						nick: s
 					}),
-					r === "skin" && /* @__PURE__ */ K(wh, {
+					r === "skin" && /* @__PURE__ */ K(Ah, {
 						sb: e,
 						user: t,
 						t: n,
 						nick: s
 					}),
-					r === "cape" && /* @__PURE__ */ K(Eh, {
+					r === "cape" && /* @__PURE__ */ K(Mh, {
 						sb: e,
 						user: t,
 						t: n
 					}),
-					r === "password" && /* @__PURE__ */ K(Oh, {
+					r === "password" && /* @__PURE__ */ K(Ph, {
 						sb: e,
 						t: n
 					})
@@ -19780,7 +20007,7 @@ function Ah({ sb: e, user: t, t: n, page: r, onPage: i, inLauncher: a, onSignOut
 		})]
 	});
 }
-var jh = () => /* @__PURE__ */ K("svg", {
+var Lh = () => /* @__PURE__ */ K("svg", {
 	class: "w-4 h-4",
 	fill: "none",
 	stroke: "currentColor",
@@ -19791,7 +20018,7 @@ var jh = () => /* @__PURE__ */ K("svg", {
 		"stroke-linejoin": "round",
 		d: "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
 	})
-}), Mh = () => /* @__PURE__ */ K("svg", {
+}), Rh = () => /* @__PURE__ */ K("svg", {
 	class: "w-4 h-4",
 	fill: "none",
 	stroke: "currentColor",
@@ -19802,7 +20029,7 @@ var jh = () => /* @__PURE__ */ K("svg", {
 		"stroke-linejoin": "round",
 		d: "M16 3l-4 4-4-4M5 6l3-3h8l3 3v4l-3 1v10H8V11L5 10V6z"
 	})
-}), Nh = () => /* @__PURE__ */ K("svg", {
+}), zh = () => /* @__PURE__ */ K("svg", {
 	class: "w-4 h-4",
 	fill: "none",
 	stroke: "currentColor",
@@ -19813,7 +20040,7 @@ var jh = () => /* @__PURE__ */ K("svg", {
 		"stroke-linejoin": "round",
 		d: "M6 4h12l2 6-3 11H7L4 10z"
 	})
-}), Ph = () => /* @__PURE__ */ K("svg", {
+}), Bh = () => /* @__PURE__ */ K("svg", {
 	class: "w-4 h-4",
 	fill: "none",
 	stroke: "currentColor",
@@ -19824,12 +20051,12 @@ var jh = () => /* @__PURE__ */ K("svg", {
 		"stroke-linejoin": "round",
 		d: "M12 15v2m0 4a9 9 0 110-18 9 9 0 010 18zM7.5 11V7a4.5 4.5 0 119 0v4"
 	})
-}), Fh = ".aw-cabinet-scope,.aw-cabinet-scope :before,.aw-cabinet-scope :after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#3b82f680;--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.aw-cabinet-scope ::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#3b82f680;--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.aw-cabinet-scope .sr-only{clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}.aw-cabinet-scope .absolute{position:absolute}.aw-cabinet-scope .relative{position:relative}.aw-cabinet-scope .left-\\[3px\\]{left:3px}.aw-cabinet-scope .top-\\[3px\\]{top:3px}.aw-cabinet-scope .mx-auto{margin-left:auto;margin-right:auto}.aw-cabinet-scope .mb-1\\.5{margin-bottom:.375rem}.aw-cabinet-scope .mb-6{margin-bottom:1.5rem}.aw-cabinet-scope .mt-0\\.5{margin-top:.125rem}.aw-cabinet-scope .mt-1{margin-top:.25rem}.aw-cabinet-scope .mt-1\\.5{margin-top:.375rem}.aw-cabinet-scope .mt-2{margin-top:.5rem}.aw-cabinet-scope .block{display:block}.aw-cabinet-scope .inline-block{display:inline-block}.aw-cabinet-scope .inline{display:inline}.aw-cabinet-scope .flex{display:flex}.aw-cabinet-scope .inline-flex{display:inline-flex}.aw-cabinet-scope .grid{display:grid}.aw-cabinet-scope .h-4{height:1rem}.aw-cabinet-scope .h-6{height:1.5rem}.aw-cabinet-scope .h-8{height:2rem}.aw-cabinet-scope .min-h-\\[420px\\]{min-height:420px}.aw-cabinet-scope .w-10{width:2.5rem}.aw-cabinet-scope .w-4{width:1rem}.aw-cabinet-scope .w-6{width:1.5rem}.aw-cabinet-scope .w-8{width:2rem}.aw-cabinet-scope .w-full{width:100%}.aw-cabinet-scope .max-w-5xl{max-width:64rem}.aw-cabinet-scope .max-w-sm{max-width:24rem}.aw-cabinet-scope .max-w-xs{max-width:20rem}.aw-cabinet-scope .flex-shrink-0{flex-shrink:0}@keyframes spin{to{transform:rotate(360deg)}}.aw-cabinet-scope .animate-spin{animation:1s linear infinite spin}.aw-cabinet-scope .cursor-pointer{cursor:pointer}.aw-cabinet-scope .flex-col{flex-direction:column}.aw-cabinet-scope .flex-wrap{flex-wrap:wrap}.aw-cabinet-scope .items-start{align-items:flex-start}.aw-cabinet-scope .items-center{align-items:center}.aw-cabinet-scope .justify-center{justify-content:center}.aw-cabinet-scope .justify-between{justify-content:space-between}.aw-cabinet-scope .gap-2{gap:.5rem}.aw-cabinet-scope .gap-3{gap:.75rem}.aw-cabinet-scope .gap-4{gap:1rem}.aw-cabinet-scope .gap-5{gap:1.25rem}.aw-cabinet-scope :is(.space-y-2>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem * var(--tw-space-y-reverse))}.aw-cabinet-scope :is(.space-y-3>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem * var(--tw-space-y-reverse))}.aw-cabinet-scope :is(.space-y-4>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.aw-cabinet-scope :is(.space-y-5>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.aw-cabinet-scope .self-start{align-self:flex-start}.aw-cabinet-scope .rounded-2xl{border-radius:1rem}.aw-cabinet-scope .rounded-full{border-radius:9999px}.aw-cabinet-scope .rounded-lg{border-radius:.5rem}.aw-cabinet-scope .rounded-xl{border-radius:.75rem}.aw-cabinet-scope .border{border-width:1px}.aw-cabinet-scope .border-2{border-width:2px}.aw-cabinet-scope .border-t{border-top-width:1px}.aw-cabinet-scope .border-dashed{border-style:dashed}.aw-cabinet-scope .border-brand-500\\/15{border-color:#8b5cf626}.aw-cabinet-scope .border-brand-500\\/25{border-color:#8b5cf640}.aw-cabinet-scope .border-brand-500\\/30{border-color:#8b5cf64d}.aw-cabinet-scope .border-t-brand-400{--tw-border-opacity:1;border-top-color:rgb(167 139 250/var(--tw-border-opacity,1))}.aw-cabinet-scope .bg-brand-500\\/10{background-color:#8b5cf61a}.aw-cabinet-scope .bg-brand-500\\/15{background-color:#8b5cf626}.aw-cabinet-scope .bg-brand-500\\/5{background-color:#8b5cf60d}.aw-cabinet-scope .bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.aw-cabinet-scope .bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.aw-cabinet-scope .from-brand-600{--tw-gradient-from:#7c3aed var(--tw-gradient-from-position);--tw-gradient-to:#7c3aed00 var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.aw-cabinet-scope .to-brand-500{--tw-gradient-to:#8b5cf6 var(--tw-gradient-to-position)}.aw-cabinet-scope .p-12{padding:3rem}.aw-cabinet-scope .p-2{padding:.5rem}.aw-cabinet-scope .p-4{padding:1rem}.aw-cabinet-scope .p-5{padding:1.25rem}.aw-cabinet-scope .p-8{padding:2rem}.aw-cabinet-scope .px-3{padding-left:.75rem;padding-right:.75rem}.aw-cabinet-scope .px-4{padding-left:1rem;padding-right:1rem}.aw-cabinet-scope .px-5{padding-left:1.25rem;padding-right:1.25rem}.aw-cabinet-scope .px-6{padding-left:1.5rem;padding-right:1.5rem}.aw-cabinet-scope .py-2{padding-top:.5rem;padding-bottom:.5rem}.aw-cabinet-scope .py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}.aw-cabinet-scope .py-3{padding-top:.75rem;padding-bottom:.75rem}.aw-cabinet-scope .py-6{padding-top:1.5rem;padding-bottom:1.5rem}.aw-cabinet-scope .pt-2{padding-top:.5rem}.aw-cabinet-scope .text-center{text-align:center}.aw-cabinet-scope .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}.aw-cabinet-scope .text-2xl{font-size:1.5rem;line-height:2rem}.aw-cabinet-scope .text-\\[11px\\]{font-size:11px}.aw-cabinet-scope .text-lg{font-size:1.125rem;line-height:1.75rem}.aw-cabinet-scope .text-sm{font-size:.875rem;line-height:1.25rem}.aw-cabinet-scope .text-xs{font-size:.75rem;line-height:1rem}.aw-cabinet-scope .font-bold{font-weight:700}.aw-cabinet-scope .font-medium{font-weight:500}.aw-cabinet-scope .font-semibold{font-weight:600}.aw-cabinet-scope .uppercase{text-transform:uppercase}.aw-cabinet-scope .leading-relaxed{line-height:1.625}.aw-cabinet-scope .tracking-tight{letter-spacing:-.025em}.aw-cabinet-scope .tracking-wider{letter-spacing:.05em}.aw-cabinet-scope .text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-100{--tw-text-opacity:1;color:rgb(243 244 246/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-200{--tw-text-opacity:1;color:rgb(229 231 235/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.aw-cabinet-scope .placeholder-gray-500::placeholder{--tw-placeholder-opacity:1;color:rgb(107 114 128/var(--tw-placeholder-opacity,1))}.aw-cabinet-scope .shadow{--tw-shadow:0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000), var(--tw-ring-shadow,0 0 #0000), var(--tw-shadow)}.aw-cabinet-scope .shadow-lg{--tw-shadow:0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000), var(--tw-ring-shadow,0 0 #0000), var(--tw-shadow)}.aw-cabinet-scope .shadow-md{--tw-shadow:0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000), var(--tw-ring-shadow,0 0 #0000), var(--tw-shadow)}.aw-cabinet-scope .shadow-brand-600\\/30{--tw-shadow-color:#7c3aed4d;--tw-shadow:var(--tw-shadow-colored)}.aw-cabinet-scope .filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.aw-cabinet-scope .transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter,backdrop-filter;transition-duration:.15s;transition-timing-function:cubic-bezier(.4,0,.2,1)}.aw-cabinet-scope .glass{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);background:#8b5cf60f;border:1px solid #8b5cf62e}.aw-cabinet-scope .btn-glow{position:relative;overflow:hidden}.aw-cabinet-scope .btn-glow:after{content:\"\";pointer-events:none;background:linear-gradient(90deg,#0000,#ffffff2e,#0000);transition:transform .5s;position:absolute;inset:0;transform:translate(-100%)}.aw-cabinet-scope .btn-glow:hover:after{transform:translate(100%)}.aw-cabinet-scope .gold-text{color:#0000;background:linear-gradient(135deg,#c084fc 0%,#a855f7 50%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text}.aw-cabinet-scope .dropzone{transition:border-color .15s,background .15s}.aw-cabinet-scope .dropzone.is-active{background:#7c3aed1a;border-color:#a855f799}.aw-cabinet-scope .skin-preview-frame{background:radial-gradient(at 50% 30%,#7c3aed2e,#070612f2 65%);border:1px solid #a855f738;border-radius:1rem;overflow:hidden}.aw-cabinet-scope .hover\\:border-rose-500\\/45:hover{border-color:#f43f5e73}.aw-cabinet-scope .hover\\:bg-brand-500\\/10:hover{background-color:#8b5cf61a}.aw-cabinet-scope .hover\\:bg-rose-500\\/15:hover{background-color:#f43f5e26}.aw-cabinet-scope .hover\\:from-brand-700:hover{--tw-gradient-from:#6d28d9 var(--tw-gradient-from-position);--tw-gradient-to:#6d28d900 var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.aw-cabinet-scope .hover\\:to-brand-600:hover{--tw-gradient-to:#7c3aed var(--tw-gradient-to-position)}.aw-cabinet-scope .hover\\:text-rose-200:hover{--tw-text-opacity:1;color:rgb(254 205 211/var(--tw-text-opacity,1))}.aw-cabinet-scope .hover\\:text-rose-300:hover{--tw-text-opacity:1;color:rgb(253 164 175/var(--tw-text-opacity,1))}.aw-cabinet-scope .hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.aw-cabinet-scope .hover\\:underline:hover{text-decoration-line:underline}.aw-cabinet-scope .focus\\:border-brand-400:focus{--tw-border-opacity:1;border-color:rgb(167 139 250/var(--tw-border-opacity,1))}.aw-cabinet-scope .focus\\:bg-brand-500\\/15:focus{background-color:#8b5cf626}.aw-cabinet-scope .focus\\:outline-none:focus{outline-offset:2px;outline:2px solid #0000}.aw-cabinet-scope .disabled\\:pointer-events-none:disabled{pointer-events:none}.aw-cabinet-scope .disabled\\:opacity-50:disabled{opacity:.5}.aw-cabinet-scope :is(.peer:checked~.peer-checked\\:translate-x-4){--tw-translate-x:1rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.aw-cabinet-scope :is(.peer:checked~.peer-checked\\:bg-brand-500\\/45){background-color:#8b5cf673}@media (min-width:768px){.aw-cabinet-scope .md\\:grid-cols-\\[1fr_280px\\]{grid-template-columns:1fr 280px}.aw-cabinet-scope .md\\:grid-cols-\\[200px_1fr\\]{grid-template-columns:200px 1fr}.aw-cabinet-scope .md\\:p-7{padding:1.75rem}}", Ih = "anubis-cabinet-styles";
-if (typeof document < "u" && !document.getElementById(Ih)) {
+}), Vh = ".aw-cabinet-scope,.aw-cabinet-scope :before,.aw-cabinet-scope :after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#3b82f680;--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.aw-cabinet-scope ::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:#3b82f680;--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }.aw-cabinet-scope .sr-only{clip:rect(0, 0, 0, 0);white-space:nowrap;border-width:0;width:1px;height:1px;margin:-1px;padding:0;position:absolute;overflow:hidden}.aw-cabinet-scope .absolute{position:absolute}.aw-cabinet-scope .relative{position:relative}.aw-cabinet-scope .left-\\[3px\\]{left:3px}.aw-cabinet-scope .top-\\[3px\\]{top:3px}.aw-cabinet-scope .mx-auto{margin-left:auto;margin-right:auto}.aw-cabinet-scope .mb-1\\.5{margin-bottom:.375rem}.aw-cabinet-scope .mb-6{margin-bottom:1.5rem}.aw-cabinet-scope .mt-0\\.5{margin-top:.125rem}.aw-cabinet-scope .mt-1{margin-top:.25rem}.aw-cabinet-scope .mt-1\\.5{margin-top:.375rem}.aw-cabinet-scope .mt-2{margin-top:.5rem}.aw-cabinet-scope .block{display:block}.aw-cabinet-scope .inline-block{display:inline-block}.aw-cabinet-scope .inline{display:inline}.aw-cabinet-scope .flex{display:flex}.aw-cabinet-scope .inline-flex{display:inline-flex}.aw-cabinet-scope .grid{display:grid}.aw-cabinet-scope .h-4{height:1rem}.aw-cabinet-scope .h-6{height:1.5rem}.aw-cabinet-scope .h-8{height:2rem}.aw-cabinet-scope .min-h-\\[420px\\]{min-height:420px}.aw-cabinet-scope .w-10{width:2.5rem}.aw-cabinet-scope .w-4{width:1rem}.aw-cabinet-scope .w-6{width:1.5rem}.aw-cabinet-scope .w-8{width:2rem}.aw-cabinet-scope .w-full{width:100%}.aw-cabinet-scope .min-w-0{min-width:0}.aw-cabinet-scope .max-w-5xl{max-width:64rem}.aw-cabinet-scope .max-w-sm{max-width:24rem}.aw-cabinet-scope .max-w-xs{max-width:20rem}.aw-cabinet-scope .flex-shrink-0{flex-shrink:0}@keyframes spin{to{transform:rotate(360deg)}}.aw-cabinet-scope .animate-spin{animation:1s linear infinite spin}.aw-cabinet-scope .cursor-pointer{cursor:pointer}.aw-cabinet-scope .grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.aw-cabinet-scope .grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.aw-cabinet-scope .flex-col{flex-direction:column}.aw-cabinet-scope .flex-wrap{flex-wrap:wrap}.aw-cabinet-scope .items-start{align-items:flex-start}.aw-cabinet-scope .items-center{align-items:center}.aw-cabinet-scope .justify-center{justify-content:center}.aw-cabinet-scope .justify-between{justify-content:space-between}.aw-cabinet-scope .gap-2{gap:.5rem}.aw-cabinet-scope .gap-3{gap:.75rem}.aw-cabinet-scope .gap-4{gap:1rem}.aw-cabinet-scope .gap-5{gap:1.25rem}.aw-cabinet-scope :is(.space-y-2>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem * var(--tw-space-y-reverse))}.aw-cabinet-scope :is(.space-y-3>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem * var(--tw-space-y-reverse))}.aw-cabinet-scope :is(.space-y-4>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.aw-cabinet-scope :is(.space-y-5>:not([hidden])~:not([hidden])){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.aw-cabinet-scope .self-start{align-self:flex-start}.aw-cabinet-scope .overflow-hidden{overflow:hidden}.aw-cabinet-scope .rounded-2xl{border-radius:1rem}.aw-cabinet-scope .rounded-full{border-radius:9999px}.aw-cabinet-scope .rounded-lg{border-radius:.5rem}.aw-cabinet-scope .rounded-xl{border-radius:.75rem}.aw-cabinet-scope .border{border-width:1px}.aw-cabinet-scope .border-2{border-width:2px}.aw-cabinet-scope .border-t{border-top-width:1px}.aw-cabinet-scope .border-dashed{border-style:dashed}.aw-cabinet-scope .border-brand-500\\/15{border-color:#8b5cf626}.aw-cabinet-scope .border-brand-500\\/20{border-color:#8b5cf633}.aw-cabinet-scope .border-brand-500\\/25{border-color:#8b5cf640}.aw-cabinet-scope .border-brand-500\\/30{border-color:#8b5cf64d}.aw-cabinet-scope .border-t-brand-400{--tw-border-opacity:1;border-top-color:rgb(167 139 250/var(--tw-border-opacity,1))}.aw-cabinet-scope .bg-brand-500\\/10{background-color:#8b5cf61a}.aw-cabinet-scope .bg-brand-500\\/15{background-color:#8b5cf626}.aw-cabinet-scope .bg-brand-500\\/5{background-color:#8b5cf60d}.aw-cabinet-scope .bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.aw-cabinet-scope .bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.aw-cabinet-scope .from-brand-600{--tw-gradient-from:#7c3aed var(--tw-gradient-from-position);--tw-gradient-to:#7c3aed00 var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.aw-cabinet-scope .to-brand-500{--tw-gradient-to:#8b5cf6 var(--tw-gradient-to-position)}.aw-cabinet-scope .p-12{padding:3rem}.aw-cabinet-scope .p-2{padding:.5rem}.aw-cabinet-scope .p-3{padding:.75rem}.aw-cabinet-scope .p-4{padding:1rem}.aw-cabinet-scope .p-5{padding:1.25rem}.aw-cabinet-scope .p-8{padding:2rem}.aw-cabinet-scope .px-3{padding-left:.75rem;padding-right:.75rem}.aw-cabinet-scope .px-4{padding-left:1rem;padding-right:1rem}.aw-cabinet-scope .px-5{padding-left:1.25rem;padding-right:1.25rem}.aw-cabinet-scope .px-6{padding-left:1.5rem;padding-right:1.5rem}.aw-cabinet-scope .py-2{padding-top:.5rem;padding-bottom:.5rem}.aw-cabinet-scope .py-2\\.5{padding-top:.625rem;padding-bottom:.625rem}.aw-cabinet-scope .py-3{padding-top:.75rem;padding-bottom:.75rem}.aw-cabinet-scope .py-6{padding-top:1.5rem;padding-bottom:1.5rem}.aw-cabinet-scope .pt-2{padding-top:.5rem}.aw-cabinet-scope .pt-5{padding-top:1.25rem}.aw-cabinet-scope .text-center{text-align:center}.aw-cabinet-scope .font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}.aw-cabinet-scope .text-2xl{font-size:1.5rem;line-height:2rem}.aw-cabinet-scope .text-\\[10px\\]{font-size:10px}.aw-cabinet-scope .text-\\[11px\\]{font-size:11px}.aw-cabinet-scope .text-lg{font-size:1.125rem;line-height:1.75rem}.aw-cabinet-scope .text-sm{font-size:.875rem;line-height:1.25rem}.aw-cabinet-scope .text-xs{font-size:.75rem;line-height:1rem}.aw-cabinet-scope .font-bold{font-weight:700}.aw-cabinet-scope .font-medium{font-weight:500}.aw-cabinet-scope .font-semibold{font-weight:600}.aw-cabinet-scope .uppercase{text-transform:uppercase}.aw-cabinet-scope .leading-relaxed{line-height:1.625}.aw-cabinet-scope .leading-snug{line-height:1.375}.aw-cabinet-scope .leading-tight{line-height:1.25}.aw-cabinet-scope .tracking-tight{letter-spacing:-.025em}.aw-cabinet-scope .tracking-wider{letter-spacing:.05em}.aw-cabinet-scope .text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-100{--tw-text-opacity:1;color:rgb(243 244 246/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-200{--tw-text-opacity:1;color:rgb(229 231 235/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-300{--tw-text-opacity:1;color:rgb(209 213 219/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-rose-400{--tw-text-opacity:1;color:rgb(251 113 133/var(--tw-text-opacity,1))}.aw-cabinet-scope .text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.aw-cabinet-scope .placeholder-gray-500::placeholder{--tw-placeholder-opacity:1;color:rgb(107 114 128/var(--tw-placeholder-opacity,1))}.aw-cabinet-scope .shadow{--tw-shadow:0 1px 3px 0 #0000001a, 0 1px 2px -1px #0000001a;--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000), var(--tw-ring-shadow,0 0 #0000), var(--tw-shadow)}.aw-cabinet-scope .shadow-lg{--tw-shadow:0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000), var(--tw-ring-shadow,0 0 #0000), var(--tw-shadow)}.aw-cabinet-scope .shadow-md{--tw-shadow:0 4px 6px -1px #0000001a, 0 2px 4px -2px #0000001a;--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000), var(--tw-ring-shadow,0 0 #0000), var(--tw-shadow)}.aw-cabinet-scope .shadow-brand-600\\/30{--tw-shadow-color:#7c3aed4d;--tw-shadow:var(--tw-shadow-colored)}.aw-cabinet-scope .filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.aw-cabinet-scope .transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter,backdrop-filter;transition-duration:.15s;transition-timing-function:cubic-bezier(.4,0,.2,1)}.aw-cabinet-scope .glass{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);background:#8b5cf60f;border:1px solid #8b5cf62e}.aw-cabinet-scope .btn-glow{position:relative;overflow:hidden}.aw-cabinet-scope .btn-glow:after{content:\"\";pointer-events:none;background:linear-gradient(90deg,#0000,#ffffff2e,#0000);transition:transform .5s;position:absolute;inset:0;transform:translate(-100%)}.aw-cabinet-scope .btn-glow:hover:after{transform:translate(100%)}.aw-cabinet-scope .gold-text{color:#0000;background:linear-gradient(135deg,#c084fc 0%,#a855f7 50%,#22d3ee 100%);-webkit-background-clip:text;background-clip:text}.aw-cabinet-scope .dropzone{transition:border-color .15s,background .15s}.aw-cabinet-scope .dropzone.is-active{background:#7c3aed1a;border-color:#a855f799}.aw-cabinet-scope .skin-preview-frame{background:radial-gradient(at 50% 30%,#7c3aed2e,#070612f2 65%);border:1px solid #a855f738;border-radius:1rem;overflow:hidden}.aw-cabinet-scope .hover\\:border-brand-400\\/35:hover{border-color:#a78bfa59}.aw-cabinet-scope .hover\\:border-brand-400\\/55:hover{border-color:#a78bfa8c}.aw-cabinet-scope .hover\\:border-rose-500\\/45:hover{border-color:#f43f5e73}.aw-cabinet-scope .hover\\:bg-brand-500\\/10:hover{background-color:#8b5cf61a}.aw-cabinet-scope .hover\\:bg-rose-500\\/15:hover{background-color:#f43f5e26}.aw-cabinet-scope .hover\\:from-brand-700:hover{--tw-gradient-from:#6d28d9 var(--tw-gradient-from-position);--tw-gradient-to:#6d28d900 var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.aw-cabinet-scope .hover\\:to-brand-600:hover{--tw-gradient-to:#7c3aed var(--tw-gradient-to-position)}.aw-cabinet-scope .hover\\:text-rose-200:hover{--tw-text-opacity:1;color:rgb(254 205 211/var(--tw-text-opacity,1))}.aw-cabinet-scope .hover\\:text-rose-300:hover{--tw-text-opacity:1;color:rgb(253 164 175/var(--tw-text-opacity,1))}.aw-cabinet-scope .hover\\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.aw-cabinet-scope .hover\\:underline:hover{text-decoration-line:underline}.aw-cabinet-scope .focus\\:border-brand-400:focus{--tw-border-opacity:1;border-color:rgb(167 139 250/var(--tw-border-opacity,1))}.aw-cabinet-scope .focus\\:bg-brand-500\\/15:focus{background-color:#8b5cf626}.aw-cabinet-scope .focus\\:outline-none:focus{outline-offset:2px;outline:2px solid #0000}.aw-cabinet-scope .disabled\\:pointer-events-none:disabled{pointer-events:none}.aw-cabinet-scope .disabled\\:cursor-wait:disabled{cursor:wait}.aw-cabinet-scope .disabled\\:opacity-50:disabled{opacity:.5}.aw-cabinet-scope :is(.peer:checked~.peer-checked\\:translate-x-4){--tw-translate-x:1rem;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.aw-cabinet-scope :is(.peer:checked~.peer-checked\\:bg-brand-500\\/45){background-color:#8b5cf673}@media (min-width:768px){.aw-cabinet-scope .md\\:grid-cols-\\[1fr_280px\\]{grid-template-columns:1fr 280px}.aw-cabinet-scope .md\\:grid-cols-\\[200px_1fr\\]{grid-template-columns:200px 1fr}.aw-cabinet-scope .md\\:p-7{padding:1.75rem}}", Hh = "anubis-cabinet-styles";
+if (typeof document < "u" && !document.getElementById(Hh)) {
 	let e = document.createElement("style");
-	e.id = Ih, e.textContent = Fh, document.head.appendChild(e);
+	e.id = Hh, e.textContent = Vh, document.head.appendChild(e);
 }
-R(kh, "anubis-cabinet", [
+R(Fh, "anubis-cabinet", [
 	"supabase-url",
 	"supabase-key",
 	"lang",
