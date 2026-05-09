@@ -86,7 +86,8 @@ const DEFAULT_CONFIG = {
         },
         launcher: {
             allowPrerelease: false,
-            dataDirectory: dataPath
+            dataDirectory: dataPath,
+            locale: 'ru_RU' // one of LangLoader.SUPPORTED_LOCALES
         }
     },
     newsCache: {
@@ -275,6 +276,27 @@ exports.setClientToken = function(clientToken){
 }
 
 /**
+ * Get the currently selected UI locale (one of LangLoader.SUPPORTED_LOCALES).
+ * Defaults to 'en_US'.
+ *
+ * @param {boolean} def Optional. If true, the default value will be returned.
+ * @returns {string} The current locale id.
+ */
+exports.getCurrentLanguage = function(def = false){
+    return !def ? config.settings.launcher.locale : DEFAULT_CONFIG.settings.launcher.locale
+}
+
+/**
+ * Set the UI locale. Caller is responsible for reloading the Lang module
+ * after this (or restarting the launcher).
+ *
+ * @param {string} locale One of LangLoader.SUPPORTED_LOCALES.
+ */
+exports.setCurrentLanguage = function(locale){
+    config.settings.launcher.locale = locale
+}
+
+/**
  * Retrieve the ID of the selected serverpack.
  * 
  * @param {boolean} def Optional. If true, the default value will be returned.
@@ -314,89 +336,23 @@ exports.getAuthAccount = function(uuid){
 }
 
 /**
- * Update the access token of an authenticated mojang account.
- * 
- * @param {string} uuid The uuid of the authenticated account.
- * @param {string} accessToken The new Access Token.
- * 
+ * Adds an offline (guest) account. UUID is deterministic from the nickname
+ * (Mojang offline scheme), so reconnecting with the same nick restores the
+ * player's server-side data. Server must be online-mode=false.
+ *
+ * @param {string} displayName The in-game nickname.
  * @returns {Object} The authenticated account object created by this action.
  */
-exports.updateMojangAuthAccount = function(uuid, accessToken){
-    config.authenticationDatabase[uuid].accessToken = accessToken
-    config.authenticationDatabase[uuid].type = 'mojang' // For gradual conversion.
-    return config.authenticationDatabase[uuid]
-}
-
-/**
- * Adds an authenticated mojang account to the database to be stored.
- * 
- * @param {string} uuid The uuid of the authenticated account.
- * @param {string} accessToken The accessToken of the authenticated account.
- * @param {string} username The username (usually email) of the authenticated account.
- * @param {string} displayName The in game name of the authenticated account.
- * 
- * @returns {Object} The authenticated account object created by this action.
- */
-exports.addMojangAuthAccount = function(uuid, accessToken, username, displayName){
+exports.addOfflineAuthAccount = function(displayName){
+    const { offlineUUID } = require('./offlineauth')
+    const uuid = offlineUUID(displayName.trim())
     config.selectedAccount = uuid
     config.authenticationDatabase[uuid] = {
-        type: 'mojang',
-        accessToken,
-        username: username.trim(),
-        uuid: uuid.trim(),
+        type: 'offline',
+        accessToken: '',
+        username: displayName.trim(),
+        uuid,
         displayName: displayName.trim()
-    }
-    return config.authenticationDatabase[uuid]
-}
-
-/**
- * Update the tokens of an authenticated microsoft account.
- * 
- * @param {string} uuid The uuid of the authenticated account.
- * @param {string} accessToken The new Access Token.
- * @param {string} msAccessToken The new Microsoft Access Token
- * @param {string} msRefreshToken The new Microsoft Refresh Token
- * @param {date} msExpires The date when the microsoft access token expires
- * @param {date} mcExpires The date when the mojang access token expires
- * 
- * @returns {Object} The authenticated account object created by this action.
- */
-exports.updateMicrosoftAuthAccount = function(uuid, accessToken, msAccessToken, msRefreshToken, msExpires, mcExpires) {
-    config.authenticationDatabase[uuid].accessToken = accessToken
-    config.authenticationDatabase[uuid].expiresAt = mcExpires
-    config.authenticationDatabase[uuid].microsoft.access_token = msAccessToken
-    config.authenticationDatabase[uuid].microsoft.refresh_token = msRefreshToken
-    config.authenticationDatabase[uuid].microsoft.expires_at = msExpires
-    return config.authenticationDatabase[uuid]
-}
-
-/**
- * Adds an authenticated microsoft account to the database to be stored.
- * 
- * @param {string} uuid The uuid of the authenticated account.
- * @param {string} accessToken The accessToken of the authenticated account.
- * @param {string} name The in game name of the authenticated account.
- * @param {date} mcExpires The date when the mojang access token expires
- * @param {string} msAccessToken The microsoft access token
- * @param {string} msRefreshToken The microsoft refresh token
- * @param {date} msExpires The date when the microsoft access token expires
- * 
- * @returns {Object} The authenticated account object created by this action.
- */
-exports.addMicrosoftAuthAccount = function(uuid, accessToken, name, mcExpires, msAccessToken, msRefreshToken, msExpires) {
-    config.selectedAccount = uuid
-    config.authenticationDatabase[uuid] = {
-        type: 'microsoft',
-        accessToken,
-        username: name.trim(),
-        uuid: uuid.trim(),
-        displayName: name.trim(),
-        expiresAt: mcExpires,
-        microsoft: {
-            access_token: msAccessToken,
-            refresh_token: msRefreshToken,
-            expires_at: msExpires
-        }
     }
     return config.authenticationDatabase[uuid]
 }
@@ -405,9 +361,9 @@ exports.addMicrosoftAuthAccount = function(uuid, accessToken, name, mcExpires, m
  * Remove an authenticated account from the database. If the account
  * was also the selected account, a new one will be selected. If there
  * are no accounts, the selected account will be null.
- * 
+ *
  * @param {string} uuid The uuid of the authenticated account.
- * 
+ *
  * @returns {boolean} True if the account was removed, false if it never existed.
  */
 exports.removeAuthAccount = function(uuid){
@@ -425,6 +381,40 @@ exports.removeAuthAccount = function(uuid){
         return true
     }
     return false
+}
+
+/**
+ * Migration helpers for the v1.1 → v1.2 transition where the launcher
+ * moves from anonymous guest sessions to Supabase-backed accounts.
+ *
+ * If a v1.1 user already had an offline account, we keep the chosen
+ * nickname so they can log in / register without losing their server-side
+ * progress (offline UUID is deterministic from the nick).
+ */
+exports.getPendingMigrationNick = function(){
+    const sel = config.selectedAccount
+    if(!sel) return null
+    const acc = config.authenticationDatabase[sel]
+    if(acc && acc.type === 'offline' && acc.displayName){
+        return acc.displayName
+    }
+    // Fall back to the first offline account if the selected one is gone.
+    for(const id of Object.keys(config.authenticationDatabase)){
+        const a = config.authenticationDatabase[id]
+        if(a && a.type === 'offline' && a.displayName) return a.displayName
+    }
+    return null
+}
+
+exports.clearAllOfflineAccounts = function(){
+    for(const id of Object.keys(config.authenticationDatabase)){
+        if(config.authenticationDatabase[id]?.type === 'offline'){
+            delete config.authenticationDatabase[id]
+        }
+    }
+    if(!config.authenticationDatabase[config.selectedAccount]){
+        config.selectedAccount = null
+    }
 }
 
 /**

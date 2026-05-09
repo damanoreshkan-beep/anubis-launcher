@@ -22,8 +22,8 @@ ConfigManager.load()
 DistroAPI['commonDir'] = ConfigManager.getCommonDirectory()
 DistroAPI['instanceDir'] = ConfigManager.getInstanceDirectory()
 
-// Load Strings
-LangLoader.setupLanguage()
+// Load Strings (base en_US + user locale overlay from config)
+LangLoader.setupLanguage(ConfigManager.getCurrentLanguage())
 
 /**
  * 

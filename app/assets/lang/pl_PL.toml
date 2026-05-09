@@ -1,0 +1,285 @@
+# Polish translations.
+
+[ejs.landing]
+updateAvailableTooltip = "Dostępna aktualizacja"
+updateBannerTitle = "Dostępna aktualizacja"
+updateBannerInstall = "Zainstaluj"
+heroServerLabel = "HiTech · Minecraft 1.12.2"
+heroOpenBeta = "Otwarta beta"
+heroDesc = "Wysokiej jakości modowane serwery Minecraft, gdzie technologia i magia stają się jednością. Stabilna rozgrywka, starannie dobrane modpacki, przyjazna społeczność."
+usernamePlaceholder = "Nick"
+usernameEditButton = "Edytuj"
+settingsTooltip = "Ustawienia"
+serverStatus = "SERWER"
+serverStatusPlaceholder = "OFFLINE"
+mojangStatus = "MOJANG"
+mojangStatusTooltipTitle = "Usługi"
+mojangStatusNETitle = "Nie&nbsp;krytyczne"
+launchButton = "GRAJ"
+launchButtonPlaceholder = "&#8226; Nie wybrano serwera"
+launchDetails = "Proszę czekać.."
+
+[ejs.loginOptions]
+loginOptionsTitle = "Opcje logowania"
+loginWithMicrosoft = "Zaloguj przez Microsoft"
+loginWithMojang = "Zaloguj przez Mojang"
+cancelButton = "Anuluj"
+guestNicknamePlaceholder = "Nick (3-16 znaków)"
+guestSubmitButton = "Kontynuuj jako gość"
+tabSignIn = "Logowanie"
+tabSignUp = "Rejestracja"
+emailLabel = "Email"
+passwordLabel = "Hasło"
+nicknameLabel = "Nick w Minecraft"
+signInSubmit = "Zaloguj"
+signUpSubmit = "Utwórz konto"
+forgotPassword = "Zapomniałeś hasła?"
+forgotIntro = "Wpisz swój email — wyślemy jednorazowy jednorazowy kod do logowania (hasło nie jest potrzebne)."
+forgotSendCode = "Wyślij kod"
+forgotCodeSent = "Kod wysłany na"
+forgotCodeLabel = "Kod jednorazowy"
+forgotVerify = "Zweryfikuj i zaloguj"
+forgotResend = "Wyślij kod ponownie"
+forgotBack = "Wstecz"
+forgotInvalidCode = "Kod musi mieć 6-8 cyfr"
+forgotEmailFirst = "Najpierw wpisz email"
+forgotSent = "Link do resetu wysłany — sprawdź pocztę"
+nickFormatError = "Nick 3-16 znaków: litery, cyfry, _"
+nickTakenError = "Ten nick jest już zajęty"
+needNickname = "To konto nie ma jeszcze nicka — wybierz poniżej"
+checkEmail = "Sprawdź pocztę, aby potwierdzić konto"
+migrationTitle = "Wymagana aktualizacja konta"
+migrationBody = "Twój gościnny nick jest zapisany — zarejestruj się z tym samym nickiem, aby zachować postęp:"
+signInDiscord = "Zaloguj przez Discord"
+orDivider = "lub"
+
+[js.loginOptions]
+guestValidationError = "Nick 3-16 znaków: litery, cyfry, podkreślenie."
+
+[ejs.overlay]
+serverSelectHeader = "Dostępne serwery"
+serverSelectConfirm = "Wybierz"
+serverSelectCancel = "Anuluj"
+accountSelectHeader = "Wybierz konto"
+accountSelectConfirm = "Wybierz"
+accountSelectCancel = "Anuluj"
+
+[ejs.settings]
+navHeaderText = "Ustawienia"
+navAccount = "Konto"
+navCabinet = "Skórka"
+navPayments = "Wsparcie"
+anubisAccount = "Konto AnubisWorld"
+addAccount = "+ Dodaj konto"
+navMinecraft = "Minecraft"
+navMods = "Mody"
+navJava = "Java"
+navLauncher = "Launcher"
+navAbout = "O programie"
+navUpdates = "Aktualizacje"
+navDone = "Gotowe"
+tabAccountHeaderText = "Ustawienia konta"
+tabAccountHeaderDesc = "Dodaj nowe konta lub zarządzaj istniejącymi."
+minecraftTabHeaderText = "Ustawienia Minecraft"
+minecraftTabHeaderDesc = "Opcje uruchamiania gry."
+gameResolutionTitle = "Rozdzielczość gry"
+launchFullscreenTitle = "Uruchamiaj w trybie pełnoekranowym."
+autoConnectTitle = "Automatycznie łącz z serwerem przy uruchomieniu."
+launchDetachedTitle = "Uruchamiaj proces gry oddzielnie od launchera."
+launchDetachedDesc = "Jeśli gra nie jest oddzielona, zamknięcie launchera zamknie również grę."
+tabModsHeaderText = "Ustawienia modów"
+tabModsHeaderDesc = "Włącz lub wyłącz mody."
+switchServerButton = "Zmień"
+requiredMods = "Wymagane mody"
+optionalMods = "Opcjonalne mody"
+dropinMods = "Własne mody"
+addMods = "Dodaj mody"
+dropinRefreshNote = "(F5 aby odświeżyć)"
+shaderpacks = "Shadery"
+shaderpackDesc = "Włącz lub wyłącz shadery. Pamiętaj, że shadery działają płynnie tylko na mocnych zestawach. Tutaj możesz dodać własne paczki."
+selectShaderpack = "Wybierz pakiet shaderów"
+tabJavaHeaderText = "Ustawienia Java"
+tabJavaHeaderDesc = "Zarządzanie konfiguracją Java (zaawansowane)."
+memoryTitle = "Pamięć"
+maxRAM = "Maksimum RAM"
+minRAM = "Minimum RAM"
+memoryDesc = "Zalecane minimum RAM to 3 GB. Ustawienie tej samej wartości min i max może zmniejszyć lagi."
+memoryTotalTitle = "Łącznie"
+memoryAvailableTitle = "Dostępne"
+javaExecutableTitle = "Plik wykonywalny Java"
+javaExecSelDialogTitle = "Wybierz plik wykonywalny Java"
+javaExecSelButtonText = "Wybierz plik"
+javaExecDesc = "Plik Java jest weryfikowany przed uruchomieniem gry."
+javaPathDesc = "Ścieżka powinna kończyć się na <strong>{pathSuffix}</strong>."
+jvmOptsTitle = "Dodatkowe opcje JVM"
+jvmOptsDesc = "Opcje przekazywane do JVM przy uruchomieniu. <em>-Xms</em> i <em>-Xmx</em> nie powinny być uwzględnione."
+launcherTabHeaderText = "Ustawienia launchera"
+launcherTabHeaderDesc = "Opcje samego launchera."
+allowPrereleaseTitle = "Pozwól na aktualizacje pre-release."
+allowPrereleaseDesc = "Pre-releases zawierają nowe funkcje, które mogą nie być w pełni przetestowane.<br>Zawsze włączone, jeśli używasz wersji pre-release."
+dataDirectoryTitle = "Katalog danych"
+selectDataDirectory = "Wybierz katalog danych"
+chooseFolder = "Wybierz folder"
+dataDirectoryDesc = "W katalogu danych przechowywane są wszystkie pliki gry i lokalne instalacje Java.<br>Zrzuty ekranu i zapisy światów są w folderze instancji odpowiadającego serwera."
+aboutTabHeaderText = "O programie"
+aboutTabHeaderDesc = "Informacje i notatki bieżącej wersji."
+aboutTitle = "{appName}"
+stableRelease = "Stabilny release"
+versionText = "Wersja "
+sourceGithub = "Źródło (GitHub)"
+support = "Wsparcie"
+devToolsConsole = "Konsola DevTools"
+releaseNotes = "Notatki wersji"
+changelog = "Lista zmian"
+noReleaseNotes = "Brak notatek wersji"
+viewReleaseNotes = "Zobacz notatki wersji na GitHub"
+launcherUpdatesHeaderText = "Aktualizacje launchera"
+launcherUpdatesHeaderDesc = "Pobieranie, instalacja i przeglądanie aktualizacji launchera."
+checkForUpdates = "Sprawdź aktualizacje"
+whatsNew = "Co nowego"
+updateReleaseNotes = "Notatki aktualizacji"
+
+[ejs.waiting]
+waitingText = "Oczekiwanie na Microsoft.."
+
+[ejs.splash]
+loading = "Wczytywanie dystrybucji…"
+
+[ejs.welcome]
+continueButton = "DALEJ"
+welcomeHeader = "WITAJ W ANUBIS WORLD"
+welcomeDescription = "Wysokiej jakości modowane serwery Minecraft, gdzie technologia i magia stają się jednością. Stabilna rozgrywka, starannie dobrane modpacki, przyjazna społeczność."
+welcomeDescCTA = "Jesteś o kilka kliknięć od HiTech."
+
+[js.landing.launch]
+pleaseWait = "Proszę czekać.."
+failureTitle = "Błąd podczas uruchamiania"
+failureText = "Szczegóły w konsoli (CTRL + Shift + I)."
+okay = "OK"
+
+[js.landing.selectedAccount]
+noAccountSelected = "Nie wybrano konta"
+
+[js.landing.selectedServer]
+noSelection = "Nie wybrano serwera"
+loading = "Ładowanie.."
+
+[js.landing.serverStatus]
+server = "SERWER"
+offline = "OFFLINE"
+players = "GRACZE"
+
+[js.landing.systemScan]
+checking = "Sprawdzanie systemu.."
+noCompatibleJava = "Nie znaleziono<br>kompatybilnej Java"
+installJavaMessage = "Aby uruchomić Minecraft potrzebna jest 64-bitowa instalacja Java {major}. Czy zainstalować kopię?"
+installJava = "Zainstaluj Java"
+installJavaManually = "Zainstaluj ręcznie"
+javaDownloadPrepare = "Przygotowanie pobierania Java.."
+javaDownloadFailureTitle = "Błąd pobierania Java"
+javaDownloadFailureText = "Szczegóły w konsoli (CTRL + Shift + I)."
+javaRequired = "Java jest wymagana<br>do uruchomienia"
+javaRequiredMessage = 'Wymagana jest poprawna instalacja x64 Java {major}.<br><br>Zobacz nasz <a href="https://github.com/dscalzi/HeliosLauncher/wiki/Java-Management#manually-installing-a-valid-version-of-java">poradnik Java</a> dla ręcznej instalacji.'
+javaRequiredDismiss = "Rozumiem"
+javaRequiredCancel = "Wstecz"
+
+[js.landing.downloadJava]
+findJdkFailure = "Nie udało się znaleźć dystrybucji OpenJDK."
+javaDownloadCorruptedError = "Pobrana JDK ma zły hash, plik może być uszkodzony."
+extractingJava = "Rozpakowywanie Java"
+javaInstalled = "Java zainstalowana!"
+
+[js.landing.dlAsync]
+loadingServerInfo = "Ładowanie informacji o serwerze.."
+fatalError = "Błąd krytyczny"
+unableToLoadDistributionIndex = "Nie udało się załadować indeksu dystrybucji. Szczegóły w konsoli (CTRL + Shift + I)."
+pleaseWait = "Proszę czekać.."
+errorDuringLaunchTitle = "Błąd podczas uruchamiania"
+errorDuringLaunchText = "Szczegóły w konsoli (CTRL + Shift + I)."
+seeConsoleForDetails = "Szczegóły w konsoli (CTRL + Shift + I)."
+validatingFileIntegrity = "Weryfikacja integralności plików.."
+errorDuringFileVerificationTitle = "Błąd weryfikacji plików"
+downloadingFiles = "Pobieranie plików.."
+errorDuringFileDownloadTitle = "Błąd pobierania plików"
+preparingToLaunch = "Przygotowanie do uruchomienia.."
+launchingGame = "Uruchamianie gry.."
+launchWrapperNotDownloaded = "Główny plik LaunchWrapper nie pobrał się poprawnie. Gra nie może się uruchomić.<br><br>Tymczasowo wyłącz antywirus i spróbuj ponownie.<br><br>Jeśli to możliwe, <a href=\"https://github.com/damanoreshkan-beep/anubis-launcher/issues\">zgłoś problem</a> z podaniem antywirusa."
+doneEnjoyServer = "Gotowe. Miłej gry!"
+checkConsoleForDetails = "Szczegóły w konsoli (CTRL + Shift + I)."
+
+[js.landing.news]
+checking = "Sprawdzanie aktualności"
+
+[js.landing.discord]
+loading = "Ładowanie gry.."
+joining = "Łączenie z serwerem.."
+joined = "Na serwerze!"
+
+[js.overlay]
+dismiss = "Zamknij"
+
+[js.settings.fileSelectors]
+executables = "Pliki wykonywalne"
+allFiles = "Wszystkie pliki"
+
+
+
+[js.settings.authAccountSelect]
+selectButton = "Wybierz konto"
+selectedButton = "Aktywne konto &#10004;"
+
+[js.settings.authAccountLogout]
+lastAccountWarningTitle = "Uwaga<br>To twoje ostatnie konto"
+lastAccountWarningMessage = "Launcher wymaga co najmniej jednego konta. Zostaniesz przekierowany do ekranu logowania i będziesz musiał zalogować się ponownie.<br><br>Na pewno wylogować?"
+confirmButton = "Tak, wyloguj"
+cancelButton = "Anuluj"
+
+[js.settings.authAccountPopulate]
+username = "Nick"
+uuid = "UUID"
+selectAccount = "Wybierz konto"
+selectedAccount = "Aktywne konto ✓"
+logout = "Wyloguj"
+
+[js.settings.dropinMods]
+removeButton = "Usuń"
+deleteFailedTitle = "Nie udało się usunąć<br>Własnego moda {fullName}"
+deleteFailedMessage = "Upewnij się, że plik nie jest używany i spróbuj ponownie."
+failedToggleTitle = "Nie udało się przełączyć<br>jednego lub więcej modów"
+okButton = "OK"
+
+[js.settings.serverListing]
+mainServer = "Serwer główny"
+
+[js.settings.java]
+selectedJava = "Wybrano: Java {version} ({vendor})"
+invalidSelection = "Nieprawidłowy wybór"
+requiresJava = "Wymagana Java {major} x64."
+availableOptions = "Dostępne opcje dla Java {major} (HotSpot VM)"
+
+[js.settings.about]
+preReleaseTitle = "Pre-release"
+stableReleaseTitle = "Stabilny release"
+releaseNotesFailed = "Nie udało się załadować notatek wersji."
+
+[js.settings.updates]
+newReleaseTitle = "Dostępna nowa wersja"
+newPreReleaseTitle = "Dostępna nowa pre-release"
+downloadingButton = "Pobieranie.."
+downloadButton = 'Pobierz z GitHub<span style="font-size: 10px;color: gray;text-shadow: none !important;">Zamknij launcher i uruchom dmg, aby zaktualizować.</span>'
+latestVersionTitle = "Masz najnowszą wersję"
+checkForUpdatesButton = "Sprawdź aktualizacje"
+checkingForUpdatesButton = "Sprawdzanie aktualizacji.."
+
+[js.uibinder.startup]
+fatalErrorTitle = "Błąd krytyczny: nie udało się załadować indeksu dystrybucji"
+fatalErrorMessage = "Nie udało się nawiązać połączenia z naszymi serwerami w celu pobrania indeksu dystrybucji. Brak lokalnych kopii.<br><br>Indeks dystrybucji to kluczowy plik z aktualnymi informacjami o serwerach. Bez niego launcher nie może się uruchomić. Upewnij się, że masz połączenie z internetem i uruchom aplikację ponownie."
+closeButton = "Zamknij"
+
+[js.uicore.autoUpdate]
+checkingForUpdateButton = "Sprawdzanie aktualizacji..."
+installNowButton = "Zainstaluj teraz"
+checkForUpdatesButton = "Sprawdź aktualizacje"
+
+[js.discord]
+waiting = "Oczekiwanie na klienta.."

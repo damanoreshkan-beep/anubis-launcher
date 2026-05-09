@@ -1,0 +1,82 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            build: npm run dist:linux -- --publish never
+            artifact: linux
+            patterns: |
+              dist/*.AppImage
+              dist/*.pacman
+              dist/*.tar.gz
+              dist/*.yml
+          - os: windows-latest
+            build: npm run dist:win -- --publish never
+            artifact: windows
+            patterns: |
+              dist/*.exe
+              dist/*.exe.blockmap
+              dist/*.yml
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+      - run: npm run build:css
+
+      # fpm (used by electron-builder for pacman target) shells out to
+      # `bsdtar` to generate the Arch .MTREE file. Ubuntu runners don't
+      # ship bsdtar by default — without it the pacman build fails with
+      # "exit code 127". libarchive-tools provides it.
+      - if: matrix.os == 'ubuntu-latest'
+        run: sudo apt-get update && sudo apt-get install -y libarchive-tools
+
+      - run: ${{ matrix.build }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.artifact }}
+          path: ${{ matrix.patterns }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            artifacts/*.AppImage
+            artifacts/*.pacman
+            artifacts/*.tar.gz
+            artifacts/*.exe
+            artifacts/*.exe.blockmap
+            artifacts/*.yml

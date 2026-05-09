@@ -3,7 +3,6 @@ const os     = require('os')
 const semver = require('semver')
 
 const DropinModUtil  = require('./assets/js/dropinmodutil')
-const { MSFT_OPCODE, MSFT_REPLY_TYPE, MSFT_ERROR } = require('./assets/js/ipcconstants')
 
 const settingsState = {
     invalid: new Set()
@@ -285,6 +284,20 @@ function settingsNavItemListener(ele, fade = true){
     document.getElementById(prevTab).onscroll = null
     document.getElementById(selectedSettingsTab).onscroll = settingsTabScrollListener
 
+    // Lazy-mount the <anubis-cabinet> Web Component the first time the
+    // user opens its tab. Cabinet's bundle is large (~900 KB / Three.js)
+    // so we don't want to load it during settings open if the user
+    // never visits the tab.
+    if(selectedSettingsTab === 'settingsTabCabinet'){
+        ensureCabinetMounted()
+    }
+    // Same lazy pattern for the donations tab — the bundle is smaller
+    // (~395 KB, no Three.js) but the principle stands: don't pay for
+    // it until the user actually visits.
+    if(selectedSettingsTab === 'settingsTabPayments'){
+        ensurePaymentsMounted()
+    }
+
     if(fade){
         $(`#${prevTab}`).fadeOut(250, () => {
             $(`#${selectedSettingsTab}`).fadeIn({
@@ -339,110 +352,22 @@ settingsNavDone.onclick = () => {
  * Account Management Tab
  */
 
-const msftLoginLogger = LoggerUtil.getLogger('Microsoft Login')
-const msftLogoutLogger = LoggerUtil.getLogger('Microsoft Logout')
-
-// Bind the add mojang account button.
-document.getElementById('settingsAddMojangAccount').onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.login, 500, 500, () => {
-        loginViewOnCancel = VIEWS.settings
-        loginViewOnSuccess = VIEWS.settings
-        loginCancelEnabled(true)
-    })
-}
-
-// Bind the add microsoft account button.
-document.getElementById('settingsAddMicrosoftAccount').onclick = (e) => {
-    switchView(getCurrentView(), VIEWS.waiting, 500, 500, () => {
-        ipcRenderer.send(MSFT_OPCODE.OPEN_LOGIN, VIEWS.settings, VIEWS.settings)
-    })
-}
-
-// Bind reply for Microsoft Login.
-ipcRenderer.on(MSFT_OPCODE.REPLY_LOGIN, (_, ...arguments_) => {
-    if (arguments_[0] === MSFT_REPLY_TYPE.ERROR) {
-
-        const viewOnClose = arguments_[2]
-        console.log(arguments_)
-        switchView(getCurrentView(), viewOnClose, 500, 500, () => {
-
-            if(arguments_[1] === MSFT_ERROR.NOT_FINISHED) {
-                // User cancelled.
-                msftLoginLogger.info('Login cancelled by user.')
-                return
-            }
-
-            // Unexpected error.
-            setOverlayContent(
-                Lang.queryJS('settings.msftLogin.errorTitle'),
-                Lang.queryJS('settings.msftLogin.errorMessage'),
-                Lang.queryJS('settings.msftLogin.okButton')
-            )
-            setOverlayHandler(() => {
-                toggleOverlay(false)
-            })
-            toggleOverlay(true)
-        })
-    } else if(arguments_[0] === MSFT_REPLY_TYPE.SUCCESS) {
-        const queryMap = arguments_[1]
-        const viewOnClose = arguments_[2]
-
-        // Error from request to Microsoft.
-        if (Object.prototype.hasOwnProperty.call(queryMap, 'error')) {
-            switchView(getCurrentView(), viewOnClose, 500, 500, () => {
-                // TODO Dont know what these errors are. Just show them I guess.
-                // This is probably if you messed up the app registration with Azure.      
-                let error = queryMap.error // Error might be 'access_denied' ?
-                let errorDesc = queryMap.error_description
-                console.log('Error getting authCode, is Azure application registered correctly?')
-                console.log(error)
-                console.log(errorDesc)
-                console.log('Full query map: ', queryMap)
-                setOverlayContent(
-                    error,
-                    errorDesc,
-                    Lang.queryJS('settings.msftLogin.okButton')
-                )
-                setOverlayHandler(() => {
-                    toggleOverlay(false)
-                })
-                toggleOverlay(true)
-
-            })
-        } else {
-
-            msftLoginLogger.info('Acquired authCode, proceeding with authentication.')
-
-            const authCode = queryMap.code
-            AuthManager.addMicrosoftAccount(authCode).then(value => {
-                updateSelectedAccount(value)
-                switchView(getCurrentView(), viewOnClose, 500, 500, async () => {
-                    await prepareSettings()
-                })
-            })
-                .catch((displayableError) => {
-
-                    let actualDisplayableError
-                    if(isDisplayableError(displayableError)) {
-                        msftLoginLogger.error('Error while logging in.', displayableError)
-                        actualDisplayableError = displayableError
-                    } else {
-                        // Uh oh.
-                        msftLoginLogger.error('Unhandled error during login.', displayableError)
-                        actualDisplayableError = Lang.queryJS('login.error.unknown')
-                    }
-
-                    switchView(getCurrentView(), viewOnClose, 500, 500, () => {
-                        setOverlayContent(actualDisplayableError.title, actualDisplayableError.desc, Lang.queryJS('login.tryAgain'))
-                        setOverlayHandler(() => {
-                            toggleOverlay(false)
-                        })
-                        toggleOverlay(true)
-                    })
-                })
+// Account tab "add account" button (singular, Supabase-backed) routes to the
+// new login/register screen. Reset the shared auth widget first so the user
+// sees the fresh "start" screen, not their previous post-auth state — they
+// just authed as account A and now want to add a different account B.
+const addAccountBtn = document.getElementById('settingsAddAccount')
+if(addAccountBtn) {
+    addAccountBtn.onclick = async () => {
+        if(typeof window.resetAuthWidget === 'function'){
+            await window.resetAuthWidget()
         }
+        loginOptionsCancelEnabled(true)
+        loginOptionsViewOnCancel = VIEWS.settings
+        loginOptionsViewOnLoginSuccess = VIEWS.settings
+        switchView(getCurrentView(), VIEWS.loginOptions)
     }
-})
+}
 
 /**
  * Bind functionality for the account selection buttons. If another account
@@ -501,10 +426,11 @@ function bindAuthAccountLogOut(){
     })
 }
 
-let msAccDomElementCache
 /**
- * Process a log out.
- * 
+ * Process a log out for an offline / Supabase-derived account. The Supabase
+ * session itself is cleared by the login screen via the supabase-js client;
+ * here we just drop the local auth-database entry.
+ *
  * @param {Element} val The log out button element.
  * @param {boolean} isLastAccount If this logout is on the last added account.
  */
@@ -512,90 +438,23 @@ function processLogOut(val, isLastAccount){
     const parent = val.closest('.settingsAuthAccount')
     const uuid = parent.getAttribute('uuid')
     const prevSelAcc = ConfigManager.getSelectedAccount()
-    const targetAcc = ConfigManager.getAuthAccount(uuid)
-    if(targetAcc.type === 'microsoft') {
-        msAccDomElementCache = parent
-        switchView(getCurrentView(), VIEWS.waiting, 500, 500, () => {
-            ipcRenderer.send(MSFT_OPCODE.OPEN_LOGOUT, uuid, isLastAccount)
-        })
-    } else {
-        AuthManager.removeMojangAccount(uuid).then(() => {
-            if(!isLastAccount && uuid === prevSelAcc.uuid){
-                const selAcc = ConfigManager.getSelectedAccount()
-                refreshAuthAccountSelected(selAcc.uuid)
-                updateSelectedAccount(selAcc)
-                validateSelectedAccount()
-            }
-            if(isLastAccount) {
-                loginOptionsCancelEnabled(false)
-                loginOptionsViewOnLoginSuccess = VIEWS.settings
-                loginOptionsViewOnLoginCancel = VIEWS.loginOptions
-                switchView(getCurrentView(), VIEWS.loginOptions)
-            }
-        })
-        $(parent).fadeOut(250, () => {
-            parent.remove()
-        })
+    const postLogout = () => {
+        if(!isLastAccount && uuid === prevSelAcc.uuid){
+            const selAcc = ConfigManager.getSelectedAccount()
+            refreshAuthAccountSelected(selAcc.uuid)
+            updateSelectedAccount(selAcc)
+            validateSelectedAccount()
+        }
+        if(isLastAccount) {
+            loginOptionsCancelEnabled(false)
+            loginOptionsViewOnLoginSuccess = VIEWS.settings
+            loginOptionsViewOnLoginCancel = VIEWS.loginOptions
+            switchView(getCurrentView(), VIEWS.loginOptions)
+        }
     }
+    AuthManager.removeOfflineAccount(uuid, isLastAccount).then(postLogout)
+    $(parent).fadeOut(250, () => parent.remove())
 }
-
-// Bind reply for Microsoft Logout.
-ipcRenderer.on(MSFT_OPCODE.REPLY_LOGOUT, (_, ...arguments_) => {
-    if (arguments_[0] === MSFT_REPLY_TYPE.ERROR) {
-        switchView(getCurrentView(), VIEWS.settings, 500, 500, () => {
-
-            if(arguments_.length > 1 && arguments_[1] === MSFT_ERROR.NOT_FINISHED) {
-                // User cancelled.
-                msftLogoutLogger.info('Logout cancelled by user.')
-                return
-            }
-
-            // Unexpected error.
-            setOverlayContent(
-                Lang.queryJS('settings.msftLogout.errorTitle'),
-                Lang.queryJS('settings.msftLogout.errorMessage'),
-                Lang.queryJS('settings.msftLogout.okButton')
-            )
-            setOverlayHandler(() => {
-                toggleOverlay(false)
-            })
-            toggleOverlay(true)
-        })
-    } else if(arguments_[0] === MSFT_REPLY_TYPE.SUCCESS) {
-        
-        const uuid = arguments_[1]
-        const isLastAccount = arguments_[2]
-        const prevSelAcc = ConfigManager.getSelectedAccount()
-
-        msftLogoutLogger.info('Logout Successful. uuid:', uuid)
-        
-        AuthManager.removeMicrosoftAccount(uuid)
-            .then(() => {
-                if(!isLastAccount && uuid === prevSelAcc.uuid){
-                    const selAcc = ConfigManager.getSelectedAccount()
-                    refreshAuthAccountSelected(selAcc.uuid)
-                    updateSelectedAccount(selAcc)
-                    validateSelectedAccount()
-                }
-                if(isLastAccount) {
-                    loginOptionsCancelEnabled(false)
-                    loginOptionsViewOnLoginSuccess = VIEWS.settings
-                    loginOptionsViewOnLoginCancel = VIEWS.loginOptions
-                    switchView(getCurrentView(), VIEWS.loginOptions)
-                }
-                if(msAccDomElementCache) {
-                    msAccDomElementCache.remove()
-                    msAccDomElementCache = null
-                }
-            })
-            .finally(() => {
-                if(!isLastAccount) {
-                    switchView(getCurrentView(), VIEWS.settings, 500, 500)
-                }
-            })
-
-    }
-})
 
 /**
  * Refreshes the status of the selected account on the auth account
@@ -618,29 +477,25 @@ function refreshAuthAccountSelected(uuid){
     })
 }
 
-const settingsCurrentMicrosoftAccounts = document.getElementById('settingsCurrentMicrosoftAccounts')
-const settingsCurrentMojangAccounts = document.getElementById('settingsCurrentMojangAccounts')
+const settingsCurrentAccounts = document.getElementById('settingsCurrentAccounts')
 
 /**
- * Add auth account elements for each one stored in the authentication database.
+ * Render the single Supabase-backed account card (or nothing if not signed in yet).
  */
 function populateAuthAccounts(){
+    if(!settingsCurrentAccounts) return
     const authAccounts = ConfigManager.getAuthAccounts()
     const authKeys = Object.keys(authAccounts)
     if(authKeys.length === 0){
+        settingsCurrentAccounts.innerHTML = ''
         return
     }
     const selectedUUID = ConfigManager.getSelectedAccount().uuid
-
-    let microsoftAuthAccountStr = ''
-    let mojangAuthAccountStr = ''
-
-    authKeys.forEach((val) => {
+    const html = authKeys.map((val) => {
         const acc = authAccounts[val]
-
-        const accHtml = `<div class="settingsAuthAccount" uuid="${acc.uuid}">
+        return `<div class="settingsAuthAccount" uuid="${acc.uuid}">
             <div class="settingsAuthAccountLeft">
-                <img class="settingsAuthAccountImage" alt="${acc.displayName}" src="https://mc-heads.net/body/${acc.uuid}/60">
+                <img class="settingsAuthAccountImage" alt="${acc.displayName}" src="https://mc-heads.net/avatar/${acc.uuid}/96">
             </div>
             <div class="settingsAuthAccountRight">
                 <div class="settingsAuthAccountDetails">
@@ -661,17 +516,8 @@ function populateAuthAccounts(){
                 </div>
             </div>
         </div>`
-
-        if(acc.type === 'microsoft') {
-            microsoftAuthAccountStr += accHtml
-        } else {
-            mojangAuthAccountStr += accHtml
-        }
-
-    })
-
-    settingsCurrentMicrosoftAccounts.innerHTML = microsoftAuthAccountStr
-    settingsCurrentMojangAccounts.innerHTML = mojangAuthAccountStr
+    }).join('')
+    settingsCurrentAccounts.innerHTML = html
 }
 
 /**
@@ -1581,3 +1427,57 @@ async function prepareSettings(first = false) {
 
 // Prepare the settings UI on startup.
 //prepareSettings(true)
+
+// ─── Cabinet tab — embedded <anubis-cabinet> Web Component ─────────────────
+//
+// Mounts on first open (lazy — bundle is ~900 KB because of Three.js for
+// the 3D skin preview). Idempotent: subsequent opens are no-ops.
+//
+// The cabinet shares the same Supabase project as the auth widget, so
+// the user is already signed in by the time they reach this tab; the
+// component reads the session from localStorage on init.
+const sb_settingsCabinet = require('./assets/js/supabaseclient')
+const ConfigManager_settingsCabinet = require('./assets/js/configmanager')
+
+function ensureCabinetMounted(){
+    const mount = document.getElementById('cabinetMount')
+    if(!mount || mount.querySelector('anubis-cabinet')) return
+    const locale = ConfigManager_settingsCabinet.getCurrentLanguage() || 'en_US'
+    const widget = document.createElement('anubis-cabinet')
+    widget.setAttribute('supabase-url', sb_settingsCabinet.SUPABASE_URL)
+    widget.setAttribute('supabase-key', sb_settingsCabinet.SUPABASE_KEY)
+    widget.setAttribute('lang', locale.slice(0, 2).toLowerCase())
+    widget.setAttribute('mode', 'launcher')
+    mount.appendChild(widget)
+    if(!window.__anubisCabinetBundleLoaded){
+        window.__anubisCabinetBundleLoaded = true
+        const s = document.createElement('script')
+        s.type = 'module'
+        s.src = './assets/js/vendor/anubis-cabinet.js'
+        document.head.appendChild(s)
+    }
+}
+
+// ─── Payments tab — embedded <anubis-payments> Web Component ───────────────
+//
+// Same lazy-mount pattern as the cabinet. Reuses the launcher's Supabase
+// client through the `anubis-need-supabase` event so it sees the active
+// session and renders the tier cards instead of the sign-in gate.
+function ensurePaymentsMounted(){
+    const mount = document.getElementById('paymentsMount')
+    if(!mount || mount.querySelector('anubis-payments')) return
+    const locale = ConfigManager_settingsCabinet.getCurrentLanguage() || 'en_US'
+    const widget = document.createElement('anubis-payments')
+    widget.setAttribute('supabase-url', sb_settingsCabinet.SUPABASE_URL)
+    widget.setAttribute('supabase-key', sb_settingsCabinet.SUPABASE_KEY)
+    widget.setAttribute('lang', locale.slice(0, 2).toLowerCase())
+    widget.setAttribute('mode', 'launcher')
+    mount.appendChild(widget)
+    if(!window.__anubisPaymentsBundleLoaded){
+        window.__anubisPaymentsBundleLoaded = true
+        const s = document.createElement('script')
+        s.type = 'module'
+        s.src = './assets/js/vendor/anubis-payments.js'
+        document.head.appendChild(s)
+    }
+}

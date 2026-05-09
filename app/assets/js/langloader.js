@@ -32,12 +32,24 @@ exports.queryEJS = function(id, placeHolders){
     return exports.query(`ejs.${id}`, placeHolders)
 }
 
-exports.setupLanguage = function(){
-    // Load Language Files
-    exports.loadLanguage('en_US')
-    // Uncomment this when translations are ready
-    //exports.loadLanguage('xx_XX')
+// Every locale supported by the launcher. `en_US` is the base/fallback — it is
+// always loaded first so missing keys in a user locale silently fall through.
+// Keep this list in sync with app/assets/lang/*.toml.
+exports.SUPPORTED_LOCALES = ['en_US', 'ru_RU', 'uk_UA', 'de_DE', 'pl_PL']
 
-    // Load Custom Language File for Launcher Customizer
+exports.setupLanguage = function(locale){
+    // Base English pack — fallback for keys missing in the user locale.
+    exports.loadLanguage('en_US')
+
+    // User locale overlay (skip if it's already English or unknown).
+    if(locale && locale !== 'en_US' && exports.SUPPORTED_LOCALES.includes(locale)){
+        try {
+            exports.loadLanguage(locale)
+        } catch (e) {
+            // Locale file missing → silently stay on English.
+        }
+    }
+
+    // Custom overlay for launcher customizer (brand strings).
     exports.loadLanguage('_custom')
 }

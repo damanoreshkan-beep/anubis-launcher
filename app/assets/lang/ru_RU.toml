@@ -1,0 +1,285 @@
+# Russian translations.
+
+[ejs.landing]
+updateAvailableTooltip = "Доступно обновление"
+updateBannerTitle = "Доступно обновление"
+updateBannerInstall = "Установить"
+heroServerLabel = "HiTech · Minecraft 1.12.2"
+heroOpenBeta = "Открытая бета"
+heroDesc = "Качественные модовые серверы Minecraft, где технологии и магия становятся единым целым. Стабильный геймплей, продуманные сборки, дружное комьюнити."
+usernamePlaceholder = "Никнейм"
+usernameEditButton = "Изменить"
+settingsTooltip = "Настройки"
+serverStatus = "СЕРВЕР"
+serverStatusPlaceholder = "ОФФЛАЙН"
+mojangStatus = "MOJANG"
+mojangStatusTooltipTitle = "Сервисы"
+mojangStatusNETitle = "Не&nbsp;критичные"
+launchButton = "ИГРАТЬ"
+launchButtonPlaceholder = "&#8226; Сервер не выбран"
+launchDetails = "Подождите.."
+
+[ejs.loginOptions]
+loginOptionsTitle = "Вход в аккаунт"
+loginWithMicrosoft = "Войти через Microsoft"
+loginWithMojang = "Войти через Mojang"
+cancelButton = "Отмена"
+guestNicknamePlaceholder = "Никнейм (3-16 символов)"
+guestSubmitButton = "Войти как гость"
+tabSignIn = "Вход"
+tabSignUp = "Регистрация"
+emailLabel = "Email"
+passwordLabel = "Пароль"
+nicknameLabel = "Никнейм в Minecraft"
+signInSubmit = "Войти"
+signUpSubmit = "Создать аккаунт"
+forgotPassword = "Забыли пароль?"
+forgotIntro = "Введи свой email — мы отправим одноразовый Одноразовый код для входа (пароль не нужен)."
+forgotSendCode = "Отправить код"
+forgotCodeSent = "Код отправлен на"
+forgotCodeLabel = "Одноразовый код"
+forgotVerify = "Проверить и войти"
+forgotResend = "Отправить код заново"
+forgotBack = "Назад к входу"
+forgotInvalidCode = "Код має містити 6 цифр"
+forgotEmailFirst = "Сначала введите email"
+forgotSent = "Письмо для сброса отправлено — проверь почту"
+nickFormatError = "Ник 3-16 символов: латиница, цифры, _"
+nickTakenError = "Этот ник уже занят"
+needNickname = "У аккаунта ещё нет ника — выбери ниже"
+checkEmail = "Проверь почту для подтверждения аккаунта"
+migrationTitle = "Нужен аккаунт"
+migrationBody = "Твой гостевой ник сохранён — зарегистрируйся с тем же ником, чтобы сохранить прогресс:"
+signInDiscord = "Войти через Discord"
+orDivider = "или"
+
+[js.loginOptions]
+guestValidationError = "Ник 3-16 символов: буквы, цифры, подчёркивание."
+
+[ejs.overlay]
+serverSelectHeader = "Доступные серверы"
+serverSelectConfirm = "Выбрать"
+serverSelectCancel = "Отмена"
+accountSelectHeader = "Выберите аккаунт"
+accountSelectConfirm = "Выбрать"
+accountSelectCancel = "Отмена"
+
+[ejs.settings]
+navHeaderText = "Настройки"
+navAccount = "Аккаунт"
+navCabinet = "Скин"
+navPayments = "Донат"
+anubisAccount = "Аккаунт AnubisWorld"
+addAccount = "+ Добавить аккаунт"
+navMinecraft = "Minecraft"
+navMods = "Моды"
+navJava = "Java"
+navLauncher = "Лаунчер"
+navAbout = "О программе"
+navUpdates = "Обновления"
+navDone = "Готово"
+tabAccountHeaderText = "Настройки аккаунта"
+tabAccountHeaderDesc = "Добавьте новые аккаунты или управляйте существующими."
+minecraftTabHeaderText = "Настройки Minecraft"
+minecraftTabHeaderDesc = "Параметры запуска игры."
+gameResolutionTitle = "Разрешение игры"
+launchFullscreenTitle = "Запускать в полноэкранном режиме."
+autoConnectTitle = "Автоматически подключаться к серверу при запуске."
+launchDetachedTitle = "Запускать игру отдельно от лаунчера."
+launchDetachedDesc = "Если игра не отделена, закрытие лаунчера также закроет игру."
+tabModsHeaderText = "Настройки модов"
+tabModsHeaderDesc = "Включить или отключить моды."
+switchServerButton = "Сменить"
+requiredMods = "Обязательные моды"
+optionalMods = "Опциональные моды"
+dropinMods = "Свои моды"
+addMods = "Добавить моды"
+dropinRefreshNote = "(F5 для обновления)"
+shaderpacks = "Шейдеры"
+shaderpackDesc = "Включите или отключите шейдеры. Учтите — шейдеры будут плавно работать только на мощных системах. Здесь можно добавить свои паки."
+selectShaderpack = "Выбрать пак шейдеров"
+tabJavaHeaderText = "Настройки Java"
+tabJavaHeaderDesc = "Управление конфигурацией Java (для опытных)."
+memoryTitle = "Память"
+maxRAM = "Максимум RAM"
+minRAM = "Минимум RAM"
+memoryDesc = "Рекомендуемый минимум RAM — 3 ГБ. Установка одинакового минимума и максимума может уменьшить лаги."
+memoryTotalTitle = "Всего"
+memoryAvailableTitle = "Доступно"
+javaExecutableTitle = "Исполняемый файл Java"
+javaExecSelDialogTitle = "Выберите исполняемый файл Java"
+javaExecSelButtonText = "Выбрать файл"
+javaExecDesc = "Файл Java проверяется перед запуском игры."
+javaPathDesc = "Путь должен заканчиваться на <strong>{pathSuffix}</strong>."
+jvmOptsTitle = "Дополнительные параметры JVM"
+jvmOptsDesc = "Параметры передаются JVM при запуске. <em>-Xms</em> и <em>-Xmx</em> указывать не нужно."
+launcherTabHeaderText = "Настройки лаунчера"
+launcherTabHeaderDesc = "Параметры самого лаунчера."
+allowPrereleaseTitle = "Разрешить пре-релизные обновления."
+allowPrereleaseDesc = "Пре-релизы содержат новые функции, которые могут быть не до конца протестированы.<br>Всегда включено, если вы используете пре-релизную версию."
+dataDirectoryTitle = "Папка данных"
+selectDataDirectory = "Выберите папку данных"
+chooseFolder = "Выбрать папку"
+dataDirectoryDesc = "В папке данных хранятся все файлы игры и локальные установки Java.<br>Скриншоты и сохранения миров — в папке инстанса соответствующего сервера."
+aboutTabHeaderText = "О программе"
+aboutTabHeaderDesc = "Информация и заметки текущей версии."
+aboutTitle = "{appName}"
+stableRelease = "Стабильный релиз"
+versionText = "Версия "
+sourceGithub = "Исходники (GitHub)"
+support = "Поддержка"
+devToolsConsole = "Консоль DevTools"
+releaseNotes = "Заметки релиза"
+changelog = "Список изменений"
+noReleaseNotes = "Нет заметок релиза"
+viewReleaseNotes = "Посмотреть заметки релиза на GitHub"
+launcherUpdatesHeaderText = "Обновления лаунчера"
+launcherUpdatesHeaderDesc = "Загрузка, установка и просмотр обновлений лаунчера."
+checkForUpdates = "Проверить обновления"
+whatsNew = "Что нового"
+updateReleaseNotes = "Заметки обновления"
+
+[ejs.waiting]
+waitingText = "Ожидание Microsoft.."
+
+[ejs.splash]
+loading = "Загрузка дистрибутива…"
+
+[ejs.welcome]
+continueButton = "ПРОДОЛЖИТЬ"
+welcomeHeader = "ДОБРО ПОЖАЛОВАТЬ В ANUBIS WORLD"
+welcomeDescription = "Качественные модовые серверы Minecraft, где технологии и магия становятся единым целым. Стабильный геймплей, продуманные сборки, отзывчивое сообщество."
+welcomeDescCTA = "Вы в нескольких кликах от HiTech."
+
+[js.landing.launch]
+pleaseWait = "Подождите.."
+failureTitle = "Ошибка при запуске"
+failureText = "Подробности в консоли (CTRL + Shift + I)."
+okay = "OK"
+
+[js.landing.selectedAccount]
+noAccountSelected = "Аккаунт не выбран"
+
+[js.landing.selectedServer]
+noSelection = "Сервер не выбран"
+loading = "Загрузка.."
+
+[js.landing.serverStatus]
+server = "СЕРВЕР"
+offline = "ОФФЛАЙН"
+players = "ИГРОКИ"
+
+[js.landing.systemScan]
+checking = "Проверка системы.."
+noCompatibleJava = "Совместимая Java<br>не найдена"
+installJavaMessage = "Для запуска Minecraft нужна 64-битная установка Java {major}. Установить копию автоматически?"
+installJava = "Установить Java"
+installJavaManually = "Установить вручную"
+javaDownloadPrepare = "Подготовка загрузки Java.."
+javaDownloadFailureTitle = "Ошибка загрузки Java"
+javaDownloadFailureText = "Подробности в консоли (CTRL + Shift + I)."
+javaRequired = "Для запуска<br>требуется Java"
+javaRequiredMessage = 'Для запуска нужна корректная x64 установка Java {major}.<br><br>Смотрите наш <a href="https://github.com/dscalzi/HeliosLauncher/wiki/Java-Management#manually-installing-a-valid-version-of-java">гайд по Java</a> для ручной установки.'
+javaRequiredDismiss = "Понятно"
+javaRequiredCancel = "Назад"
+
+[js.landing.downloadJava]
+findJdkFailure = "Не удалось найти дистрибутив OpenJDK."
+javaDownloadCorruptedError = "Загруженный JDK имеет неверный хэш — файл повреждён."
+extractingJava = "Распаковка Java"
+javaInstalled = "Java установлена!"
+
+[js.landing.dlAsync]
+loadingServerInfo = "Загрузка информации о сервере.."
+fatalError = "Критическая ошибка"
+unableToLoadDistributionIndex = "Не удалось загрузить индекс дистрибуции. Подробности в консоли (CTRL + Shift + I)."
+pleaseWait = "Подождите.."
+errorDuringLaunchTitle = "Ошибка при запуске"
+errorDuringLaunchText = "Подробности в консоли (CTRL + Shift + I)."
+seeConsoleForDetails = "Подробности в консоли (CTRL + Shift + I)."
+validatingFileIntegrity = "Проверка целостности файлов.."
+errorDuringFileVerificationTitle = "Ошибка проверки файлов"
+downloadingFiles = "Загрузка файлов.."
+errorDuringFileDownloadTitle = "Ошибка загрузки файлов"
+preparingToLaunch = "Подготовка к запуску.."
+launchingGame = "Запуск игры.."
+launchWrapperNotDownloaded = "Основной файл LaunchWrapper не загрузился. Игра не может быть запущена.<br><br>Временно отключите антивирус и попробуйте снова.<br><br>При возможности <a href=\"https://github.com/damanoreshkan-beep/anubis-launcher/issues\">сообщите об этом</a> с указанием антивируса."
+doneEnjoyServer = "Готово. Приятной игры!"
+checkConsoleForDetails = "Подробности в консоли (CTRL + Shift + I)."
+
+[js.landing.news]
+checking = "Проверка новостей"
+
+[js.landing.discord]
+loading = "Загрузка игры.."
+joining = "Подключение к серверу.."
+joined = "На сервере!"
+
+[js.overlay]
+dismiss = "Закрыть"
+
+[js.settings.fileSelectors]
+executables = "Исполняемые файлы"
+allFiles = "Все файлы"
+
+
+
+[js.settings.authAccountSelect]
+selectButton = "Выбрать аккаунт"
+selectedButton = "Активный аккаунт &#10004;"
+
+[js.settings.authAccountLogout]
+lastAccountWarningTitle = "Внимание<br>Это твой последний аккаунт"
+lastAccountWarningMessage = "Для работы лаунчера нужен хотя бы один аккаунт. Тебя перекинет на экран логина и придётся войти заново.<br><br>Точно выйти?"
+confirmButton = "Да, выйти"
+cancelButton = "Отмена"
+
+[js.settings.authAccountPopulate]
+username = "Никнейм"
+uuid = "UUID"
+selectAccount = "Выбрать аккаунт"
+selectedAccount = "Активный аккаунт ✓"
+logout = "Выйти"
+
+[js.settings.dropinMods]
+removeButton = "Удалить"
+deleteFailedTitle = "Не удалось удалить<br>Свой мод {fullName}"
+deleteFailedMessage = "Убедитесь, что файл не используется и попробуйте снова."
+failedToggleTitle = "Не удалось переключить<br>один или несколько модов"
+okButton = "OK"
+
+[js.settings.serverListing]
+mainServer = "Основной сервер"
+
+[js.settings.java]
+selectedJava = "Выбрано: Java {version} ({vendor})"
+invalidSelection = "Неверный выбор"
+requiresJava = "Требуется Java {major} x64."
+availableOptions = "Доступные варианты Java {major} (HotSpot VM)"
+
+[js.settings.about]
+preReleaseTitle = "Пре-релиз"
+stableReleaseTitle = "Стабильный релиз"
+releaseNotesFailed = "Не удалось загрузить заметки релиза."
+
+[js.settings.updates]
+newReleaseTitle = "Доступен новый релиз"
+newPreReleaseTitle = "Доступен новый пре-релиз"
+downloadingButton = "Загрузка.."
+downloadButton = 'Скачать с GitHub<span style="font-size: 10px;color: gray;text-shadow: none !important;">Закройте лаунчер и запустите dmg для обновления.</span>'
+latestVersionTitle = "У вас последняя версия"
+checkForUpdatesButton = "Проверить обновления"
+checkingForUpdatesButton = "Проверка обновлений.."
+
+[js.uibinder.startup]
+fatalErrorTitle = "Критическая ошибка: не удалось загрузить индекс дистрибуции"
+fatalErrorMessage = "Не удалось подключиться к нашим серверам для загрузки индекса дистрибуции. Локальных копий нет.<br><br>Индекс дистрибуции — критичный файл с актуальной информацией о серверах. Без него лаунчер не может запуститься. Проверьте интернет и перезапустите приложение."
+closeButton = "Закрыть"
+
+[js.uicore.autoUpdate]
+checkingForUpdateButton = "Проверка обновлений..."
+installNowButton = "Установить сейчас"
+checkForUpdatesButton = "Проверить обновления"
+
+[js.discord]
+waiting = "Ожидание клиента.."

@@ -77,6 +77,19 @@ class ProcessBuilder {
 
         logger.info('Launch Arguments:', loggableArgs)
 
+        // LWJGL 2 (MC 1.12) shells out to the `xrandr` binary via
+        // Runtime.exec(["xrandr","-q"]) to enumerate display modes.
+        // If it's not on PATH, output is empty, getAvailableDisplayModes[0]
+        // throws ArrayIndexOutOfBoundsException and the client never opens.
+        // Warn the user with actionable copy instead of silently crashing.
+        if(process.platform === 'linux') {
+            try {
+                child_process.execFileSync('which', ['xrandr'], { stdio: 'ignore' })
+            } catch (e) {
+                logger.warn('`xrandr` binary missing. Minecraft 1.12 (LWJGL 2) will crash with ArrayIndexOutOfBoundsException in LinuxDisplay.getAvailableDisplayModes. Install it: sudo pacman -S xorg-xrandr (Arch) / sudo apt install x11-xserver-utils (Debian/Ubuntu).')
+            }
+        }
+
         const child = child_process.spawn(ConfigManager.getJavaExecutable(this.server.rawServer.id), args, {
             cwd: this.gameDir,
             detached: ConfigManager.getLaunchDetached()
@@ -372,8 +385,8 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=HeliosLauncher')
-            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'minecraft.icns'))
+            args.push('-Xdock:name=AnubisWorldLauncher')
+            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'site', 'icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
         args.push('-Xms' + ConfigManager.getMinRAM(this.server.rawServer.id))
@@ -423,8 +436,8 @@ class ProcessBuilder {
 
         // Java Arguments
         if(process.platform === 'darwin'){
-            args.push('-Xdock:name=HeliosLauncher')
-            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'minecraft.icns'))
+            args.push('-Xdock:name=AnubisWorldLauncher')
+            args.push('-Xdock:icon=' + path.join(__dirname, '..', 'images', 'site', 'icon.icns'))
         }
         args.push('-Xmx' + ConfigManager.getMaxRAM(this.server.rawServer.id))
         args.push('-Xms' + ConfigManager.getMinRAM(this.server.rawServer.id))

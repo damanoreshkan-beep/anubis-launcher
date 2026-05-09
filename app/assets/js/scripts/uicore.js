@@ -19,21 +19,73 @@ const loggerAutoUpdater        = LoggerUtil.getLogger('AutoUpdater')
 process.traceProcessWarnings = true
 process.traceDeprecation = true
 
-// Disable eval function.
-window.eval = global.eval = function () {
-    throw new Error('Sorry, this app does not support window.eval().')
+// Disable eval function. Skipped when the Playwright test driver flips the
+// `__PW_TEST__` marker via addInitScript — Playwright's serialization layer
+// uses eval and would otherwise crash on the first page.evaluate() call.
+if (!window.__PW_TEST__) {
+    window.eval = global.eval = function () {
+        throw new Error('Sorry, this app does not support window.eval().')
+    }
 }
 
 // Display warning when devtools window is opened.
 remote.getCurrentWebContents().on('devtools-opened', () => {
-    console.log('%cThe console is dark and full of terrors.', 'color: white; -webkit-text-stroke: 4px #a02d2a; font-size: 60px; font-weight: bold')
-    console.log('%cIf you\'ve been told to paste something here, you\'re being scammed.', 'font-size: 16px')
-    console.log('%cUnless you know exactly what you\'re doing, close this window.', 'font-size: 16px')
+    console.log(
+        '%cAnubis%cWorld',
+        'background: linear-gradient(135deg, #7c3aed, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; font-weight: 900; letter-spacing: -2px;',
+        'background: linear-gradient(135deg, #a855f7, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 56px; font-weight: 900; letter-spacing: -2px;'
+    )
+    console.log('%cЛаунчер для AnubisWorld · HiTech 1.12.2', 'color: #c4b5fd; font-size: 14px; font-weight: 600; letter-spacing: 0.4px;')
+    console.log(
+        '%c⚠ Stop!%c Якщо тобі сказали вставити сюди код — це обман.',
+        'background: rgba(220,38,38,0.18); color: #fca5a5; font-size: 18px; font-weight: 800; padding: 4px 10px; border-radius: 6px;',
+        'color: #f87171; font-size: 14px; margin-left: 8px;'
+    )
+    console.log('%cЯкщо ти не знаєш що робиш — закрий це вікно.', 'color: #9ca3af; font-size: 12px;')
 })
 
 // Disable zoom, needed for darwin.
 webFrame.setZoomLevel(0)
 webFrame.setVisualZoomLevelLimits(1, 1)
+
+// Deep-link receiver — main process forwards `anubisworld://...` URLs
+// after the OS triggers our protocol handler (e.g. user clicked "Open
+// launcher" on the website after a sign-in / password reset).
+//
+// `anubisworld://signed-in?nick=<nick>` → trust the website's pick and drop
+// the user straight onto the landing screen with that nick selected, no
+// extra login modal. The Anubis server runs in offline mode, so the nick
+// alone is enough for the JVM launch flow; we don't need a Supabase
+// session in the launcher to play.
+ipcRenderer.on('deep-link', async (_e, url) => {
+    loggerUICore.info('Received deep link:', url)
+    try {
+        const u = new URL(url)
+        const nick = (u.searchParams.get('nick') || '').trim()
+
+        if(/^[a-zA-Z0-9_]{3,16}$/.test(nick)){
+            const ConfigManager = require('./assets/js/configmanager')
+            const acc = ConfigManager.addOfflineAuthAccount(nick)
+            ConfigManager.save()
+            if(typeof updateSelectedAccount === 'function'){
+                updateSelectedAccount(acc)
+            }
+            if(typeof switchView === 'function' && typeof getCurrentView === 'function' && typeof VIEWS !== 'undefined'){
+                if(getCurrentView() !== VIEWS.landing){
+                    switchView(getCurrentView(), VIEWS.landing)
+                }
+            }
+            loggerUICore.info('Deep-link applied, nick:', nick)
+        }
+
+        // Refresh the Supabase session in case the website updated something
+        // (e.g. password reset). No-op if there's no active session locally.
+        const sb = require('./assets/js/supabaseclient')
+        await sb.auth.refreshSession().catch(() => {})
+    } catch (e) {
+        loggerUICore.warn('Deep-link processing failed (non-fatal):', e?.message)
+    }
+})
 
 // Initialize auto updates in production environments.
 let updateCheckListener
@@ -105,7 +157,22 @@ function changeAllowPrerelease(val){
 }
 
 function showUpdateUI(info){
-    //TODO Make this message a bit more informative `${info.version}`
+    const banner = document.getElementById('updateBanner')
+    if(banner){
+        const versionEl = document.getElementById('updateBannerVersion')
+        if(versionEl) versionEl.textContent = 'v' + info.version
+        banner.style.display = 'block'
+
+        const installBtn = document.getElementById('updateBannerInstall')
+        if(installBtn) installBtn.onclick = () => {
+            if(!isDev) ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
+        }
+        const dismissBtn = document.getElementById('updateBannerDismiss')
+        if(dismissBtn) dismissBtn.onclick = () => {
+            banner.style.display = 'none'
+        }
+    }
+
     document.getElementById('image_seal_container').setAttribute('update', true)
     document.getElementById('image_seal_container').onclick = () => {
         /*setOverlayContent('Update Available', 'A new update for the launcher is available. Would you like to install now?', 'Install', 'Later')
@@ -132,9 +199,42 @@ $(function(){
     loggerUICore.info('UICore Initialized');
 })*/
 
+function fillStars(container, count){
+    if(!container) return
+    const colors = ['', 'lg', 'gold', 'violet', 'lg violet']
+    for(let i = 0; i < count; i++){
+        const s = document.createElement('div')
+        s.className = 'star ' + colors[Math.floor(Math.random() * colors.length)]
+        s.style.left = Math.random() * 100 + '%'
+        s.style.top = Math.random() * 100 + '%'
+        s.style.animationDelay = (Math.random() * 4) + 's'
+        container.appendChild(s)
+    }
+}
+function fillParticles(container, count){
+    if(!container) return
+    const colors = ['violet', 'cyan', 'amber']
+    for(let i = 0; i < count; i++){
+        const p = document.createElement('div')
+        p.className = 'particle ' + colors[Math.floor(Math.random() * colors.length)]
+        p.style.left = Math.random() * 100 + '%'
+        p.style.animationDuration = (10 + Math.random() * 12) + 's'
+        p.style.animationDelay = (Math.random() * 8) + 's'
+        container.appendChild(p)
+    }
+}
+function spawnSplashScenery(){
+    fillStars(document.getElementById('splashStars'), 40)
+    fillParticles(document.getElementById('splashParticles'), 35)
+    fillStars(document.getElementById('landingStars'), 30)
+    fillParticles(document.getElementById('landingParticles'), 25)
+}
+
 document.addEventListener('readystatechange', function () {
     if (document.readyState === 'interactive'){
         loggerUICore.info('UICore Initializing..')
+
+        spawnSplashScenery()
 
         // Bind close button.
         Array.from(document.getElementsByClassName('fCb')).map((val) => {
