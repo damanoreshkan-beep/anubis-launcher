@@ -128,18 +128,26 @@ document.getElementById('launch_button').addEventListener('click', async e => {
     }
 })
 
-// Bind settings button
-document.getElementById('settingsMediaButton').onclick = async e => {
-    await prepareSettings()
-    switchView(getCurrentView(), VIEWS.settings)
+// Account capsule — two distinct click areas inside the same glass
+// pill. Avatar half jumps to Cabinet (Skin) so users can change skin
+// in one tap; Settings half opens the regular Settings shell at its
+// default Account tab.
+const avatarPill = document.getElementById('avatarPill')
+if(avatarPill){
+    avatarPill.onclick = async () => {
+        await prepareSettings()
+        switchView(getCurrentView(), VIEWS.settings, 500, 500, () => {
+            const cabinetNavBtn = document.querySelector('[rSc="settingsTabCabinet"]')
+            if(cabinetNavBtn) settingsNavItemListener(cabinetNavBtn, false)
+        })
+    }
 }
-
-// Bind avatar overlay button.
-document.getElementById('avatarOverlay').onclick = async e => {
-    await prepareSettings()
-    switchView(getCurrentView(), VIEWS.settings, 500, 500, () => {
-        settingsNavItemListener(document.getElementById('settingsNavAccount'), false)
-    })
+const settingsPill = document.getElementById('settingsPill')
+if(settingsPill){
+    settingsPill.onclick = async () => {
+        await prepareSettings()
+        switchView(getCurrentView(), VIEWS.settings)
+    }
 }
 
 // Bind selected account
