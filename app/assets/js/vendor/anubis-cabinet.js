@@ -7922,7 +7922,7 @@ var no = {
 		lockHdSkinTitle: "HD skins are a donation perk",
 		lockHdSkinBody: "This file is 128×128 (HD). Support the server to unlock HD-resolution uploads. 64×64 skins remain free for everyone.",
 		lockPriceCape: 70,
-		lockPriceHdSkin: 100,
+		lockPriceHdSkin: 150,
 		lockBuyCta: "Support the server",
 		lockAlreadyPaidCta: "Already paid?",
 		lockSupportPrefix: "Already paid? Message"
@@ -7978,7 +7978,7 @@ var no = {
 		lockHdSkinTitle: "HD-скины — донат-перк",
 		lockHdSkinBody: "Это HD-скин (128×128). Чтобы загружать HD, поддержи сервер. Скины 64×64 остаются бесплатными.",
 		lockPriceCape: 70,
-		lockPriceHdSkin: 100,
+		lockPriceHdSkin: 150,
 		lockBuyCta: "Поддержать сервер",
 		lockAlreadyPaidCta: "Уже оплатил?",
 		lockSupportPrefix: "Уже оплатил? Напиши в Telegram"
@@ -8034,7 +8034,7 @@ var no = {
 		lockHdSkinTitle: "HD-скіни — донат-перк",
 		lockHdSkinBody: "Це HD-скін (128×128). Щоб завантажувати HD — підтримай сервер. Скіни 64×64 залишаються безкоштовними.",
 		lockPriceCape: 70,
-		lockPriceHdSkin: 100,
+		lockPriceHdSkin: 150,
 		lockBuyCta: "Підтримати сервер",
 		lockAlreadyPaidCta: "Вже оплатив?",
 		lockSupportPrefix: "Вже оплатив? Напиши в Telegram"
@@ -8090,7 +8090,7 @@ var no = {
 		lockHdSkinTitle: "HD-Skins sind ein Spender-Perk",
 		lockHdSkinBody: "Diese Datei ist 128×128 (HD). Unterstütze den Server, um HD-Skins hochzuladen. 64×64 bleibt für alle frei.",
 		lockPriceCape: 70,
-		lockPriceHdSkin: 100,
+		lockPriceHdSkin: 150,
 		lockBuyCta: "Server unterstützen",
 		lockAlreadyPaidCta: "Schon bezahlt?",
 		lockSupportPrefix: "Schon bezahlt? Schreib uns auf Telegram"
@@ -8146,7 +8146,7 @@ var no = {
 		lockHdSkinTitle: "Skiny HD — bonus za wsparcie",
 		lockHdSkinBody: "To skin HD (128×128). Wesprzyj serwer, aby wgrywać HD. Skiny 64×64 pozostają darmowe.",
 		lockPriceCape: 70,
-		lockPriceHdSkin: 100,
+		lockPriceHdSkin: 150,
 		lockBuyCta: "Wesprzyj serwer",
 		lockAlreadyPaidCta: "Już zapłacono?",
 		lockSupportPrefix: "Już zapłacono? Napisz na Telegrama"
