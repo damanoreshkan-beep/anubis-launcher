@@ -1481,3 +1481,21 @@ function ensurePaymentsMounted(){
         document.head.appendChild(s)
     }
 }
+
+// ─── anubis-open-donate handler ────────────────────────────────────────────
+//
+// The cabinet's UnlockCard component dispatches this CustomEvent when
+// the user clicks "Підтримати" on a locked cape / HD-skin screen.
+// Inside the launcher we want that to jump straight to the Donate tab
+// (already next to Cabinet in the settings nav), not open a browser
+// window. We mark event.detail.handled = true so the widget skips its
+// new-tab fallback.
+document.addEventListener('anubis-open-donate', (e) => {
+    const btn = document.querySelector('[rSc="settingsTabPayments"]')
+    if(!btn) return
+    // settingsNavItemListener is the same handler the nav-item click
+    // wiring uses; calling it switches the visible tab and triggers
+    // ensurePaymentsMounted() via setupSettingsTabs's binding.
+    settingsNavItemListener(btn)
+    if(e && e.detail) e.detail.handled = true
+})
