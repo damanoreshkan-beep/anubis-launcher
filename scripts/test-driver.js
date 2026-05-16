@@ -261,6 +261,75 @@ async function dumpDom(window, sel){
         }
     }
 
+    if(scenario === 'cabinet'){
+        if(visibleView !== 'landingContainer'){
+            log('[FAIL] expected landingContainer (sign in first), got', visibleView)
+        } else {
+            log('[STEP] open Settings')
+            await window.evaluate(() => document.getElementById('settingsPill').click())
+            await waitForViewVisible(window, '#settingsContainer')
+            await new Promise(r => setTimeout(r, 300))
+
+            log('[STEP] click Cabinet tab')
+            await window.evaluate(() => document.querySelector('[rSc="settingsTabCabinet"]')?.click())
+            // Bundle is ~900 KB; lazy-loaded → wait for the custom element
+            // to upgrade and render its real DOM (not just the placeholder).
+            await window.waitForFunction(() => {
+                const w = document.querySelector('#cabinetMount anubis-cabinet')
+                return w && w.querySelector('.aw-cabinet-scope')
+            }, null, { timeout: 20000 })
+            await new Promise(r => setTimeout(r, 800))
+            await shot(window, 'cabinet-profile')
+
+            log('[STEP] switch to Skin page (expect HdHintBanner with 150 ₴)')
+            // Sidebar nav items live in light DOM under .aw-cabinet-scope.
+            await window.evaluate(() => {
+                const buttons = document.querySelectorAll('#cabinetMount button')
+                for(const b of buttons){
+                    const t = (b.textContent || '').toLowerCase()
+                    if(t.includes('скін') || t.includes('скин') || t === 'skin' || t.includes('skin')){
+                        b.click()
+                        return true
+                    }
+                }
+                return false
+            })
+            await new Promise(r => setTimeout(r, 1200))
+            await shot(window, 'cabinet-skin')
+
+            log('[STEP] switch to Cape page (expect UnlockCard with 70 ₴)')
+            await window.evaluate(() => {
+                const buttons = document.querySelectorAll('#cabinetMount button')
+                for(const b of buttons){
+                    const t = (b.textContent || '').toLowerCase()
+                    if(t.includes('плащ') || t === 'cape' || t.includes('cape') || t.includes('umhang') || t.includes('peleryn')){
+                        b.click()
+                        return true
+                    }
+                }
+                return false
+            })
+            await new Promise(r => setTimeout(r, 1200))
+            await shot(window, 'cabinet-cape')
+
+            // Dump the prices + conversion hints actually shown so we can
+            // assert what's on screen without eyeballing the screenshot.
+            const priceDump = await window.evaluate(() => {
+                const root = document.querySelector('#cabinetMount')
+                if(!root) return null
+                const txt = root.innerText
+                const hits = []
+                for(const line of txt.split('\n')){
+                    if(/(70|150)\s*₴/.test(line) || /≈/.test(line)){
+                        hits.push(line.trim())
+                    }
+                }
+                return hits
+            })
+            log('[PRICE DUMP]', JSON.stringify(priceDump, null, 2))
+        }
+    }
+
     if(!keep){
         log('[BYE] closing app — pass --keep to leave it running')
         await app.close()
