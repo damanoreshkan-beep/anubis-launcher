@@ -1,6 +1,6 @@
 {
     "name": "anubis-launcher",
-    "version": "1.4.23",
+    "version": "1.4.24",
     "productName": "Anubis World Launcher",
     "description": "Modded Minecraft launcher for Anubis World — HiTech 1.12.2",
     "author": "damanoreshkan-beep",
@@ -42,7 +42,8 @@
         "jquery": "^3.7.1",
         "lodash.merge": "^4.6.2",
         "semver": "^7.7.3",
-        "toml": "^3.0.0"
+        "toml": "^3.0.0",
+        "@anubis/ds": "github:damanoreshkan-beep/anubis-ds"
     },
     "devDependencies": {
         "@fontsource/inter": "^5.2.8",

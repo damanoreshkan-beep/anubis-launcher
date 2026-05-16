@@ -320,7 +320,7 @@ body {
     overflow: hidden;
     -webkit-app-region: drag;
 }
-#loadingContainer .splash-video {
+#loadingContainer .splash-bg {
     position: absolute;
     inset: 0;
     width: 100%; height: 100%;
@@ -829,657 +829,356 @@ body {
 }
 #updateBanner .updateBannerDismiss:hover { color: #fff; }
 
-/* ===================== LANDING (full site copy) ==================== */
+/* ===================== LANDING (simplified) =======================
+ *
+ * One full-bleed background, a centered logo + PLAY column, a
+ * top-right account pill, and a bottom row of brand-coloured social
+ * buttons. Everything else (server status, Mojang dot, version
+ * pills, hero video, eyebrow label, description text) is gone —
+ * either visually or hidden behind .lp-hidden-renderer-shims for
+ * renderer compatibility.
+ */
+
 #landingContainer {
     position: relative;
     height: 100%;
     width: 100%;
     overflow: hidden;
     background: #040309;
-    transition: background 0.3s ease, top 2s ease;
     color: #e5e7eb;
-    display: flex;
-    flex-direction: column;
-}
-#landingContainer .lp-bg { z-index: 0; }
-#landingContainer > #upper {
-    position: relative;
-    z-index: 5;
-    flex: 1;
-    min-height: 0;
-    padding: 16px 20px 8px;
-    transition: top 2s ease;
-    top: 0;
-}
-#landingContainer > #upper > #left {
-    position: absolute;
-    top: 16px;
-    left: 20px;
-    z-index: 12;
-    pointer-events: auto;
-}
-#landingContainer > #upper > #right {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    z-index: 12;
-    pointer-events: auto;
-}
-#landingContainer > #upper > #content {
-    position: relative;
-    height: 100%;
-    width: 100%;
-    z-index: 1;
-}
-#landingContainer > #lower {
-    position: relative;
-    z-index: 5;
-    flex-shrink: 0;
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    flex-wrap: wrap;        /* status pills drop below CTA on cramped widths */
-    gap: 12px 16px;
-    padding: 0 20px 18px;
-    transition: top 2s ease;
-    top: 0;
-}
-#landingContainer > #lower > #left,
-#landingContainer > #lower > #center,
-#landingContainer > #lower > #right {
-    transition: top 2s ease;
-    top: 0;
-    position: relative;
 }
 
-/* Top-left: brand */
-.lp-nav-left {
-    display: flex;
-    align-items: flex-start;
-}
-.lp-brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 14px 8px 8px;
-    border-radius: 999px;
-    background: rgba(139, 92, 246, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.22);
-    backdrop-filter: blur(14px);
-}
-#image_seal_container {
-    position: relative;
-    width: 42px;
-    height: 42px;
-    flex-shrink: 0;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
-#image_seal_container:hover { transform: scale(1.06); }
-#image_seal {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow:
-        0 0 0 2px rgba(168, 85, 247, 0.5),
-        0 0 22px rgba(139, 92, 246, 0.5),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
-}
-#image_seal_container[update]::before {
-    content: '';
+/* Full-bleed background image with a dark vignette so the
+   foreground UI keeps enough contrast. */
+.lp-bg {
     position: absolute;
-    inset: -3px;
-    border-radius: 50%;
-    background: conic-gradient(from 0deg, #a855f7, #22d3ee, #fbbf24, #a855f7);
-    z-index: -1;
-    animation: brandSpin 6s linear infinite;
-}
-@keyframes brandSpin { to { transform: rotate(360deg); } }
-#updateAvailableTooltip {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(11, 8, 25, 0.95);
-    border: 1px solid rgba(168, 85, 247, 0.4);
-    color: #c4b5fd;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.3px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    white-space: nowrap;
-    opacity: 0;
+    inset: 0;
+    z-index: 0;
     pointer-events: none;
-    transition: opacity 0.2s;
-    z-index: 30;
 }
-#image_seal_container[update]:hover #updateAvailableTooltip { opacity: 1; }
-.lp-brand-text {
-    font-size: 14px;
-    font-weight: 800;
-    letter-spacing: -0.3px;
-    color: #fff;
-}
-.lp-brand-accent { color: #a78bfa; }
-
-/* Center hero — fully fluid, three breakpoints (compact / medium / large).
-   Layout flips between text-on-top of video and side-by-side based on
-   available width; video always fills its slot via object-fit:cover so
-   the original portrait scales/crops gracefully instead of clipping with
-   fixed pixels like the previous version did. */
-.lp-hero {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-        "media"
-        "content";
-    align-items: center;
-    gap: 18px;
-    padding: 72px 18px 18px;
-    height: 100%;
-    box-sizing: border-box;
-    min-width: 0;
-    min-height: 0;                   /* let grid items shrink in cramped windows */
-    max-width: 1400px;
-    margin: 0 auto;
-    overflow: hidden;                /* keep media inside the hero box */
-}
-.lp-hero-text {
-    grid-area: content;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    min-width: 0;
-    align-items: center;
-    text-align: center;
-    width: 100%;
-    max-width: 560px;
-    justify-self: center;
-}
-.lp-hero-text .lp-hero-desc { margin-left: auto; margin-right: auto; }
-.lp-hero-pills { justify-content: center; }
-
-@media (min-width: 760px) {
-    /* Two-column once we have room — video on the right, text on the left */
-    .lp-hero {
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-        grid-template-areas: "content media";
-        gap: 36px;
-        padding: 76px 28px 28px;
-    }
-    .lp-hero-text {
-        align-items: flex-start;
-        text-align: left;
-        justify-self: end;
-        max-width: 480px;
-    }
-    .lp-hero-text .lp-hero-desc { margin: 0; }
-    .lp-hero-pills { justify-content: flex-start; }
-}
-@media (min-width: 1100px) {
-    /* On wider screens give the text a little more room — looks balanced
-       against the video's intrinsic 4:5-ish portrait aspect ratio */
-    .lp-hero {
-        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-        gap: 56px;
-        padding: 80px 40px 40px;
-    }
-}
-.lp-hero-eyebrow {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #a78bfa;
-}
-.lp-hero-title {
-    font-size: clamp(28px, 5.4vw, 56px);
-    font-weight: 900;
-    line-height: 1;
-    letter-spacing: -1px;
-    margin: 0;
-    color: #fff;
-    text-shadow: 0 8px 30px rgba(124, 58, 237, 0.3);
-}
-.lp-hero-desc {
-    font-size: clamp(12px, 1.4vw, 14px);
-    line-height: 1.6;
-    color: #9ca3af;
-    margin: 0;
-    max-width: 420px;
-}
-.lp-hero-pills { display: flex; flex-wrap: wrap; gap: 8px; }
-.lp-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-.lp-pill-status {
-    background: rgba(124, 58, 237, 0.16);
-    border: 1px solid rgba(168, 85, 247, 0.32);
-    color: #c4b5fd;
-}
-.lp-pill-version {
-    background: rgba(34, 211, 238, 0.1);
-    border: 1px solid rgba(34, 211, 238, 0.3);
-    color: #67e8f9;
-}
-.lp-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: #a855f7;
-    box-shadow: 0 0 8px #a855f7;
-    animation: heroPulse 1.5s ease-in-out infinite;
-}
-@keyframes heroPulse {
-    0%, 100% { opacity: 0.6; transform: scale(0.85); }
-    50%      { opacity: 1;   transform: scale(1.15); }
-}
-
-/* Hero media slot — wraps the welcome.mp4 cinematic.
-   Approach mirrors the website: wrapper is plain inline-block with no
-   aspect-ratio (so it hugs the video pixels exactly — no mismatch
-   between card border and image). The video drives size via
-   width:100% + max-height:100% + object-fit:cover; box-shadow goes on
-   the video itself so the glow follows the actual frame. */
-.lp-hero-art {
-    grid-area: media;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.lp-bg-img {
     width: 100%;
     height: 100%;
-    min-width: 0;
-    min-height: 0;
-    box-sizing: border-box;
-    padding: 0;
-}
-.lp-hero-art .hero-portrait-wrap {
-    display: inline-block;
-    position: relative;
-    max-width: 100%;
-    max-height: 100%;
-    line-height: 0;
-}
-.lp-hero-art .hero-portrait {
-    display: block;
-    width: 100%;
-    /* Cap by both viewport ratio and an absolute pixel ceiling so the
-       portrait never pushes the hero past the available height (the
-       launcher window content area is only ~506px tall by default). */
-    max-height: min(56vh, 460px);
     object-fit: cover;
-    border-radius: 1.25rem;
-    box-shadow:
-        0 30px 80px rgba(124, 58, 237, 0.32),
-        0 0 0 1px rgba(168, 85, 247, 0.28),
-        0 0 60px rgba(34, 211, 238, 0.14);
+    object-position: center;
+    opacity: 0.55;
+    filter: saturate(1.05) contrast(1.05);
+}
+.lp-bg-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at center, transparent 0%, rgba(4, 3, 9, 0.65) 70%, rgba(4, 3, 9, 0.95) 100%),
+        linear-gradient(180deg, rgba(4, 3, 9, 0.45) 0%, transparent 30%, transparent 70%, rgba(4, 3, 9, 0.6) 100%);
 }
 
-/* Top-right: user + icons */
-.lp-nav-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 10px;
+/* Top-right capsule — same `.lp-user` glass pill from before but
+   now floating absolutely instead of living in a nav layout. */
+.lp-top-right {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    z-index: 12;
 }
-/* Account capsule — outer pill is a passive glass container; the
-   two children (avatar pill, settings pill) are the actual buttons.
-   Visually they share one capsule with a hairline divider; functionally
-   they're two distinct click areas with separate hover affordances. */
 .lp-user {
     display: inline-flex;
     align-items: stretch;
-    background: rgba(139, 92, 246, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.22);
-    border-radius: 999px;
     padding: 4px;
-    gap: 2px;
+    border-radius: 999px;
+    background: rgba(139, 92, 246, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.25);
     backdrop-filter: blur(14px);
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-.lp-user:hover {
-    border-color: rgba(168, 85, 247, 0.45);
-    box-shadow: 0 0 0 1px rgba(168, 85, 247, 0.25), 0 6px 22px rgba(124, 58, 237, 0.18);
 }
 .lp-user-action {
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 4px 12px;
     background: transparent;
     border: none;
-    border-radius: 999px;
-    color: inherit;
-    font: inherit;
+    color: #e5e7eb;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
     cursor: pointer;
-    outline: none;
-    transition: background 0.18s, transform 0.18s;
+    border-radius: 999px;
+    transition: background 0.15s, transform 0.1s;
 }
 .lp-user-action:hover { background: rgba(168, 85, 247, 0.15); }
 .lp-user-action:active { transform: scale(0.97); }
 .lp-user-sep {
     width: 1px;
-    background: rgba(168, 85, 247, 0.22);
     align-self: stretch;
-    margin: 6px 0;
+    margin: 4px 2px;
+    background: rgba(168, 85, 247, 0.30);
 }
-
-/* Left action — nick + avatar. Padding around the divider is
-   symmetric with the settings pill on the right (10px each side). */
-#avatarPill { padding-left: 14px; padding-right: 10px; }
-#user_text {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.2px;
-    max-width: 140px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+#avatarPill { padding-left: 16px; }
 #avatarContainer {
     position: relative;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background-color: rgba(168, 85, 247, 0.2);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    image-rendering: pixelated;
-    box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.45);
     overflow: hidden;
-    transition: box-shadow 0.2s;
-    display: inline-block;
+    background: rgba(168, 85, 247, 0.18);
+    image-rendering: pixelated;
     flex-shrink: 0;
 }
-#avatarPill:hover #avatarContainer {
-    box-shadow: 0 0 0 2px #a855f7, 0 0 14px rgba(168, 85, 247, 0.45);
+#avatarContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    image-rendering: pixelated;
 }
-/* "Skin" overlay that replaces the avatar face on hover. */
 #avatarOverlay {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(11, 8, 25, 0.78);
-    color: #c4b5fd;
-    border: none;
-    font-size: 10px;
-    font-weight: 800;
+    background: rgba(124, 58, 237, 0.78);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
     letter-spacing: 0.6px;
     text-transform: uppercase;
     opacity: 0;
-    transition: opacity 0.18s;
+    transition: opacity 0.15s;
 }
 #avatarPill:hover #avatarOverlay { opacity: 1; }
+#settingsPill { padding-right: 16px; }
+.settings-icon { width: 14px; height: 14px; color: #c4b5fd; }
+.settings-label { font-size: 12px; letter-spacing: 0.4px; }
+#settingsPill:hover .settings-icon { color: #fff; }
 
-/* Right action — gear icon + "Настройки" label. Padding around the
-   divider mirrors avatarPill (10px each side). */
-#settingsPill { color: #c4b5fd; padding-left: 10px; padding-right: 14px; }
-#settingsPill:hover { color: #fff; }
-#settingsPill .settings-icon {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-}
-#settingsPill .settings-label {
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-}
-
-/* Horizontal social-icon strip. Three brand icons (Discord, YouTube,
-   Website) inside a single glass capsule sitting under the avatar
-   pill. Settings was moved off this bar onto the avatar pill itself,
-   so the strip is purely "external links". */
-.lp-icons {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(139, 92, 246, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.22);
-    border-radius: 999px;
-    padding: 6px;
-    backdrop-filter: blur(14px);
-}
-#mediaContent,
-#externalMedia,
-.mediaContainer { display: contents; }
-.lp-icon-btn {
-    position: relative;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: transparent;
-    border: none;
+/* Center stage — logo only. PLAY moved to bottom-right, social row
+   to bottom-left, so this column is just the logo + wordmark
+   resting on the background art. */
+.lp-center {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #c4b5fd;
-    transition: color 0.18s, background 0.18s, transform 0.18s;
+    padding-bottom: 80px;            /* slight upward nudge */
+    pointer-events: none;
 }
-.lp-icon-btn:hover {
-    color: #fff;
-    background: rgba(168, 85, 247, 0.18);
-    transform: translateY(-1px);
-}
-.lp-icon-btn:active { transform: translateY(0); }
-.lp-icon-btn .mediaSVG {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-    stroke: currentColor;
-}
-/* Per-brand accents on hover — Discord blurple, YouTube red, our
-   own purple for the website button. */
-#discordURL:hover  { color: #5865F2; background: rgba(88, 101, 242, 0.15); }
-#telegramURL:hover { color: #2AABEE; background: rgba(42, 171, 238, 0.15); }
-#youtubeURL:hover  { color: #ff4040; background: rgba(255, 64, 64, 0.13); }
-#websiteURL:hover  { color: #c4b5fd; background: rgba(168, 85, 247, 0.18); }
+.lp-center > * { pointer-events: auto; }
 
-/* Bottom: status / news / launch */
-.lp-bottom-left { display: flex; align-items: end; }
-.lp-status-stack {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 10px 16px;
-    border-radius: 14px;
-    background: rgba(139, 92, 246, 0.06);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    backdrop-filter: blur(14px);
-}
-.lp-status {
+.lp-logo {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+}
+#image_seal_container {
     position: relative;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow:
+        0 0 0 2px rgba(168, 85, 247, 0.55),
+        0 18px 50px rgba(124, 58, 237, 0.45);
 }
-.bot_label {
-    font-size: 10px;
-    font-weight: 600;
-    color: #6b7280;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-}
-#player_count {
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.3px;
-}
-.bot_divider {
-    width: 1px;
-    height: 26px;
-    background: rgba(168, 85, 247, 0.3);
-}
-#mojangStatusWrapper { cursor: default; }
-#mojang_status_icon {
-    font-size: 18px;
-    line-height: 1;
-    color: #a3a3a3;
-    text-shadow: 0 0 6px currentColor;
-}
-#mojangStatusTooltip {
+#image_seal { width: 100%; height: 100%; object-fit: cover; display: block; }
+#updateAvailableTooltip {
     position: absolute;
-    bottom: calc(100% + 12px);
+    top: -36px;
     left: 50%;
     transform: translateX(-50%);
-    min-width: 220px;
+    white-space: nowrap;
     background: rgba(11, 8, 25, 0.96);
-    border: 1px solid rgba(168, 85, 247, 0.35);
-    border-radius: 12px;
-    padding: 12px 14px;
-    color: #d1d5db;
-    font-size: 11px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
-    z-index: 30;
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-}
-#mojangStatusWrapper:hover #mojangStatusTooltip { opacity: 1; }
-#mojangStatusTooltipTitle {
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 8px;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
+    border: 1px solid rgba(168, 85, 247, 0.45);
+    border-radius: 8px;
+    padding: 6px 10px;
+    color: #c4b5fd;
     font-size: 10px;
-}
-#mojangStatusEssentialContainer,
-#mojangStatusNonEssentialContainer { display: flex; flex-direction: column; gap: 4px; }
-.mojangStatusContainer { display: flex; gap: 8px; align-items: center; font-size: 11px; }
-.mojangStatusIcon { font-size: 14px; line-height: 1; }
-#mojangStatusNEContainer {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin: 8px 0;
-    color: #6b7280;
-    font-size: 9px;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.4px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
 }
-.mojangStatusNEBar { flex: 1; height: 1px; background: rgba(168, 85, 247, 0.2); }
+.lp-logo-title {
+    font-size: 48px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
 
-.lp-bottom-center {
-    display: none;
-}
-.lp-bottom-right {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
-}
+/* PLAY mega button — large, bold, gradient, glowing. Single action
+   the launcher exists for. */
 .lp-launch {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-    gap: 6px;
+    align-items: center;
+    gap: 8px;
 }
-.lp-cta-primary {
-    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 60%, #22d3ee 130%);
+.lp-play-mega {
+    background: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #22d3ee 130%);
     color: #fff;
     border: none;
-    border-radius: 14px;
-    padding: 14px 28px;
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: 4px;
+    border-radius: 20px;
+    padding: 22px 80px;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 8px;
     text-transform: uppercase;
+    cursor: pointer;
     box-shadow:
-        0 12px 32px rgba(124, 58, 237, 0.5),
-        0 0 28px rgba(168, 85, 247, 0.3);
-    transition: transform 0.1s, box-shadow 0.2s, opacity 0.2s;
+        0 18px 48px rgba(124, 58, 237, 0.55),
+        0 0 60px rgba(168, 85, 247, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: transform 0.12s ease, box-shadow 0.2s ease, filter 0.2s ease;
 }
-.lp-cta-primary:hover { box-shadow: 0 18px 44px rgba(124, 58, 237, 0.7), 0 0 36px rgba(168, 85, 247, 0.45); }
-.lp-cta-primary:active { transform: translateY(1px); }
-.lp-cta-primary:disabled {
+.lp-play-mega:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 24px 60px rgba(124, 58, 237, 0.7),
+        0 0 80px rgba(168, 85, 247, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    filter: brightness(1.05);
+}
+.lp-play-mega:active { transform: translateY(1px); }
+.lp-play-mega:disabled {
     background: rgba(60, 60, 80, 0.4);
     color: #6b7280;
     box-shadow: none;
     pointer-events: none;
+    filter: grayscale(0.4);
 }
-.lp-cta-secondary {
-    background: transparent;
-    border: 1px solid rgba(168, 85, 247, 0.28);
-    color: #a78bfa;
-    border-radius: 12px;
-    padding: 8px 16px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.6px;
-    text-transform: uppercase;
-    transition: background 0.2s, border-color 0.2s, color 0.2s;
+
+/* Bottom-right cluster — PLAY button stacked over the progress
+   strip (visible only during launch). */
+.lp-bottom-right {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    z-index: 8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
 }
-.lp-cta-secondary:hover {
-    background: rgba(168, 85, 247, 0.12);
-    border-color: rgba(168, 85, 247, 0.55);
-    color: #fff;
-}
+
+/* Progress strip — only visible while the renderer is downloading
+   or signing in (#launch_details is display:none in the JSX and
+   set to display:flex by launch.js). */
 #launch_details {
     display: none;
     flex-direction: column;
-    gap: 4px;
-    padding: 8px 10px;
-    background: rgba(139, 92, 246, 0.06);
-    border: 1px solid rgba(168, 85, 247, 0.18);
-    border-radius: 10px;
+    gap: 6px;
+    width: 320px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: rgba(139, 92, 246, 0.10);
+    border: 1px solid rgba(168, 85, 247, 0.30);
+    backdrop-filter: blur(12px);
 }
 #launch_details_left {
     display: flex;
     justify-content: space-between;
     font-size: 10px;
-    font-weight: 600;
+    font-weight: 700;
     color: #c4b5fd;
     letter-spacing: 0.4px;
+    text-transform: uppercase;
 }
 #launch_details_right {
     display: flex;
-    flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 10px;
 }
 #launch_progress {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 999px;
-    background: rgba(139, 92, 246, 0.12);
-    border: 1px solid rgba(168, 85, 247, 0.22);
+    flex: 1;
+    height: 4px;
+    border-radius: 4px;
     overflow: hidden;
+    background: rgba(168, 85, 247, 0.18);
+    border: none;
+    appearance: none;
 }
-#launch_progress::-webkit-progress-bar {
-    background: rgba(139, 92, 246, 0.12);
-    border-radius: 999px;
-}
+#launch_progress::-webkit-progress-bar { background: transparent; }
 #launch_progress::-webkit-progress-value {
-    background: linear-gradient(90deg, #7c3aed 0%, #a855f7 50%, #22d3ee 100%);
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
-    border-radius: 999px;
-    transition: width 0.3s ease;
-}
-#launch_progress::-moz-progress-bar {
     background: linear-gradient(90deg, #7c3aed, #a855f7, #22d3ee);
+    border-radius: 4px;
+    transition: width 0.2s ease;
 }
 #launch_details_text {
     font-size: 10px;
+    font-weight: 600;
     color: #9ca3af;
     letter-spacing: 0.3px;
 }
+
+/* Bottom-left social row — large brand-coloured logos. Each button
+   carries its own brand colour through the hover state so the
+   palette reads as "those are real Discord / Telegram / YouTube
+   icons", not greyscale glyphs. */
+.lp-bottom-social {
+    position: absolute;
+    bottom: 32px;
+    left: 32px;
+    z-index: 8;
+    display: flex;
+    gap: 18px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    background: rgba(11, 8, 25, 0.55);
+    border: 1px solid rgba(168, 85, 247, 0.22);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.lp-social-mega {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.2s ease, background 0.2s;
+}
+.lp-social-mega .mediaSVG {
+    width: 26px;
+    height: 26px;
+    transition: filter 0.18s;
+}
+.lp-social-mega:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+.lp-social-mega:active { transform: translateY(0) scale(0.97); }
+
+/* Per-brand background + glow — matches the official brand
+   palette for each service. */
+.lp-discord  { background: #5865F2; }
+.lp-discord:hover  { box-shadow: 0 12px 28px rgba(88, 101, 242, 0.55), 0 0 28px rgba(88, 101, 242, 0.35); }
+.lp-discord .mediaSVG { color: #fff; }
+
+.lp-telegram { background: #2AABEE; }
+.lp-telegram:hover { box-shadow: 0 12px 28px rgba(42, 171, 238, 0.55), 0 0 28px rgba(42, 171, 238, 0.35); }
+.lp-telegram .mediaSVG { color: #fff; }
+
+.lp-youtube  { background: #FF0000; }
+.lp-youtube:hover  { box-shadow: 0 12px 28px rgba(255, 0, 0, 0.55), 0 0 28px rgba(255, 0, 0, 0.4); }
+.lp-youtube .mediaSVG { color: #fff; }
+
+.lp-website  {
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+}
+.lp-website:hover { box-shadow: 0 12px 28px rgba(168, 85, 247, 0.55), 0 0 28px rgba(168, 85, 247, 0.45); }
+.lp-website .mediaSVG { color: #fff; }
+
+/* Renderer compatibility shims — kept in DOM (the renderer reads
+   these IDs on a timer and would throw if they were missing), but
+   visually hidden. */
+.lp-hidden-renderer-shims { display: none !important; }
 
 /* ───────────────────────────── Settings ──────────────────────────── */
 #settingsContainer {
