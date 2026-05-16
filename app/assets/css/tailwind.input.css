@@ -320,7 +320,7 @@ body {
     overflow: hidden;
     -webkit-app-region: drag;
 }
-#loadingContainer .splash-video {
+#loadingContainer .splash-bg {
     position: absolute;
     inset: 0;
     width: 100%; height: 100%;
@@ -949,9 +949,9 @@ body {
 .settings-label { font-size: 12px; letter-spacing: 0.4px; }
 #settingsPill:hover .settings-icon { color: #fff; }
 
-/* Center stage — logo above, PLAY below. Stack is vertically
-   centered in the window, with the social row pinned to the bottom
-   (handled separately). */
+/* Center stage — logo only. PLAY moved to bottom-right, social row
+   to bottom-left, so this column is just the logo + wordmark
+   resting on the background art. */
 .lp-center {
     position: absolute;
     inset: 0;
@@ -960,8 +960,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 36px;
-    padding-bottom: 120px;          /* keep clear of the social row */
+    padding-bottom: 80px;            /* slight upward nudge */
     pointer-events: none;
 }
 .lp-center > * { pointer-events: auto; }
@@ -1055,6 +1054,19 @@ body {
     filter: grayscale(0.4);
 }
 
+/* Bottom-right cluster — PLAY button stacked over the progress
+   strip (visible only during launch). */
+.lp-bottom-right {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    z-index: 8;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
 /* Progress strip — only visible while the renderer is downloading
    or signing in (#launch_details is display:none in the JSX and
    set to display:flex by launch.js). */
@@ -1062,8 +1074,7 @@ body {
     display: none;
     flex-direction: column;
     gap: 6px;
-    margin-top: 14px;
-    width: 360px;
+    width: 320px;
     padding: 10px 14px;
     border-radius: 14px;
     background: rgba(139, 92, 246, 0.10);
@@ -1106,15 +1117,14 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Bottom social row — large brand-coloured logos. Each button
+/* Bottom-left social row — large brand-coloured logos. Each button
    carries its own brand colour through the hover state so the
    palette reads as "those are real Discord / Telegram / YouTube
    icons", not greyscale glyphs. */
 .lp-bottom-social {
     position: absolute;
     bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 32px;
     z-index: 8;
     display: flex;
     gap: 18px;

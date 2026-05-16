@@ -310,8 +310,12 @@ let win
 function createWindow() {
 
     win = new BrowserWindow({
-        width: 980,
-        height: 552,
+        // Window proportional to landing-bg.jpg (1628×1216 → 4:3-ish).
+        // 1280×956 is large enough to read everything comfortably while
+        // matching the background aspect ratio so the image fills the
+        // window without ugly crops.
+        width: 1280,
+        height: 956,
         icon: getPlatformIcon(),
         frame: false,
         webPreferences: {

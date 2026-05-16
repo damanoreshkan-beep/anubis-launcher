@@ -26,7 +26,7 @@
       One bold image carries the atmosphere by itself.
     -->
     <div class="lp-bg" aria-hidden="true">
-        <img class="lp-bg-img" src="assets/images/site/anubis.jpg" alt=""/>
+        <img class="lp-bg-img" src="assets/images/site/landing-bg.jpg" alt=""/>
         <div class="lp-bg-vignette"></div>
     </div>
 
@@ -54,31 +54,21 @@
     </div>
 
     <!--
-      Center stage. Logo + name above, gigantic PLAY button below.
-      The hero video, eyebrow label, description paragraph, and
-      "Open Beta + version" pills were dropped — anyone opening
-      the launcher already knows what it is; the only thing they
-      want to do is click PLAY.
+      Logo + wordmark intentionally absent from the visible layout —
+      user wanted the background art to read on its own without any
+      foreground mark competing with it. The seal container is kept
+      in DOM (inside .lp-hidden-renderer-shims below) because
+      uicore.js binds the "update available" tooltip click handler
+      to #image_seal_container.
     -->
-    <div class="lp-center">
-        <div class="lp-logo">
-            <div id="image_seal_container">
-                <img id="image_seal" src="assets/images/site/logo.jpg" alt=""/>
-                <div id="updateAvailableTooltip"><%- lang('landing.updateAvailableTooltip') %></div>
-            </div>
-            <h1 class="lp-logo-title">Anubis<span class="gold-text">World</span></h1>
-        </div>
 
+    <!-- Bottom-right: PLAY button + progress strip during download. -->
+    <div class="lp-bottom-right">
         <div id="launch_content" class="lp-launch">
             <button id="launch_button" class="lp-play-mega btn-glow">
                 <span><%- lang('landing.launchButton') %></span>
             </button>
         </div>
-
-        <!--
-          Progress strip — hidden until the renderer flips
-          display: block on #launch_details during download/login.
-        -->
         <div id="launch_details" class="lp-launch-details">
             <div id="launch_details_left">
                 <span id="launch_progress_label">0%</span>
@@ -91,9 +81,9 @@
     </div>
 
     <!--
-      Bottom social row — large, brand-coloured original logos rather
-      than the monochrome glass icons we had before. simple-icons SVG
-      paths verbatim.
+      Bottom-left social cluster — large, brand-coloured original
+      logos rather than the monochrome glass icons we had before.
+      simple-icons SVG paths verbatim.
     -->
     <div class="lp-bottom-social">
         <a href="<%- lang('landing.mediaDiscordURL') %>" class="lp-social-mega lp-discord" id="discordURL" target="_blank" rel="noopener" aria-label="Discord">
@@ -118,6 +108,13 @@
         · server selection — single-server launcher, no UI for it.
     -->
     <div class="lp-hidden-renderer-shims" aria-hidden="true" hidden>
+        <!-- Update-tooltip mount point — clicked when an update is
+             ready. Image inside is irrelevant; we just need the
+             container element to exist. -->
+        <div id="image_seal_container">
+            <img id="image_seal" src="assets/images/site/logo.jpg" alt=""/>
+            <div id="updateAvailableTooltip"><%- lang('landing.updateAvailableTooltip') %></div>
+        </div>
         <span class="bot_label" id="landingPlayerLabel"></span>
         <span id="player_count"></span>
         <div id="mojangStatusWrapper">
