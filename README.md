@@ -1,7 +1,7 @@
 <h1 align="center">Anubis World Launcher</h1>
 
 <p align="center">
-  Modded Minecraft launcher for the private <strong>Anubis World — HiTech 1.12.2</strong> server.<br>
+  Modded Minecraft launcher for the private <strong>Anubis World — HiTech 1.20.1</strong> server.<br>
   One click — Java, Forge, mods, configs, and updates handled for you.
 </p>
 
@@ -42,7 +42,7 @@ Get the latest from <https://github.com/damanoreshkan-beep/anubis-launcher/relea
 
 1. Open the launcher.
 2. Sign in (email or Discord) — first time, you pick the Minecraft nickname that follows you on the server.
-3. Press **PLAY**. The launcher fetches Java if it's missing, installs Forge 14.23.5.2860, downloads the HiTech mod set (~120 MB), and starts the game.
+3. Press **PLAY**. The launcher fetches Java 17 if it's missing, installs Forge 47.4.0, downloads the HiTech mod set, and starts the game.
 4. The Anubis World server is preloaded in the multiplayer list — open Multiplayer in Minecraft and join.
 
 That's it. From then on, every launch is `open → PLAY`.
@@ -74,7 +74,7 @@ anubis-launcher/
 ## Architecture
 
 ```
-   Anubis World server (Mohist 1.12.2)            Supabase
+   Anubis World server (Mohist 1.20.1)            Supabase
    /mods/*.jar  ◄── SFTP                          email + Discord OAuth
         │                                                │
         ▼ daily sync (anubis-distribution repo)          ▼
@@ -143,8 +143,8 @@ Screenshots land in `/tmp/launcher-shots/`. Renderer console + page errors are s
 
 ## Game server
 
-* Address: `94.100.18.18:50273`
-* Minecraft 1.12.2 + Forge 14.23.5.2860 (Mohist runtime, plugin-aware)
+* Address: `46.21.146.194:50468`
+* Minecraft 1.20.1 + Forge 47.4.0 (Mohist runtime, plugin-aware)
 * Online-mode disabled — auth is enforced at the launcher / server-side plugin layer instead, identity comes from a deterministic offline UUID derived from the picked nickname.
 
 ## Credits

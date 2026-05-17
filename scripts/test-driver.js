@@ -330,6 +330,26 @@ async function dumpDom(window, sel){
         }
     }
 
+    if(scenario === 'settings'){
+        if(visibleView !== 'landingContainer'){
+            log('[FAIL] expected landingContainer (sign in first), got', visibleView)
+        } else {
+            await shot(window, 'landing-with-avatar')
+            log('[STEP] open Settings')
+            await window.evaluate(() => document.getElementById('settingsPill').click())
+            await waitForViewVisible(window, '#settingsContainer')
+            await new Promise(r => setTimeout(r, 400))
+
+            // Walk every Settings tab and snapshot each.
+            const tabs = ['Account', 'Minecraft', 'Mods', 'Java', 'Launcher', 'About', 'Update']
+            for(const t of tabs){
+                await window.evaluate((tab) => document.querySelector(`[rSc="settingsTab${tab}"]`)?.click(), t)
+                await new Promise(r => setTimeout(r, 400))
+                await shot(window, 'settings-' + t.toLowerCase())
+            }
+        }
+    }
+
     if(!keep){
         log('[BYE] closing app — pass --keep to leave it running')
         await app.close()
