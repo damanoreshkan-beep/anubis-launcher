@@ -544,6 +544,22 @@ function defaultJavaConfig17(ram) {
 exports.ensureJavaConfig = function(serverid, effectiveJavaOptions, ram) {
     if(!Object.prototype.hasOwnProperty.call(config.javaConfig, serverid)) {
         config.javaConfig[serverid] = defaultJavaConfig(effectiveJavaOptions, ram)
+        return
+    }
+    // Auto-migrate stale jvmOptions when the server's Java baseline moves
+    // (e.g. 1.12.2 → 1.20.1 means Java 8 → 17, and the legacy
+    // `-XX:+UseConcMarkSweepGC` flag is gone after Java 14 — keeping it
+    // makes the JVM refuse to start).
+    const existing = config.javaConfig[serverid]
+    const hasCmsFlag = (existing.jvmOptions || []).some(o => /UseConcMarkSweepGC|CMSIncrementalMode/.test(o))
+    if(hasCmsFlag && effectiveJavaOptions.suggestedMajor > 8) {
+        const fresh = defaultJavaConfig17(ram)
+        existing.jvmOptions = fresh.jvmOptions
+        // Bump RAM floor too — Java 17 modpacks need more headroom.
+        if(parseInt(existing.maxRAM, 10) < parseInt(fresh.maxRAM, 10)) {
+            existing.minRAM = fresh.minRAM
+            existing.maxRAM = fresh.maxRAM
+        }
     }
 }
 

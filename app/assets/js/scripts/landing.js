@@ -454,12 +454,108 @@ const GAME_JOINED_REGEX = /\[.+\]: Sound engine started/
 const GAME_LAUNCH_REGEX = /^\[.+\]: (?:MinecraftForge .+ Initialized|ModLauncher .+ starting: .+|Loading Minecraft .+ with Fabric Loader .+)$/
 const MIN_LINGER = 5000
 
+/**
+ * Forge 1.13+ ships a thin installer that has to be run in client mode
+ * on each user's machine. That run produces several jars under
+ * `<commonDir>/libraries/...` that the BootstrapLauncher then expects
+ * to find on the module path:
+ *
+ *     net/minecraft/client/<mc>-<mcp>/client-<mc>-<mcp>-srg.jar
+ *     net/minecraft/client/<mc>-<mcp>/client-<mc>-<mcp>-extra.jar
+ *     net/minecraftforge/forge/<mc>-<forge>/forge-<mc>-<forge>-client.jar
+ *     net/minecraftforge/fmlcore/<mc>-<forge>/fmlcore-<mc>-<forge>.jar
+ *     net/minecraftforge/mclanguage/<mc>-<forge>/mclanguage-<mc>-<forge>.jar
+ *     (plus javafmllanguage, lowcodelanguage, ...)
+ *
+ * helios-core 2.3.0 was built for ForgeGradle 2 (Forge 1.12.2 era) and
+ * doesn't run the installer step. We do it here ourselves, exactly the
+ * way the vanilla Mojang launcher does, with `--installClient`. The
+ * step is idempotent — it skips immediately on subsequent launches
+ * once the marker file (`fmlcore-<mc>-<forge>.jar`) is present.
+ *
+ * @param {*} serv   The distribution-resolved server entry.
+ * @param {*} modLoaderData The Forge `version.json` we read off the manifest.
+ */
+async function ensureForgeClientArtifacts(serv, modLoaderData, logger){
+    const fs = require('fs')
+    const path = require('path')
+    const { spawn } = require('child_process')
+    const log = logger || LoggerUtil.getLogger('LaunchSuite')
+
+    const mcVersion   = modLoaderData.inheritsFrom || serv.rawServer.minecraftVersion
+    // modLoaderData.id looks like "1.20.1-forge-47.4.10" → grab "47.4.10".
+    const forgeFull   = modLoaderData.id                 // 1.20.1-forge-47.4.10
+    const forgeVer    = forgeFull.split('-').pop()       // 47.4.10
+    const forgeKey    = `${mcVersion}-${forgeVer}`       // 1.20.1-47.4.10
+
+    const commonDir  = ConfigManager.getCommonDirectory()
+    const libsDir    = path.join(commonDir, 'libraries')
+
+    // Marker that tells us the installer has already been run.
+    const fmlCoreJar = path.join(libsDir, 'net', 'minecraftforge', 'fmlcore', forgeKey, `fmlcore-${forgeKey}.jar`)
+    if(fs.existsSync(fmlCoreJar)){
+        log.info(`Forge client artifacts present for ${forgeKey}; skipping installer.`)
+        return
+    }
+
+    // Locate the installer that helios-core already downloaded into libs.
+    const installerJar = path.join(libsDir, 'net', 'minecraftforge', 'forge', forgeKey, `forge-${forgeKey}.jar`)
+    const installerJarAlt = path.join(libsDir, 'net', 'minecraftforge', 'forge', forgeKey, `forge-${forgeKey}-installer.jar`)
+    const installer = fs.existsSync(installerJar) ? installerJar : fs.existsSync(installerJarAlt) ? installerJarAlt : null
+    if(installer == null){
+        throw new Error(`Forge installer not found at ${installerJar} — distribution may be missing the installer entry.`)
+    }
+
+    // The installer demands a launcher_profiles.json in the install
+    // target — happy with a stub that lists no profiles.
+    const profilesPath = path.join(commonDir, 'launcher_profiles.json')
+    if(!fs.existsSync(profilesPath)){
+        fs.writeFileSync(profilesPath, '{"profiles":{},"settings":{},"version":3}\n')
+    }
+
+    setLaunchDetails('Installing Forge client (one-time)…')
+    log.info(`Running Forge installer: java -jar ${path.basename(installer)} --installClient ${commonDir}`)
+
+    const javaExec = ConfigManager.getJavaExecutable(serv.rawServer.id)
+    await new Promise((resolve, reject) => {
+        const child = spawn(javaExec, ['-jar', installer, '--installClient', commonDir], { cwd: commonDir })
+        let lastLine = ''
+        child.stdout.on('data', d => {
+            for(const line of d.toString().split('\n')){
+                if(line.trim()){
+                    log.info('[forge-installer]', line.trim())
+                    lastLine = line.trim()
+                }
+            }
+        })
+        child.stderr.on('data', d => log.warn('[forge-installer]', d.toString().trim()))
+        child.on('error', reject)
+        child.on('close', code => {
+            if(code === 0){
+                log.info('Forge installer finished.')
+                resolve()
+            } else {
+                reject(new Error(`Forge installer exited with code ${code}. Last line: ${lastLine}`))
+            }
+        })
+    })
+
+    // Sanity check — if the marker file still isn't there, something
+    // about the installer's expected paths drifted from ours and we
+    // need to know about it, not silently fall through to a JVM crash.
+    if(!fs.existsSync(fmlCoreJar)){
+        throw new Error(`Forge installer ran but ${fmlCoreJar} is still missing.`)
+    }
+}
+
 async function dlAsync(login = true) {
 
     // Login parameter is temporary for debug purposes. Allows testing the validation/downloads without
     // launching the game.
 
     const loggerLaunchSuite = LoggerUtil.getLogger('LaunchSuite')
+    // Alias so logging calls inside this function can stay short.
+    const log = loggerLaunchSuite
 
     setLaunchDetails(Lang.queryJS('landing.dlAsync.loadingServerInfo'))
 
@@ -469,7 +565,7 @@ async function dlAsync(login = true) {
         distro = await DistroAPI.refreshDistributionOrFallback()
         onDistroRefresh(distro)
     } catch(err) {
-        loggerLaunchSuite.error('Unable to refresh distribution index.', err)
+        log.error('Unable to refresh distribution index.', err)
         showLaunchFailure(Lang.queryJS('landing.dlAsync.fatalError'), Lang.queryJS('landing.dlAsync.unableToLoadDistributionIndex'))
         return
     }
@@ -498,17 +594,17 @@ async function dlAsync(login = true) {
     fullRepairModule.spawnReceiver()
 
     fullRepairModule.childProcess.on('error', (err) => {
-        loggerLaunchSuite.error('Error during launch', err)
+        log.error('Error during launch', err)
         showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), err.message || Lang.queryJS('landing.dlAsync.errorDuringLaunchText'))
     })
     fullRepairModule.childProcess.on('close', (code, _signal) => {
         if(code !== 0){
-            loggerLaunchSuite.error(`Full Repair Module exited with code ${code}, assuming error.`)
+            log.error(`Full Repair Module exited with code ${code}, assuming error.`)
             showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
         }
     })
 
-    loggerLaunchSuite.info('Validating files.')
+    log.info('Validating files.')
     setLaunchDetails(Lang.queryJS('landing.dlAsync.validatingFileIntegrity'))
     let invalidFileCount = 0
     try {
@@ -517,14 +613,14 @@ async function dlAsync(login = true) {
         })
         setLaunchPercentage(100)
     } catch (err) {
-        loggerLaunchSuite.error('Error during file validation.')
+        log.error('Error during file validation.')
         showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringFileVerificationTitle'), err.displayable || Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
         return
     }
     
 
     if(invalidFileCount > 0) {
-        loggerLaunchSuite.info('Downloading files.')
+        log.info('Downloading files.')
         setLaunchDetails(Lang.queryJS('landing.dlAsync.downloadingFiles'))
         setLaunchPercentage(0)
         try {
@@ -533,12 +629,12 @@ async function dlAsync(login = true) {
             })
             setDownloadPercentage(100)
         } catch(err) {
-            loggerLaunchSuite.error('Error during file download.')
+            log.error('Error during file download.')
             showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringFileDownloadTitle'), err.displayable || Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
             return
         }
     } else {
-        loggerLaunchSuite.info('No invalid files, skipping download.')
+        log.info('No invalid files, skipping download.')
     }
 
     // Remove download bar.
@@ -560,9 +656,24 @@ async function dlAsync(login = true) {
     const modLoaderData = await distributionIndexProcessor.loadModLoaderVersionJson(serv)
     const versionData = await mojangIndexProcessor.getVersionJson()
 
+    // Forge 1.13+ ships a thin installer — the actual `client-srg.jar`,
+    // `client-extra.jar`, `forge-<ver>-client.jar`, plus fmlcore /
+    // mclanguage / javafmllanguage / lowcodelanguage live on each
+    // client and are generated by running the installer in client
+    // mode. helios-core 2.3.0 never runs that step (its codepath was
+    // built for Forge 1.12.2-era ForgeGradle 2), so we run it
+    // ourselves on first launch if the output isn't present.
+    try {
+        await ensureForgeClientArtifacts(serv, modLoaderData, loggerLaunchSuite)
+    } catch (err) {
+        log.error('Forge client install failed:', err)
+        showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), err.message || Lang.queryJS('landing.dlAsync.seeConsoleForDetails'))
+        return
+    }
+
     if(login) {
         const authUser = ConfigManager.getSelectedAccount()
-        loggerLaunchSuite.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
+        log.info(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
         let pb = new ProcessBuilder(serv, versionData, modLoaderData, authUser, remote.app.getVersion())
         setLaunchDetails(Lang.queryJS('landing.dlAsync.launchingGame'))
 
@@ -608,7 +719,7 @@ async function dlAsync(login = true) {
         const gameErrorListener = function(data){
             data = data.trim()
             if(data.indexOf('Could not find or load main class net.minecraft.launchwrapper.Launch') > -1){
-                loggerLaunchSuite.error('Game launch failed, LaunchWrapper was not downloaded properly.')
+                log.error('Game launch failed, LaunchWrapper was not downloaded properly.')
                 showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), Lang.queryJS('landing.dlAsync.launchWrapperNotDownloaded'))
             }
         }
@@ -628,7 +739,7 @@ async function dlAsync(login = true) {
                 DiscordWrapper.initRPC(distro.rawDistribution.discord, serv.rawServer.discord)
                 hasRPC = true
                 proc.on('close', (code, signal) => {
-                    loggerLaunchSuite.info('Shutting down Discord Rich Presence..')
+                    log.info('Shutting down Discord Rich Presence..')
                     DiscordWrapper.shutdownRPC()
                     hasRPC = false
                     proc = null
@@ -637,7 +748,7 @@ async function dlAsync(login = true) {
 
         } catch(err) {
 
-            loggerLaunchSuite.error('Error during launch', err)
+            log.error('Error during launch', err)
             showLaunchFailure(Lang.queryJS('landing.dlAsync.errorDuringLaunchTitle'), Lang.queryJS('landing.dlAsync.checkConsoleForDetails'))
 
         }
