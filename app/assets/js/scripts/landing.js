@@ -734,6 +734,12 @@ async function dlAsync(login = true) {
 
             setLaunchDetails(Lang.queryJS('landing.dlAsync.doneEnjoyServer'))
 
+            // Battle Pass — credit time-in-game from process start to exit.
+            // Server picks the timestamps so the client can't lie about elapsed.
+            const playSession = require('./assets/js/playsession')
+            playSession.start('game')
+            proc.on('close', () => { playSession.end('game') })
+
             // Init Discord Hook
             if(distro.rawDistribution.discord != null && serv.rawServer.discord != null){
                 DiscordWrapper.initRPC(distro.rawDistribution.discord, serv.rawServer.discord)
@@ -755,4 +761,314 @@ async function dlAsync(login = true) {
     }
 
 }
+
+/* ────────────────────────── Battle Pass HUD ──────────────────────────
+ *
+ * Wide rail with one fill bar + N milestone nodes (sourced from
+ * play_tiers). Each second we project the live session(s) on top of the
+ * stored aggregate so the bar visibly creeps — credit still commits
+ * server-side at play_session_end.
+ *
+ * XP curve: req(n) = XP_BASE * XP_FACTOR^(n-1).  Soft-exponential
+ * (golden-ratio-adjacent factor 1.18), used by modern battle-pass /
+ * RPG progression — fast first hook, escalating endgame grind without
+ * Fibonacci's exponential cliff.
+ *   LVL 1 ≈ 20 min · LVL 5 ≈ 3 h · LVL 10 ≈ 8 h · LVL 15 ≈ 19 h
+ *   LVL 20 ≈ 45 h · LVL 25 ≈ 104 h · LVL 30 ≈ 259 h
+ */
+;(function initBattlePassHud(){
+    const ps = require('./assets/js/playsession')
+    const log = LoggerUtil.getLogger('BattlePass')
+    const REFRESH_MS = 30_000   // re-read aggregates from DB
+    const TICK_MS    = 1_000    // local repaint cadence
+
+    const XP_BASE   = 1200      // seconds for LVL 1 (20 min)
+    const XP_FACTOR = 1.18      // soft-exponential per-level growth
+    const MAX_LEVEL = 30
+
+    // Cumulative effective-seconds required to BE at level N.
+    const xpCum = [0]
+    for (let n = 1, run = 0; n <= MAX_LEVEL; n++) {
+        run += Math.round(XP_BASE * Math.pow(XP_FACTOR, n - 1))
+        xpCum[n] = run
+    }
+    function levelFromSeconds(eff){
+        let lvl = 0
+        for (let n = 1; n <= MAX_LEVEL; n++) {
+            if (eff >= xpCum[n]) lvl = n; else break
+        }
+        return lvl
+    }
+
+    // Locale-aware short unit labels — fall back to English if a key
+    // isn't translated yet, so launcher never renders an empty string.
+    function unit(key){
+        const k = `battlepass.unit.${key}`
+        return Lang.queryJS(k) || { d: 'd', h: 'h', min: 'min', sec: 'sec' }[key]
+    }
+    // Game-style duration: keep the 2 most significant non-zero units.
+    // Returns HTML so the numerals can be styled separately from the
+    // small-caps unit suffix.
+    function fmtPlaytime(s){
+        s = Math.max(0, Math.floor(s))
+        const d = Math.floor(s / 86400)
+        const h = Math.floor((s % 86400) / 3600)
+        const m = Math.floor((s %  3600) /   60)
+        const sec = s % 60
+        const part = (n, u) => `<strong>${n}</strong>${unit(u)}`
+        if (d > 0) return `${part(d, 'd')} ${part(h, 'h')}`
+        if (h > 0) return `${part(h, 'h')} ${part(m, 'min')}`
+        if (m > 0) return `${part(m, 'min')} ${part(sec, 'sec')}`
+        return part(sec, 'sec')
+    }
+
+    // Inline SVG per VIP package tier — VIP=lightning, Premium=shield,
+    // Ultra=crown. Falls back to lightning for anything unknown.
+    const ICONS = {
+        vip:     '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg>',
+        premium: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4zm-1 14L7 11l1.4-1.4L11 12.2l4.6-4.6L17 9l-6 6z"/></svg>',
+        ultra:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18l2-10 4 4 3-7 3 7 4-4 2 10H3zm0 2h18v2H3z"/></svg>',
+    }
+    function iconFor(tier){
+        const t = tier?.reward_payload?.tier
+        return ICONS[t] || ICONS.vip
+    }
+    function rarityLabel(rarity){
+        return (Lang.queryJS('battlepass.rarity.' + rarity) || rarity || '').toString().toUpperCase()
+    }
+
+    function mount(){
+        const root = document.getElementById('bp_topbar')
+        if(!root) return
+        const q = (sel) => root.querySelector(sel)
+        const $level = q('[data-bp="level"]')
+        const $timer = q('[data-bp="timer"]')
+        const $fill  = q('[data-bp="bar-fill"]')
+        const $nodes = q('[data-bp="nodes"]')
+
+        let storedEff = 0           // last committed effective seconds from DB
+        let storedRaw = 0           // last committed raw seconds (game + lobby, 1:1)
+        let openSessions = []       // server-anchored: [{ kind, startedAtMs }]
+        let lastTiers = null
+        let claimedLevels = new Set()
+        let tiersRendered = false
+        let tickHandle = null
+
+        function renderNodes(){
+            if (!lastTiers || tiersRendered) return
+            $nodes.innerHTML = ''
+            for (const t of lastTiers) {
+                if (t.level > MAX_LEVEL) continue
+                const pct = (t.level / MAX_LEVEL) * 100
+                // Anchor the tooltip away from the closest viewport edge to
+                // avoid clipping — left-quarter nodes anchor left, right-
+                // quarter anchor right, the rest stay centered.
+                const anchor = pct < 25 ? 'left' : pct > 75 ? 'right' : 'center'
+                const li = document.createElement('li')
+                li.className = `bp-topbar-node bp-topbar-node-anchor-${anchor}`
+                li.dataset.bpTier = t.level
+                li.dataset.bpCode = t.code
+                li.dataset.rarity = t.rarity
+                li.style.cursor = 'pointer'
+                li.addEventListener('click', () => openModal(t))
+                li.style.left = `${pct}%`
+                const name  = Lang.queryJS(`battlepass.tier.${t.code}.name`) || t.code
+                const perks = Lang.queryJS(`battlepass.tier.${t.code}.perks`)
+                const perksHtml = Array.isArray(perks) && perks.length
+                    ? `<ul class="bp-topbar-node-tip-perks">` +
+                      perks.map(p => `<li>${p}</li>`).join('') +
+                      `</ul>`
+                    : ''
+                li.innerHTML =
+                    iconFor(t) +
+                    `<span class="bp-topbar-node-tip">` +
+                    `<span class="bp-topbar-node-tip-head">${name}</span>` +
+                    `<span class="bp-topbar-node-tip-sub">LVL ${t.level} · ${rarityLabel(t.rarity)}</span>` +
+                    perksHtml +
+                    `</span>`
+                $nodes.appendChild(li)
+            }
+            tiersRendered = true
+        }
+
+        // Effective seconds = weighted time used for level/XP (lobby ÷ 4).
+        // Anchored to server-side started_at so a reload doesn't reset.
+        function predictedEffective(){
+            let live = 0
+            for (const s of openSessions) {
+                const sec = Math.max(0, (Date.now() - s.startedAtMs) / 1000)
+                live += s.kind === 'game' ? sec : sec / 4
+            }
+            return storedEff + live
+        }
+        // Raw seconds = wall-clock playtime. Used for the on-screen
+        // timer so it always ticks at real time, never weighted.
+        function predictedRaw(){
+            let live = 0
+            for (const s of openSessions) {
+                live += Math.max(0, (Date.now() - s.startedAtMs) / 1000)
+            }
+            return storedRaw + live
+        }
+
+        function paint(){
+            const eff = predictedEffective()
+            const lvl = levelFromSeconds(eff)
+            const xpInto   = eff - xpCum[lvl]
+            const xpNeeded = lvl < MAX_LEVEL ? xpCum[lvl + 1] - xpCum[lvl] : 1
+            const progress = lvl < MAX_LEVEL ? (lvl + xpInto / xpNeeded) / MAX_LEVEL : 1
+            const pct = Math.max(0, Math.min(100, progress * 100))
+
+            $level.textContent = lvl
+            $fill.style.width = `${pct}%`
+
+            // Node lock states + rarity from the next tier ahead.
+            if (tiersRendered && lastTiers) {
+                let nextRarity = 'legendary'
+                for (const li of $nodes.children) {
+                    const tierLvl = parseInt(li.dataset.bpTier, 10)
+                    li.classList.toggle('bp-topbar-node-unlocked', lvl >= tierLvl)
+                    if (lvl < tierLvl && nextRarity === 'legendary') nextRarity = li.dataset.rarity
+                }
+                root.dataset.rarity = nextRarity
+            }
+
+            // Timer = real wall-clock playtime (raw, no weighting). Bar
+            // and level still use the weighted "effective" calculation.
+            $timer.innerHTML = fmtPlaytime(predictedRaw())
+        }
+
+        function startTicking(){
+            if (tickHandle) return
+            tickHandle = setInterval(paint, TICK_MS)
+            paint()
+        }
+
+        async function refresh(){
+            try {
+                const r = await ps.fetchProgress()
+                if (!r) { root.hidden = true; return }
+                storedEff = r.progress.effective_seconds
+                storedRaw = (r.progress.game_seconds || 0) + (r.progress.lobby_seconds || 0)
+                openSessions = r.openSessions || []
+                lastTiers = r.tiers
+                claimedLevels = r.claimedLevels || new Set()
+                renderNodes()
+                paint()
+                if (root.hidden) {
+                    root.hidden = false
+                    void root.offsetWidth
+                    root.classList.add('bp-topbar-visible')
+                }
+            } catch (e) {
+                log.warn('refresh failed:', e.message)
+            }
+        }
+
+        ps.subscribe((ev) => {
+            if (ev.type === 'start') { startTicking(); refresh() }  // grab the new server-side started_at
+            if (ev.type === 'end')   refresh()
+        })
+
+        // ─────────────── Tier-claim modal ───────────────
+        const modal = document.getElementById('bp_modal')
+        const $mIcon   = modal?.querySelector('[data-bp-modal-icon]')
+        const $mRarity = modal?.querySelector('[data-bp-modal-rarity-tag]')
+        const $mName   = modal?.querySelector('[data-bp-modal-name]')
+        const $mLvl    = modal?.querySelector('[data-bp-modal-level-tag]')
+        const $mPerks  = modal?.querySelector('[data-bp-modal-perks]')
+        const $mState  = modal?.querySelector('[data-bp-modal-state]')
+
+        const TG_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>'
+        const DC_ICON = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"/></svg>'
+
+        function openModal(tier){
+            if (!modal) return
+            modal.dataset.rarity = tier.rarity
+            $mIcon.innerHTML = iconFor(tier)
+            $mRarity.textContent = rarityLabel(tier.rarity)
+            $mName.textContent = Lang.queryJS(`battlepass.tier.${tier.code}.name`) || tier.code
+            $mLvl.textContent = `LVL ${tier.level}`
+            const perks = Lang.queryJS(`battlepass.tier.${tier.code}.perks`)
+            $mPerks.innerHTML = Array.isArray(perks)
+                ? perks.map(p => `<li>${p}</li>`).join('')
+                : ''
+            renderModalState(tier)
+            modal.hidden = false
+        }
+
+        function closeModal(){ if (modal) modal.hidden = true }
+
+        function renderModalState(tier){
+            if (!$mState) return
+            const currentLevel = levelFromSeconds(predictedEffective())
+            const claimed = claimedLevels.has(tier.level)
+            const unlocked = currentLevel >= tier.level
+
+            if (claimed) {
+                $mState.innerHTML = contactBlockHtml('alreadyClaimed')
+            } else if (!unlocked) {
+                $mState.innerHTML =
+                    `<div class="bp-modal-locked-text">${Lang.queryJS('battlepass.modal.needLevel').replace('{n}', tier.level)}</div>`
+            } else {
+                const btn = document.createElement('button')
+                btn.type = 'button'
+                btn.className = 'bp-modal-claim'
+                btn.textContent = Lang.queryJS('battlepass.modal.claim') || 'Claim'
+                btn.addEventListener('click', () => doClaim(tier, btn))
+                $mState.innerHTML = ''
+                $mState.appendChild(btn)
+            }
+        }
+
+        function contactBlockHtml(variant){
+            const title = Lang.queryJS('battlepass.modal.' + (variant === 'alreadyClaimed' ? 'alreadyClaimedTitle' : 'afterClaimTitle'))
+            const body  = Lang.queryJS('battlepass.modal.' + (variant === 'alreadyClaimed' ? 'alreadyClaimedBody'  : 'afterClaimBody'))
+            const tgUrl = Lang.queryEJS ? Lang.queryEJS('landing.mediaTelegramURL') : Lang.query('ejs.landing.mediaTelegramURL')
+            const dcUrl = Lang.queryEJS ? Lang.queryEJS('landing.mediaDiscordURL')  : Lang.query('ejs.landing.mediaDiscordURL')
+            return `
+                <div class="bp-modal-contact-title">${title}</div>
+                <p class="bp-modal-contact-body">${body}</p>
+                <div class="bp-modal-contact-buttons">
+                    <a href="${tgUrl}" class="bp-modal-contact-tg" target="_blank" rel="noopener">${TG_ICON} Telegram</a>
+                    <a href="${dcUrl}" class="bp-modal-contact-discord" target="_blank" rel="noopener">${DC_ICON} Discord</a>
+                </div>
+            `
+        }
+
+        async function doClaim(tier, btn){
+            btn.disabled = true
+            try {
+                const res = await ps.claim(tier.level)
+                if (res?.ok) {
+                    claimedLevels.add(tier.level)
+                    $mState.innerHTML = contactBlockHtml('afterClaim')
+                } else if (res?.reason === 'already_claimed') {
+                    claimedLevels.add(tier.level)
+                    $mState.innerHTML = contactBlockHtml('alreadyClaimed')
+                } else {
+                    btn.disabled = false
+                    log.warn('claim rejected:', res?.reason)
+                }
+            } catch (e) {
+                btn.disabled = false
+                log.warn('claim failed:', e.message)
+            }
+        }
+
+        modal?.querySelectorAll('[data-bp-close]').forEach(el => el.addEventListener('click', closeModal))
+        document.addEventListener('keydown', e => { if (e.key === 'Escape' && !modal?.hidden) closeModal() })
+
+        refresh()
+        startTicking()
+        setInterval(refresh, REFRESH_MS)
+        log.info('rail mounted')
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', mount)
+    } else {
+        mount()
+    }
+})()
 

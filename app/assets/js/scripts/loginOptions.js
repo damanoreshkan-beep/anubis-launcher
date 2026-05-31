@@ -119,6 +119,7 @@ async function finishAuth(nick){
             }
         })
     }
+    require('./assets/js/playsession').start('lobby')
 }
 
 // Discord OAuth bridge — the widget can't redirect the renderer to Discord,

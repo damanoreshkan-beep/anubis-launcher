@@ -29,7 +29,7 @@ function log(...a){ console.log(`[${ts()}]`, ...a) }
 
 async function shot(window, name){
     const file = path.join(SHOTS_DIR, `${String(shot._n = (shot._n||0)+1).padStart(2,'0')}-${name}.png`)
-    await window.screenshot({ path: file, fullPage: false })
+    await window.screenshot({ path: file, fullPage: true })
     log('[SHOT]', file)
 }
 
@@ -347,6 +347,51 @@ async function dumpDom(window, sel){
                 await new Promise(r => setTimeout(r, 400))
                 await shot(window, 'settings-' + t.toLowerCase())
             }
+        }
+    }
+
+    if(scenario === 'playsession'){
+        if(visibleView !== 'landingContainer'){
+            log('[FAIL] expected landingContainer (sign in first), got', visibleView)
+        } else {
+            const scripts = await window.evaluate(() =>
+                Array.from(document.querySelectorAll('script[src]'))
+                    .map(s => s.getAttribute('src'))
+            )
+            log('[BP] script tags:', scripts)
+            const bpExists = await window.evaluate(() => !!document.getElementById('bp_hud'))
+            log('[BP] #bp_hud in DOM:', bpExists)
+            // Wait until the HUD becomes visible (lobby session started, first
+            // fetchProgress returned). We don't need DOM intersection — the
+            // `bp-hud-visible` class is added after the slide-in is armed.
+            await window.waitForSelector('#bp_hud.bp-hud-visible', { timeout: 8000 }).catch(() => {})
+            const present = await window.evaluate(() => {
+                const el = document.getElementById('bp_hud')
+                if(!el) return null
+                return {
+                    visible: el.classList.contains('bp-hud-visible'),
+                    rarity: el.dataset.rarity,
+                    level: el.querySelector('[data-bp="level"]')?.textContent,
+                    band: el.querySelector('[data-bp="band"]')?.textContent,
+                    next: el.querySelector('[data-bp="next"]')?.textContent,
+                    barLabel: el.querySelector('[data-bp="bar-label"]')?.textContent,
+                    barWidth: el.querySelector('[data-bp="bar-fill"]')?.style.width,
+                    timer: el.querySelector('[data-bp="timer"]')?.textContent,
+                    total: el.querySelector('[data-bp="total"]')?.textContent,
+                    isLive: el.classList.contains('bp-hud-live'),
+                }
+            })
+            log('[BP] HUD state:', JSON.stringify(present, null, 2))
+            await window.setViewportSize({ width: 1280, height: 800 })
+            await new Promise(r => setTimeout(r, 200))
+            await shot(window, 'bp-hud-initial')
+            // Live timer should tick once per second; wait 3s and screenshot again.
+            await new Promise(r => setTimeout(r, 3500))
+            const after = await window.evaluate(() =>
+                document.querySelector('[data-bp="timer"]')?.textContent
+            )
+            log('[BP] timer after 3.5s:', after)
+            await shot(window, 'bp-hud-after-ticks')
         }
     }
 

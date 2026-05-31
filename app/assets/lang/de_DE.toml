@@ -151,6 +151,63 @@ welcomeHeader = "WILLKOMMEN BEI ANUBIS WORLD"
 welcomeDescription = "Hochwertige gemoddete Minecraft-Server, auf denen Technik und Magie zu einem werden. Stabiles Gameplay, kuratierte Modpacks, freundliche Community."
 welcomeDescCTA = "Nur noch ein paar Klicks bis zu HiTech."
 
+[ejs.battlepass]
+lvl = "LVL"
+live = "Live"
+
+[js.battlepass]
+maxLevel = "MAXIMUM"
+
+[js.battlepass.rarity]
+common = "Gewöhnlich"
+rare = "Selten"
+epic = "Episch"
+legendary = "Legendär"
+
+[js.battlepass.modal]
+claim = "Einlösen"
+needLevel = "Schaltet auf LVL {n} frei"
+afterClaimTitle = "Kontaktiere uns"
+afterClaimBody = "Sende deinen Minecraft-Nick an Telegram oder Discord — Rolle wird innerhalb von 24 Stunden vergeben."
+alreadyClaimedTitle = "In Bearbeitung"
+alreadyClaimedBody = "Du hast diese Belohnung bereits eingelöst. Falls die Rolle noch nicht aktiv ist, schreib uns auf Telegram oder Discord."
+
+[js.battlepass.unit]
+d = "T"
+h = "Std"
+min = "Min"
+sec = "Sek"
+
+[js.battlepass.tier.vip_7d]
+name = "VIP — 7 Tage"
+perks = [
+    "1 Schutzbereich",
+    "2 Hauspunkte",
+    "VIP-Kit",
+    "Warp erstellen",
+    "HD-Skin freigeschaltet",
+]
+
+[js.battlepass.tier.premium_14d]
+name = "Premium — 14 Tage"
+perks = [
+    "2 Schutzbereiche",
+    "3 Hauspunkte",
+    "Premium-Kit",
+    "Warp erstellen",
+    "Umhänge freigeschaltet",
+]
+
+[js.battlepass.tier.ultra_30d]
+name = "Ultra — 30 Tage"
+perks = [
+    "3 Schutzbereiche",
+    "4 Hauspunkte",
+    "Ultra-Kit",
+    "Warp erstellen",
+    "Verbessertes RTP",
+]
+
 [js.landing.launch]
 pleaseWait = "Bitte warten.."
 failureTitle = "Fehler beim Start"

@@ -149,6 +149,63 @@ welcomeHeader = "WELCOME TO ANUBIS WORLD"
 welcomeDescription = "High-quality modded Minecraft servers where technology and magic become one. Stable gameplay, curated modpacks, a friendly community."
 welcomeDescCTA = "You are just a few clicks away from HiTech."
 
+[ejs.battlepass]
+lvl = "LVL"
+live = "Live"
+
+[js.battlepass]
+maxLevel = "MAX REACHED"
+
+[js.battlepass.rarity]
+common = "Common"
+rare = "Rare"
+epic = "Epic"
+legendary = "Legendary"
+
+[js.battlepass.modal]
+claim = "Claim"
+needLevel = "Unlocks at LVL {n}"
+afterClaimTitle = "Contact us"
+afterClaimBody = "Send your Minecraft nickname to Telegram or Discord — role granted within 24 hours."
+alreadyClaimedTitle = "Pending review"
+alreadyClaimedBody = "You've already claimed this reward. If the role isn't active yet, message us on Telegram or Discord."
+
+[js.battlepass.unit]
+d = "d"
+h = "h"
+min = "min"
+sec = "sec"
+
+[js.battlepass.tier.vip_7d]
+name = "VIP — 7 Days"
+perks = [
+    "1 protected plot",
+    "2 home points",
+    "VIP kit",
+    "Warp creation",
+    "HD skin unlocked",
+]
+
+[js.battlepass.tier.premium_14d]
+name = "Premium — 14 Days"
+perks = [
+    "2 protected plots",
+    "3 home points",
+    "Premium kit",
+    "Warp creation",
+    "Capes unlocked",
+]
+
+[js.battlepass.tier.ultra_30d]
+name = "Ultra — 30 Days"
+perks = [
+    "3 protected plots",
+    "4 home points",
+    "Ultra kit",
+    "Warp creation",
+    "Enhanced RTP",
+]
+
 [js.landing.launch]
 pleaseWait = "Please wait.."
 failureTitle = "Error During Launch"

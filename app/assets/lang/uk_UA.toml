@@ -151,6 +151,63 @@ welcomeHeader = "ЛАСКАВО ПРОСИМО ДО ANUBIS WORLD"
 welcomeDescription = "Якісні модові сервери Minecraft, де технології та магія стають єдиним цілим. Стабільний геймплей, продумані збірки, чуйна спільнота."
 welcomeDescCTA = "Ти за кілька кліків від HiTech."
 
+[ejs.battlepass]
+lvl = "РІВ"
+live = "У грі"
+
+[js.battlepass]
+maxLevel = "МАКСИМУМ"
+
+[js.battlepass.rarity]
+common = "Звичайний"
+rare = "Рідкісний"
+epic = "Епічний"
+legendary = "Легендарний"
+
+[js.battlepass.modal]
+claim = "Забрати"
+needLevel = "Відкривається на LVL {n}"
+afterClaimTitle = "Зв'яжись з нами"
+afterClaimBody = "Напиши свій Minecraft-нік у Telegram або Discord — видача ролі протягом 24 годин."
+alreadyClaimedTitle = "Очікує підтвердження"
+alreadyClaimedBody = "Ти вже відмітив цю винагороду. Якщо ще не отримав роль — напиши нам у Telegram або Discord."
+
+[js.battlepass.unit]
+d = "д"
+h = "год"
+min = "хв"
+sec = "с"
+
+[js.battlepass.tier.vip_7d]
+name = "VIP — 7 днів"
+perks = [
+    "1 приват",
+    "2 точки дому",
+    "Кіт VIP",
+    "Можливість створити варп",
+    "HD скін включається",
+]
+
+[js.battlepass.tier.premium_14d]
+name = "Premium — 14 днів"
+perks = [
+    "2 привати",
+    "3 точки дому",
+    "Кіт преміуму",
+    "Можливість створити варп",
+    "Плащі включаються",
+]
+
+[js.battlepass.tier.ultra_30d]
+name = "Ultra — 30 днів"
+perks = [
+    "3 привати",
+    "4 точки дому",
+    "Кіт ультра",
+    "Можливість створити варп",
+    "Покращений RTP",
+]
+
 [js.landing.launch]
 pleaseWait = "Зачекайте.."
 failureTitle = "Помилка запуску"

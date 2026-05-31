@@ -84,6 +84,7 @@ async function showMainUI(data){
             if(isLoggedIn){
                 currentView = VIEWS.landing
                 $(VIEWS.landing).fadeIn(1000)
+                require('./assets/js/playsession').start('lobby')
             } else {
                 loginOptionsCancelEnabled(false)
                 loginOptionsViewOnLoginSuccess = VIEWS.landing

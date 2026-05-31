@@ -62,6 +62,45 @@
       to #image_seal_container.
     -->
 
+    <!--
+      Battle Pass top rail — single thin bar across the top of the screen,
+      from the left edge up to the user/settings pill on the right. No
+      card chrome, just a level number + bar + milestone nodes + a live
+      timer underneath. Designed to disappear into the layout when not
+      being read.
+    -->
+    <!-- Battle Pass tier modal — opens on node click. Fixed-position
+         portal-like overlay; rendered once and reused per tier. -->
+    <div id="bp_modal" class="bp-modal" data-rarity="common" hidden>
+        <div class="bp-modal-backdrop" data-bp-close></div>
+        <div class="bp-modal-card" role="dialog" aria-modal="true">
+            <button class="bp-modal-close" data-bp-close aria-label="Close">&times;</button>
+            <div class="bp-modal-aura" aria-hidden="true"></div>
+            <div class="bp-modal-icon" data-bp-modal-icon></div>
+            <div class="bp-modal-rarity-tag" data-bp-modal-rarity-tag></div>
+            <h2 class="bp-modal-name" data-bp-modal-name></h2>
+            <div class="bp-modal-level-tag" data-bp-modal-level-tag></div>
+            <ul class="bp-modal-perks" data-bp-modal-perks></ul>
+            <div class="bp-modal-state" data-bp-modal-state><!-- claim button OR contact buttons --></div>
+        </div>
+    </div>
+
+    <div id="bp_topbar" data-rarity="common" hidden>
+        <div class="bp-topbar-row">
+            <span class="bp-topbar-lvl">
+                <span class="bp-topbar-lvl-tag"><%- lang('battlepass.lvl') %></span>
+                <strong data-bp="level">0</strong>
+            </span>
+            <div class="bp-topbar-rail">
+                <div class="bp-topbar-fill" data-bp="bar-fill" style="width:0%"></div>
+                <ol class="bp-topbar-nodes" data-bp="nodes"><!-- generated from play_tiers --></ol>
+            </div>
+        </div>
+        <div class="bp-topbar-meta">
+            <span data-bp="timer">0sec</span>
+        </div>
+    </div>
+
     <!-- Bottom-right: PLAY button + progress strip during download. -->
     <div class="lp-bottom-right">
         <div id="launch_content" class="lp-launch">
