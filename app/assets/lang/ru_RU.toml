@@ -152,11 +152,10 @@ welcomeDescription = "Качественные модовые серверы Min
 welcomeDescCTA = "Вы в нескольких кликах от HiTech."
 
 [ejs.battlepass]
-lvl = "УР"
-live = "В игре"
+daysLabel = "дней"
 
 [js.battlepass]
-maxLevel = "МАКСИМУМ"
+daysLabel = "дней"
 
 [js.battlepass.rarity]
 common = "Обычный"
@@ -166,46 +165,25 @@ legendary = "Легендарный"
 
 [js.battlepass.modal]
 claim = "Забрать"
-needLevel = "Откроется на LVL {n}"
+needDays = "Играй 5 ч/день · {done}/{need} дней"
 afterClaimTitle = "Свяжись с нами"
 afterClaimBody = "Напиши свой Minecraft-ник в Telegram или Discord — выдача роли в течение 24 часов."
 alreadyClaimedTitle = "В ожидании"
 alreadyClaimedBody = "Ты уже отметил эту награду. Если роль ещё не активна — напиши нам в Telegram или Discord."
 
 [js.battlepass.unit]
-d = "д"
 h = "ч"
 min = "мин"
 sec = "сек"
 
-[js.battlepass.tier.vip_7d]
-name = "VIP — 7 дней"
+[js.battlepass.tier.vip_28d]
+name = "VIP"
 perks = [
     "1 приват",
     "2 точки дома",
     "Кит VIP",
     "Возможность создать варп",
     "HD скин включается",
-]
-
-[js.battlepass.tier.premium_14d]
-name = "Premium — 14 дней"
-perks = [
-    "2 привата",
-    "3 точки дома",
-    "Кит премиума",
-    "Возможность создать варп",
-    "Плащи включаются",
-]
-
-[js.battlepass.tier.ultra_30d]
-name = "Ultra — 30 дней"
-perks = [
-    "3 привата",
-    "4 точки дома",
-    "Кит ультра",
-    "Возможность создать варп",
-    "Улучшенный RTP",
 ]
 
 [js.landing.launch]

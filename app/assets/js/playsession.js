@@ -1,14 +1,15 @@
 /**
- * Battle Pass session tracking.
+ * Battle Pass session tracking — daily VIP quest.
  *
- * Two parallel kinds:
- *   - 'lobby' — launcher window open with a signed-in user
- *   - 'game'  — Java process running
+ * Only ONE kind is tracked: 'game' (the Java process running). Lobby time
+ * is not counted. Goal: play >= 5h in-game per day (Kyiv midnight reset);
+ * accumulate 28 qualifying days to unlock VIP.
  *
- * Both go through Postgres RPC (play_session_start/ping/end), so timestamps
- * are server-authoritative — the client can't lie about elapsed seconds.
- * A 60s ping keeps the session alive; if the launcher crashes, the server
- * auto-closes any session older than 10 min on the next start call.
+ * Sessions go through Postgres RPC (play_session_start/ping/end) so
+ * timestamps are server-authoritative — the client can't lie about
+ * elapsed seconds. A 60s ping keeps the session alive; if the launcher
+ * crashes, the server auto-closes any session older than 10 min on the
+ * next start call. Quest progress is computed by play_vip_progress().
  */
 'use strict'
 
@@ -18,7 +19,7 @@ const sb = require('./supabaseclient')
 const log = LoggerUtil.getLogger('%c[PlaySession]', 'color: #a78bfa; font-weight: bold')
 
 const PING_INTERVAL_MS = 60_000
-const state = { lobby: null, game: null }
+const state = { game: null }
 const listeners = new Set()
 
 function getClientVersion() {
@@ -39,40 +40,65 @@ function subscribe(fn) {
 }
 
 /**
- * Current "live" session — game wins over lobby if both are open. Used by the
- * HUD to drive the live timer. The startedAt is wall-clock from this process,
- * so it can drift a few ms from server-side started_at, but only affects the
- * displayed counter — credit is computed server-side at end().
+ * Current live game session, or null. Used by the HUD to tick the daily
+ * timer. startedAt is wall-clock from this process; credit is computed
+ * server-side at end().
  */
 function currentSession() {
-    return state.game ?? state.lobby ?? null
+    return state.game ?? null
 }
 
+/**
+ * Daily VIP quest progress.
+ *   vip            — the single VIP tier row (or null)
+ *   daysCompleted  — qualifying days so far
+ *   daysNeeded     — goal (28)
+ *   todaySeconds   — game seconds counted toward today (server-side, Kyiv day)
+ *   dailyGoalSecs  — 5h in seconds
+ *   todayDone      — already hit 5h today
+ *   openGameStartMs— server started_at of the open game session (or null),
+ *                    so the HUD can extrapolate today's seconds live without
+ *                    resetting on a renderer reload
+ *   claimed        — VIP already claimed?
+ */
 async function fetchProgress() {
     const { data: { session } } = await sb.auth.getSession()
     if (!session) return null
-    const [progressRes, tiersRes, openRes, claimedRes] = await Promise.all([
-        sb.from('play_progress').select('*').maybeSingle(),
-        sb.from('play_tiers').select('level,code,reward_type,reward_payload,rarity').order('level'),
-        // Server-side started_at for any open sessions — anchors live ticking
-        // so a renderer reload doesn't reset the on-screen timer to zero.
-        sb.from('play_sessions').select('kind,started_at').is('ended_at', null),
+    const [vipRes, tierRes, openRes, claimedRes] = await Promise.all([
+        sb.rpc('play_vip_progress'),
+        sb.from('play_tiers').select('level,code,reward_type,reward_payload,rarity').limit(1).maybeSingle(),
+        sb.from('play_sessions').select('started_at,last_ping_at').eq('kind', 'game').is('ended_at', null).limit(1).maybeSingle(),
         sb.from('play_rewards_claimed').select('level,claimed_at'),
     ])
-    if (progressRes.error) throw progressRes.error
-    if (tiersRes.error) throw tiersRes.error
+    if (vipRes.error) throw vipRes.error
+    if (tierRes.error) throw tierRes.error
     if (openRes.error) throw openRes.error
     if (claimedRes.error) throw claimedRes.error
-    const progress = progressRes.data ?? {
-        game_seconds: 0, lobby_seconds: 0, effective_seconds: 0,
-        level: 0, xp_in_level: 0, xp_per_level: 3600,
+
+    const v = (Array.isArray(vipRes.data) ? vipRes.data[0] : vipRes.data) || {}
+    const vip = tierRes.data
+
+    // Only treat an open game session as "live" if it was pinged recently.
+    // A stale ping (>90s) means a crashed/orphan session — the server caps
+    // its time at last_ping, so the HUD must not keep ticking it either.
+    let openGameStartMs = null
+    if (openRes.data) {
+        const lastPingMs = new Date(openRes.data.last_ping_at).getTime()
+        if (Date.now() - lastPingMs < 90_000) {
+            openGameStartMs = new Date(openRes.data.started_at).getTime()
+        }
     }
-    const openSessions = (openRes.data || []).map(s => ({
-        kind: s.kind,
-        startedAtMs: new Date(s.started_at).getTime(),
-    }))
-    const claimedLevels = new Set((claimedRes.data || []).map(r => r.level))
-    return { progress, tiers: tiersRes.data, openSessions, claimedLevels }
+
+    return {
+        vip,
+        daysCompleted: v.days_completed ?? 0,
+        daysNeeded: v.days_needed ?? 28,
+        todaySeconds: v.today_seconds ?? 0,
+        dailyGoalSecs: v.daily_goal_secs ?? 5 * 3600,
+        todayDone: v.today_done ?? false,
+        openGameStartMs,
+        claimed: vip ? new Set((claimedRes.data || []).map(r => r.level)).has(vip.level) : false,
+    }
 }
 
 async function claim(level) {
@@ -131,8 +157,4 @@ async function end(kind) {
     }
 }
 
-// `_all` exposes both session slots so the HUD can sum live elapsed across
-// lobby + game when projecting effective seconds. Not for outside use.
-function _all() { return state }
-
-module.exports = { start, end, claim, subscribe, currentSession, fetchProgress, _all }
+module.exports = { start, end, claim, subscribe, currentSession, fetchProgress }

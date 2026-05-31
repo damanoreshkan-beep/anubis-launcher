@@ -87,17 +87,19 @@
 
     <div id="bp_topbar" data-rarity="common" hidden>
         <div class="bp-topbar-row">
-            <span class="bp-topbar-lvl">
-                <span class="bp-topbar-lvl-tag"><%- lang('battlepass.lvl') %></span>
-                <strong data-bp="level">0</strong>
+            <span class="bp-topbar-days">
+                <strong data-bp="days">0</strong>
+                <span class="bp-topbar-days-tag" data-bp="days-total">/ 28</span>
+                <span class="bp-topbar-days-label"><%- lang('battlepass.daysLabel') %></span>
             </span>
             <div class="bp-topbar-rail">
                 <div class="bp-topbar-fill" data-bp="bar-fill" style="width:0%"></div>
-                <ol class="bp-topbar-nodes" data-bp="nodes"><!-- generated from play_tiers --></ol>
+                <ol class="bp-topbar-nodes" data-bp="nodes"><!-- single VIP node --></ol>
             </div>
         </div>
         <div class="bp-topbar-meta">
-            <span data-bp="timer">0sec</span>
+            <span class="bp-topbar-today" data-bp="today">0min</span>
+            <span class="bp-topbar-today-goal" data-bp="today-goal">/ 5h</span>
         </div>
     </div>
 

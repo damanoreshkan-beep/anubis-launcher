@@ -152,11 +152,10 @@ welcomeDescription = "Wysokiej jakości modowane serwery Minecraft, gdzie techno
 welcomeDescCTA = "Jesteś o kilka kliknięć od HiTech."
 
 [ejs.battlepass]
-lvl = "POZ"
-live = "Na żywo"
+daysLabel = "dni"
 
 [js.battlepass]
-maxLevel = "MAKSIMUM"
+daysLabel = "dni"
 
 [js.battlepass.rarity]
 common = "Zwykły"
@@ -166,46 +165,25 @@ legendary = "Legendarny"
 
 [js.battlepass.modal]
 claim = "Odbierz"
-needLevel = "Odblokowuje się na LVL {n}"
+needDays = "Graj 5 g/dzień · {done}/{need} dni"
 afterClaimTitle = "Skontaktuj się z nami"
 afterClaimBody = "Wyślij swój nick Minecraft na Telegram lub Discord — rola zostanie przyznana w ciągu 24 godzin."
 alreadyClaimedTitle = "Oczekuje"
 alreadyClaimedBody = "Już odebrałeś tę nagrodę. Jeśli rola nie jest jeszcze aktywna, napisz do nas na Telegram lub Discord."
 
 [js.battlepass.unit]
-d = "d"
 h = "g"
 min = "min"
 sec = "s"
 
-[js.battlepass.tier.vip_7d]
-name = "VIP — 7 dni"
+[js.battlepass.tier.vip_28d]
+name = "VIP"
 perks = [
     "1 prywatka",
     "2 punkty domu",
     "Zestaw VIP",
     "Możliwość stworzenia warpa",
     "Skin HD odblokowany",
-]
-
-[js.battlepass.tier.premium_14d]
-name = "Premium — 14 dni"
-perks = [
-    "2 prywatki",
-    "3 punkty domu",
-    "Zestaw Premium",
-    "Możliwość stworzenia warpa",
-    "Peleryny odblokowane",
-]
-
-[js.battlepass.tier.ultra_30d]
-name = "Ultra — 30 dni"
-perks = [
-    "3 prywatki",
-    "4 punkty domu",
-    "Zestaw Ultra",
-    "Możliwość stworzenia warpa",
-    "Ulepszone RTP",
 ]
 
 [js.landing.launch]

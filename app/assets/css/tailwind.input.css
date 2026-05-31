@@ -1847,20 +1847,14 @@ input[type="range"]::-webkit-slider-thumb {
     gap: 14px;
     pointer-events: auto;
 }
-.bp-topbar-lvl {
+.bp-topbar-days {
     display: inline-flex;
     align-items: baseline;
-    gap: 6px;
+    gap: 4px;
     line-height: 1;
+    white-space: nowrap;
 }
-.bp-topbar-lvl-tag {
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #c4b5fd;
-}
-.bp-topbar-lvl strong {
+.bp-topbar-days strong {
     font-family: 'Bowlby One', 'Inter', system-ui, sans-serif;
     font-weight: 400;
     font-size: 24px;
@@ -1870,8 +1864,23 @@ input[type="range"]::-webkit-slider-thumb {
     min-width: 18px;
     text-align: center;
 }
-#bp_topbar[data-rarity="legendary"] .bp-topbar-lvl-tag { color: #fcd34d; }
-#bp_topbar[data-rarity="legendary"] .bp-topbar-lvl strong {
+.bp-topbar-days-tag {
+    font-family: 'Bowlby One', 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+}
+.bp-topbar-days-label {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    margin-left: 2px;
+}
+#bp_topbar[data-rarity="legendary"] .bp-topbar-days-label { color: #fcd34d; }
+#bp_topbar[data-rarity="legendary"] .bp-topbar-days strong {
     color: #fff5d6;
     text-shadow: 0 0 14px rgba(252, 211, 77, 0.85), 0 0 24px rgba(251, 191, 36, 0.5), 0 2px 4px rgba(0, 0, 0, 0.6);
 }
@@ -2111,6 +2120,15 @@ input[type="range"]::-webkit-slider-thumb {
 #bp_topbar[data-rarity="legendary"] .bp-topbar-meta strong {
     color: #fff5d6;
     text-shadow: 0 0 12px rgba(252, 211, 77, 0.85), 0 0 22px rgba(251, 191, 36, 0.5), 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+/* "/ 5h" goal suffix, muted so today's value reads as the headline */
+.bp-topbar-today-goal { color: rgba(255, 255, 255, 0.4); }
+.bp-topbar-today-goal strong { color: rgba(255, 255, 255, 0.55); text-shadow: none; }
+/* Daily goal met today — flip the today timer to green */
+#bp_topbar.bp-topbar-today-done .bp-topbar-today,
+#bp_topbar.bp-topbar-today-done .bp-topbar-today strong {
+    color: #4ade80;
+    text-shadow: 0 0 12px rgba(74, 222, 128, 0.6), 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 /* ─────────────────── Battle Pass tier-claim modal ──────────────────
