@@ -1253,18 +1253,21 @@ document.getElementById('settingsAboutDevToolsButton').onclick = (e) => {
     window.toggleDevTools()
 }
 
-// Open the game logs folder. shell.openPath dispatches to the OS file
+// Open the game files folder. shell.openPath dispatches to the OS file
 // manager on every platform (xdg-open / explorer / Finder), so this is
-// cross-platform. Logs only exist after the first launch — fall back to
-// the instance dir, then the data dir, so the button never opens nothing.
+// cross-platform. We open the INSTANCE ROOT, not its logs/ subfolder,
+// because the files support actually needs live there:
+//   logs/            → latest.log (game) + launcher.log (our electron-log)
+//   crash-reports/   → Forge crash reports
+//   hs_err_pid*.log  → JVM native-crash dumps (cwd == gameDir == this root)
+// Falls back to the data dir before a server is chosen / first launch.
 document.getElementById('settingsAboutLogsButton').onclick = async (e) => {
     e.preventDefault()
     const fsLocal = require('fs')
     const dataDir = ConfigManager.getDataDirectory()
     const serverId = ConfigManager.getSelectedServer()
     const instanceDir = serverId ? path.join(ConfigManager.getInstanceDirectory(), serverId) : null
-    const logsDir = instanceDir ? path.join(instanceDir, 'logs') : null
-    const target = [logsDir, instanceDir, dataDir].find(p => p && fsLocal.existsSync(p)) || dataDir
+    const target = [instanceDir, dataDir].find(p => p && fsLocal.existsSync(p)) || dataDir
     const err = await shell.openPath(target)
     if (err) console.warn('[Settings] Failed to open logs folder:', err)
 }
