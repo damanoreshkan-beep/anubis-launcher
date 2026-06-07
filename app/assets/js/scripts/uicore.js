@@ -12,6 +12,14 @@ const isDev                          = require('./assets/js/isdev')
 const { LoggerUtil }                 = require('helios-core')
 const Lang                           = require('./assets/js/langloader')
 
+// Pipe this renderer's console (and thus helios-core's winston output,
+// which writes through console.*) into the launcher's file log via IPC,
+// so renderer-side errors land in launcher.log alongside the game logs.
+try {
+    const elog = require('electron-log/renderer')
+    Object.assign(console, elog.functions)
+} catch (_) { /* electron-log optional — never block UI on it */ }
+
 const loggerUICore             = LoggerUtil.getLogger('UICore')
 const loggerAutoUpdater        = LoggerUtil.getLogger('AutoUpdater')
 

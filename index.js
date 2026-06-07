@@ -35,6 +35,30 @@ const { pathToFileURL }                 = require('url')
 const { SHELL_OPCODE } = require('./app/assets/js/ipcconstants')
 const LangLoader                        = require('./app/assets/js/langloader')
 
+// ─── File logging (electron-log) ────────────────────────────────────────────
+// Write the launcher's own log next to the game logs so a single folder —
+// the one "Settings → Open Logs Folder" opens — holds everything support
+// needs: Forge's latest.log/crash-reports AND the launcher's launcher.log.
+// Falls back to userData/logs before config exists or a server is chosen.
+const elog = require('electron-log/main')
+function launcherLogFile(){
+    try {
+        const cfg = JSON.parse(fs.readFileSync(path.join(app.getPath('userData'), 'config.json'), 'utf-8'))
+        const dataDir = cfg?.settings?.launcher?.dataDirectory
+        const server = cfg?.selectedServer
+        if(dataDir && server) return path.join(dataDir, 'instances', server, 'logs', 'launcher.log')
+    } catch (_) { /* config not ready yet */ }
+    return path.join(app.getPath('userData'), 'logs', 'launcher.log')
+}
+elog.transports.file.resolvePathFn = () => launcherLogFile()
+elog.transports.file.level = 'info'
+elog.transports.file.maxSize = 5 * 1024 * 1024   // rotate at 5 MB
+elog.initialize()   // bridge renderer console → this file via IPC
+// NOTE: do NOT hijack the main-process console (Object.assign(console,
+// elog.functions)) — electron-log's own console transport writes through
+// console.*, so overwriting it causes infinite recursion and a hang.
+// Use `elog.info(...)` directly in main if main-side file logs are needed.
+
 // Read the user's selected locale directly from config.json BEFORE rendering
 // any EJS — main process owns ejs-electron, so all <%- lang(...) %> calls run
 // here, not in the renderer. configmanager itself pulls @electron/remote, so

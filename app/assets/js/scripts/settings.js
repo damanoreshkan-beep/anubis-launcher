@@ -1253,6 +1253,22 @@ document.getElementById('settingsAboutDevToolsButton').onclick = (e) => {
     window.toggleDevTools()
 }
 
+// Open the game logs folder. shell.openPath dispatches to the OS file
+// manager on every platform (xdg-open / explorer / Finder), so this is
+// cross-platform. Logs only exist after the first launch — fall back to
+// the instance dir, then the data dir, so the button never opens nothing.
+document.getElementById('settingsAboutLogsButton').onclick = async (e) => {
+    e.preventDefault()
+    const fsLocal = require('fs')
+    const dataDir = ConfigManager.getDataDirectory()
+    const serverId = ConfigManager.getSelectedServer()
+    const instanceDir = serverId ? path.join(ConfigManager.getInstanceDirectory(), serverId) : null
+    const logsDir = instanceDir ? path.join(instanceDir, 'logs') : null
+    const target = [logsDir, instanceDir, dataDir].find(p => p && fsLocal.existsSync(p)) || dataDir
+    const err = await shell.openPath(target)
+    if (err) console.warn('[Settings] Failed to open logs folder:', err)
+}
+
 /**
  * Return whether or not the provided version is a prerelease.
  * 
