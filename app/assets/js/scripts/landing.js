@@ -732,6 +732,26 @@ async function dlAsync(login = true) {
             proc.stdout.on('data', tempListener)
             proc.stderr.on('data', gameErrorListener)
 
+            // Capture the FULL game output to game-output.log in the instance
+            // root. Minecraft's latest.log only carries log4j output; early
+            // failures (module/classpath/native/JVM) print to stderr and are
+            // otherwise lost — which is exactly why instant crashes show no
+            // cause. This raw file sits next to crash-reports/ and hs_err so
+            // the "Open Logs Folder" button surfaces it.
+            try {
+                const fsLocal = require('fs')
+                const outPath = path.join(ConfigManager.getInstanceDirectory(), serv.rawServer.id, 'game-output.log')
+                const outStream = fsLocal.createWriteStream(outPath, { flags: 'w' })
+                outStream.write(`=== launch ${new Date().toISOString()} ===\n`)
+                proc.stdout.on('data', d => outStream.write(d))
+                proc.stderr.on('data', d => outStream.write(d))
+                proc.on('close', (code, signal) => {
+                    try { outStream.end(`\n=== game process exited: code=${code} signal=${signal} ===\n`) } catch (_) {}
+                })
+            } catch (e) {
+                log.warn('Failed to attach game-output logger:', e.message)
+            }
+
             setLaunchDetails(Lang.queryJS('landing.dlAsync.doneEnjoyServer'))
 
             // Battle Pass — credit time-in-game from process start to exit.
