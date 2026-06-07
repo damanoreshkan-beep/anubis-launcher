@@ -491,12 +491,23 @@ async function ensureForgeClientArtifacts(serv, modLoaderData, logger){
     const commonDir  = ConfigManager.getCommonDirectory()
     const libsDir    = path.join(commonDir, 'libraries')
 
-    // Marker that tells us the installer has already been run.
-    const fmlCoreJar = path.join(libsDir, 'net', 'minecraftforge', 'fmlcore', forgeKey, `fmlcore-${forgeKey}.jar`)
-    if(fs.existsSync(fmlCoreJar)){
+    // Completion markers. fmlcore-<key>.jar alone is NOT enough: a Forge
+    // installer that was interrupted (or whose outputs got truncated by
+    // AV / a full disk) can leave fmlcore.jar behind while the actual
+    // patched client jars never got written — and then the marker lies
+    // "done", the installer is skipped forever, and the game dies with
+    // "Invalid paths argument, contained no existing paths: …client-srg
+    // .jar, …client-extra.jar, …forge-<key>-client.jar". So verify the
+    // real patched client output too, and re-run if ANY piece is missing.
+    const fmlCoreJar    = path.join(libsDir, 'net', 'minecraftforge', 'fmlcore', forgeKey, `fmlcore-${forgeKey}.jar`)
+    const forgeClientJar = path.join(libsDir, 'net', 'minecraftforge', 'forge', forgeKey, `forge-${forgeKey}-client.jar`)
+    const requiredArtifacts = [fmlCoreJar, forgeClientJar]
+    const missing = requiredArtifacts.filter(p => !fs.existsSync(p))
+    if(missing.length === 0){
         log.info(`Forge client artifacts present for ${forgeKey}; skipping installer.`)
         return
     }
+    log.info(`Forge client artifacts incomplete for ${forgeKey} (missing ${missing.length}: ${missing.map(p => path.basename(p)).join(', ')}); running installer.`)
 
     // Locate the installer that helios-core already downloaded into libs.
     const installerJar = path.join(libsDir, 'net', 'minecraftforge', 'forge', forgeKey, `forge-${forgeKey}.jar`)
