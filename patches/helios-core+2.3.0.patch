@@ -1,0 +1,33 @@
+diff --git a/node_modules/helios-core/dist/dl/DownloadEngine.js b/node_modules/helios-core/dist/dl/DownloadEngine.js
+index 922cd1a..171b1c0 100644
+--- a/node_modules/helios-core/dist/dl/DownloadEngine.js
++++ b/node_modules/helios-core/dist/dl/DownloadEngine.js
+@@ -103,9 +103,9 @@ async function downloadFile(url, path, onProgress) {
+                 onProgress({ transferred: 0, percent: 0, total: 0 });
+             }
+             if (retry) {
+-                // Wait one second before retrying.
+-                // This can become an exponential backoff, but I see no need for that right now.
+-                await (0, NodeUtil_1.sleep)(1000);
++                // Exponential backoff (capped at 15s) so a throttling host (429) gets
++                // real breathing room instead of an immediate re-hammer.
++                await (0, NodeUtil_1.sleep)(Math.min(1000 * 2 ** (retryCount - 1), 15000));
+             }
+         }
+     } while (retry);
+@@ -122,7 +122,14 @@ async function downloadFile(url, path, onProgress) {
+ function retryableError(error) {
+     if (error instanceof got_1.RequestError) {
+         // error.name === 'RequestError' means server did not respond.
+-        return error.name === 'RequestError' || error instanceof got_1.ReadError && error.code === 'ECONNRESET';
++        if (error.name === 'RequestError' || error instanceof got_1.ReadError && error.code === 'ECONNRESET') {
++            return true;
++        }
++        // Retry transient HTTP throttling / server errors (429/403/5xx). An HTTPError is
++        // not a RequestError, so without this a single 429 from raw.githubusercontent
++        // (bursty 782-file repair) aborts the whole install and the player never joins.
++        const status = error.response && error.response.statusCode;
++        return status === 429 || status === 403 || (status >= 500 && status < 600);
+     }
+     else {
+         return false;
