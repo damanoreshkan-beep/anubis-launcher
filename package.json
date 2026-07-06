@@ -21,7 +21,8 @@
         "build:fonts": "node -e \"const fs=require('fs'),p=require('path');const dst=p.join('app','assets','css','files');fs.mkdirSync(dst,{recursive:true});const isrc=p.join('node_modules','@fontsource','inter','files');for(const f of fs.readdirSync(isrc))if(/^inter-(latin|latin-ext|cyrillic|cyrillic-ext)-(400|500|600|700|800|900)-normal\\.woff2?$/.test(f))fs.copyFileSync(p.join(isrc,f),p.join(dst,f));const bsrc=p.join('node_modules','@fontsource','bowlby-one','files');for(const f of fs.readdirSync(bsrc))if(/^bowlby-one-latin-400-normal\\.woff2?$/.test(f))fs.copyFileSync(p.join(bsrc,f),p.join(dst,f));\"",
         "build:css": "npm run build:fonts && tailwindcss -i app/assets/css/tailwind.input.css -o app/assets/css/site.css --minify",
         "watch:css": "tailwindcss -i app/assets/css/tailwind.input.css -o app/assets/css/site.css --watch",
-        "extract:i18n": "node scripts/extract-i18n.js"
+        "extract:i18n": "node scripts/extract-i18n.js",
+        "postinstall": "patch-package"
     },
     "engines": {
         "node": "22.x.x"
@@ -54,6 +55,7 @@
         "electron": "^39.2.7",
         "electron-builder": "^26.4.0",
         "eslint": "^9.39.2",
+        "patch-package": "^8.0.0",
         "playwright": "^1.59.1",
         "postcss": "^8.5.10",
         "tailwindcss": "^3.4.19"
